@@ -9,4 +9,3 @@ dependencyResolutionManagement {
 rootProject.name = "URBotanist"
 include ':app'
 include ':ImageViewZoom'
-include ':library'

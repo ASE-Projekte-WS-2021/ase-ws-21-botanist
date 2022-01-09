@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="ImageViewTestActivity" default="help">
+<project name="imageviewtouch" default="help">
 
     <!-- The local.properties file is created and updated by the 'android' tool.
          It contains the path to the SDK. It should *NOT* be checked into
@@ -47,6 +47,8 @@
          This file is an integral part of the build system for your
          application and should be checked into Version Control Systems. -->
     <loadproperties srcFile="project.properties" />
+    <loadproperties srcFile="../../project.properties" />
+    <import file="../../tools/ant/aviary_sdk_rules.xml" optional="true" />
 
     <!-- quick check on sdk.dir -->
     <fail
@@ -88,5 +90,12 @@
     -->
     <!-- version-tag: 1 -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
-
+    
+    <!-- 
+    <target name="-post-build">
+        <antcall target="-rename-jar">
+            <param name="dst.file" value="${out.absolute.dir}/${imageviewtouch.jar}" />
+        </antcall>
+    </target>    
+	-->
 </project>
