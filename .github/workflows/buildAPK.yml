@@ -1,4 +1,4 @@
-name: Botanis
+name: Botanist
 on: 
   push:
     branches: [ main ]
