@@ -5,7 +5,7 @@ import androidx.constraintlayout.motion.widget.Debug;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 
-
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +24,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initGUI();
+        initDatabase();
 
+    }
+
+    private void initDatabase() {
+        DatabaseAdapterActivity mDbHelper = new DatabaseAdapterActivity(this);
+        mDbHelper.createDatabase();
+        mDbHelper.open();
+
+        Cursor testdata = mDbHelper.getTestData();
+
+        mDbHelper.close();
     }
 
     private void initGUI(){
