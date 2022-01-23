@@ -45,6 +45,10 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
          */
         void onLayoutChanged(boolean changed, int left, int top, int right, int bottom);
     }
+    
+    public interface OnViewMatrixChangeListener{
+        void onMatrixChanged(Matrix newMatrix);
+    }
 
     /**
      * Use this to change the {@link ImageViewTouchBase#setDisplayType(DisplayType)} of
@@ -107,6 +111,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
     private Animator mCurrentAnimation;
     private OnDrawableChangeListener mDrawableChangeListener;
     private OnLayoutChangeListener mOnLayoutChangeListener;
+    private OnViewMatrixChangeListener mViewMatrixChangedListener;
 
     public ImageViewTouchBase(Context context) {
         this(context, null);
@@ -131,6 +136,10 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 
     public void setOnLayoutChangeListener(OnLayoutChangeListener listener) {
         mOnLayoutChangeListener = listener;
+    }
+    
+    public void setOnViewMatrixChangedListener(OnViewMatrixChangeListener listener){
+        mViewMatrixChangedListener = listener;
     }
 
     protected void init(Context context, AttributeSet attrs, int defStyle) {
@@ -838,11 +847,15 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
         if (deltaX != 0 || deltaY != 0) {
             mSuppMatrix.postTranslate(deltaX, deltaY);
             setImageMatrix(getImageViewMatrix());
+            if(mViewMatrixChangedListener != null){
+                mViewMatrixChangedListener.onMatrixChanged(new Matrix(mSuppMatrix));
+            }
         }
     }
 
     protected void postScale(float scale, float centerX, float centerY) {
         mSuppMatrix.postScale(scale, scale, centerX, centerY);
+        mViewMatrixChangedListener.onMatrixChanged(mSuppMatrix);
         setImageMatrix(getImageViewMatrix());
     }
 
@@ -909,22 +922,16 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
      */
     public void scrollBy(float x, float y) {
         panBy(x, y);
+
     }
 
     protected void panBy(double dx, double dy) {
         RectF rect = getBitmapRect();
         mScrollPoint.set((float) dx, (float) dy);
-        updateRect(rect, mScrollPoint);
 
         if (mScrollPoint.x != 0 || mScrollPoint.y != 0) {
             postTranslate(mScrollPoint.x, mScrollPoint.y);
             center(true, true);
-        }
-    }
-
-    protected void updateRect(RectF bitmapRect, PointF scrollRect) {
-        if (bitmapRect == null) {
-            return;
         }
     }
 

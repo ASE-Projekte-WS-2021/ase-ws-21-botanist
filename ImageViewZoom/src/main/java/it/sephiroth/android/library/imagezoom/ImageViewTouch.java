@@ -34,6 +34,8 @@ public class ImageViewTouch extends ImageViewTouchBase {
     private OnImageViewTouchDoubleTapListener mDoubleTapListener;
     private OnImageViewTouchSingleTapListener mSingleTapListener;
 
+
+
     public ImageViewTouch(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
@@ -99,6 +101,8 @@ public class ImageViewTouch extends ImageViewTouchBase {
     public boolean getDoubleTapEnabled() {
         return mDoubleTapEnabled;
     }
+
+
 
     protected OnGestureListener getGestureListener() {
         return new GestureListener();
@@ -174,6 +178,8 @@ public class ImageViewTouch extends ImageViewTouchBase {
         }
         mUserScaled = true;
         scrollBy(-distanceX, -distanceY);
+
+
         invalidate();
         return true;
     }
@@ -258,7 +264,6 @@ public class ImageViewTouch extends ImageViewTouchBase {
     @SuppressWarnings ("unused")
     public boolean canScroll(int direction) {
         RectF bitmapRect = getBitmapRect();
-        updateRect(bitmapRect, mScrollPoint);
         Rect imageViewRect = new Rect();
         getGlobalVisibleRect(imageViewRect);
 

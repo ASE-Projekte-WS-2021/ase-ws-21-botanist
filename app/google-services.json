@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "450683529060",
+    "project_id": "botanisttest",
+    "storage_bucket": "botanisttest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:450683529060:android:37e1e47bd4a9825479fc71",
+        "android_client_info": {
+          "package_name": "com.example.urbotanist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "450683529060-cfar8nk9t6d2m9t9fch2j3o5392thddv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBF8aicwITy0X6KoUU4OnBiHjFmudVMGK4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "450683529060-cfar8nk9t6d2m9t9fch2j3o5392thddv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
