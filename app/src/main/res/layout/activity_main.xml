@@ -3,30 +3,74 @@
     android:id="@+id/activityLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@android:style/Theme.Light.NoTitleBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/green"
     tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <it.sephiroth.android.library.imagezoom.ImageViewTouch
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:src="@drawable/garden_map"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHeight_percent="0.8"/>
 
     <Button
         android:id="@+id/infoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="SeeMapInfo"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/map_button"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.30"
+            android:layout_height="match_parent"
+            android:background="@drawable/bar_icon_background"
+            android:foreground="@drawable/compass_icon"
+            android:foregroundTint="@color/green"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.30"
+            android:layout_height="match_parent"
+            android:background="@drawable/bar_icon_background"
+            android:foreground="@drawable/search_icon"
+            android:foregroundTint="@color/green"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/map_button"
+            android:orientation="vertical" />
+
+        <Button
+            android:id="@+id/bar_logo"
+            android:layout_width="0dp"
+            app:layout_constraintWidth_percent="0.40"
+            android:layout_height="match_parent"
+            android:background="@drawable/botanist_icon_background"
+            android:foreground="@mipmap/icon_foreground"
+            android:foregroundTint="@color/green"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:orientation="vertical"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
