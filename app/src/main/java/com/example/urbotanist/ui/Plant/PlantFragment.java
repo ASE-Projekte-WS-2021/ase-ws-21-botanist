@@ -1,4 +1,4 @@
-package com.example.urbotanist.ui.InventoryItem;
+package com.example.urbotanist.ui.Plant;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -6,20 +6,20 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.urbotanist.R;
+import com.example.urbotanist.ui.CurrentScreenFragment;
 
-public class InventoryItem extends Fragment {
+public class PlantFragment extends CurrentScreenFragment {
 
-    private InventoryItemViewModel mViewModel;
+    private PlantViewModel mViewModel;
 
-    public static InventoryItem newInstance() {
-        return new InventoryItem();
+    public static PlantFragment newInstance() {
+        return new PlantFragment();
     }
 
     @Override
@@ -28,11 +28,11 @@ public class InventoryItem extends Fragment {
         return inflater.inflate(R.layout.inventory_item_fragment, container, false);
     }
 
+
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(InventoryItemViewModel.class);
-        // TODO: Use the ViewModel
+    public void onStart() {
+        super.onStart();
+        mViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     }
 
 }

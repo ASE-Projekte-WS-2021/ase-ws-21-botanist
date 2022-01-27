@@ -1,4 +1,4 @@
-package com.example.urbotanist.ui.InventoryFavorites;
+package com.example.urbotanist.ui.Favorites;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -6,20 +6,20 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.urbotanist.R;
+import com.example.urbotanist.ui.CurrentScreenFragment;
 
-public class InventoryFavorites extends Fragment {
+public class FavoritesFragment extends CurrentScreenFragment {
 
-    private InventoryFavoritesViewModel mViewModel;
+    private FavoritesViewModel mViewModel;
 
-    public static InventoryFavorites newInstance() {
-        return new InventoryFavorites();
+    public static FavoritesFragment newInstance() {
+        return new FavoritesFragment();
     }
 
     @Override
@@ -29,10 +29,9 @@ public class InventoryFavorites extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(InventoryFavoritesViewModel.class);
-        // TODO: Use the ViewModel
+    public void onStart() {
+        super.onStart();
+        mViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
     }
 
 }

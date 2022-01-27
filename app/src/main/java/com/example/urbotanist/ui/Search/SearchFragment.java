@@ -1,4 +1,4 @@
-package com.example.urbotanist.ui.InventorySearch;
+package com.example.urbotanist.ui.Search;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -6,20 +6,20 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.urbotanist.R;
+import com.example.urbotanist.ui.CurrentScreenFragment;
 
-public class InventorySearch extends Fragment {
+public class SearchFragment extends CurrentScreenFragment {
 
-    private InventorySearchViewModel mViewModel;
+    private SearchViewModel mViewModel;
 
-    public static InventorySearch newInstance() {
-        return new InventorySearch();
+    public static SearchFragment newInstance() {
+        return new SearchFragment();
     }
 
     @Override
@@ -29,10 +29,9 @@ public class InventorySearch extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(InventorySearchViewModel.class);
-        // TODO: Use the ViewModel
+    public void onStart() {
+        super.onStart();
+        mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
     }
 
 }
