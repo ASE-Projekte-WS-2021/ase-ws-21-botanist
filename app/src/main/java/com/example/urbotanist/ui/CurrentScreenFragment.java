@@ -34,6 +34,10 @@ public abstract class CurrentScreenFragment extends Fragment {
     @Override
     public void onStart(){
         super.onStart();
+        TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,1f,Animation.RELATIVE_TO_SELF,0);
+        getView().setAnimation(animation);
+        animation.setDuration(500);
+        animation.start();
 
     }
 }
