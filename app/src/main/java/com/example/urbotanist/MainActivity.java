@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
@@ -24,10 +24,21 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         setUpButtons();
-
-
+        initDatabase();
 
     }
+
+    private void initDatabase() {
+        DatabaseAdapterActivity mDbHelper = new DatabaseAdapterActivity(this);
+        mDbHelper.createDatabase();
+        mDbHelper.open();
+
+        Cursor testdata = mDbHelper.getTestData();
+
+        mDbHelper.close();
+    }
+
+    
 
     private void setUpButtons() {
         Button showMapButton = findViewById(R.id.map_button);
