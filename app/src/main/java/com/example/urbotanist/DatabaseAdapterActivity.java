@@ -52,8 +52,8 @@ public class DatabaseAdapterActivity {
             String sql ="SELECT * FROM bestand1" +
                     " WHERE GATTUNG LIKE '%erica%'" +
                     " OR ART LIKE '%erica%'" +
-                    " OR FAMILIE LIKE '%erica%'";
-                    //" OR VOLKSNAME LIKE '%erica%'";
+                    " OR FAMILIE LIKE '%erica%'" +
+                    " OR VOLKSNAMEN LIKE '%erica%'";
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur != null) {
                 while (mCur.moveToNext()) {
