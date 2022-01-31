@@ -3,13 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:xmls="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.map.MapFragment"
     android:backgroundTint="@color/black">
 
-    <it.sephiroth.android.library.imagezoom.ImageViewTouch
+    <com.google.android.gms.maps.MapView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/google_map"/>
+
+    <!--it.sephiroth.android.library.imagezoom.ImageViewTouch
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/garden_map" />
+        android:src="@drawable/garden_map" /-->
 
 </FrameLayout>
