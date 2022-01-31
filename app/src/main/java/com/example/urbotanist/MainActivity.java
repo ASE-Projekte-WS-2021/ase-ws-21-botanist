@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
+import com.example.urbotanist.ui.Plant.Plant;
 import com.example.urbotanist.ui.Search.SearchFragment;
 import com.example.urbotanist.ui.map.MapFragment;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mDbHelper.createDatabase();
         mDbHelper.open();
 
-        Cursor testdata = mDbHelper.getTestData();
+        ArrayList<Plant> testdata = mDbHelper.getSearchResult("erica");
 
         mDbHelper.close();
     }

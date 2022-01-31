@@ -1,11 +1,15 @@
 package com.example.urbotanist;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+import com.example.urbotanist.ui.Plant.Plant;
 
 // https://stackoverflow.com/questions/9109438/how-to-use-an-existing-database-with-an-android-application
 
@@ -47,23 +51,30 @@ public class DatabaseAdapterActivity {
         mDbHelper.close();
     }
 
-    public Cursor getTestData() {
+    public ArrayList<Plant> getSearchResult(String searchTerm) {
+        ArrayList<Plant> results= new ArrayList<Plant>();
         try {
             String sql ="SELECT * FROM bestand1" +
-                    " WHERE GATTUNG LIKE '%erica%'" +
-                    " OR ART LIKE '%erica%'" +
-                    " OR FAMILIE LIKE '%erica%'" +
-                    " OR VOLKSNAMEN LIKE '%erica%'";
+                    " WHERE GATTUNG LIKE '%" + searchTerm + "%'" +
+                    " OR ART LIKE '%" + searchTerm + "%'" +
+                    " OR FAMILIE LIKE '%" + searchTerm + "%'" +
+                    " OR VOLKSNAMEN LIKE '%" + searchTerm + "%'";
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur != null) {
                 while (mCur.moveToNext()) {
-                    Log.d("1 TAG", mCur.getString(1));
-                    Log.d("2 TAG", mCur.getString(2));
-                    Log.d("3 TAG", mCur.getString(3));
-                    Log.d("6 TAG", mCur.getString(6));
+                    if(mCur.getString(1).equals("+")){
+                        String genus = mCur.getString(2);
+                        String type = mCur.getString(3);
+                        String family = mCur.getString(4);
+                        String location = mCur.getString(5);
+                        String plant_native = mCur.getString(6);
+                        String name_common = mCur.getString(7);
+                        String life_form = mCur.getString(8);
+                        results.add(new Plant(genus, type, family,location, plant_native, name_common, life_form));
+                    }
                 }
             }
-            return mCur;
+            return results;
         } catch (SQLException mSQLException) {
             Log.e(TAG, "getTestData >>"+ mSQLException.toString());
             throw mSQLException;

@@ -1,5 +1,7 @@
 package com.example.urbotanist.ui.Plant;
 
+import android.util.Log;
+
 public class Plant {
 
     public String full_Name;
@@ -9,14 +11,19 @@ public class Plant {
     public String location;
     public String plant_native;
     public String name_common;
-    public String lifeform;
+    public String life_form;
 
-    public Plant(String genus, String type, String family, String location) {
+    public Plant(String genus, String type, String family, String location, String plant_native, String name_common, String life_form) {
         name_genus = genus;
         name_type = type;
         name_family = family;
-        full_Name = genus + " " + type + " " + family;
         this.location = location;
+        this.plant_native = plant_native;
+        this.name_common = name_common;
+        this.life_form = life_form;
+
+        Log.d("tag", genus + " " + type + " " + family + " " + location  + " " + plant_native + " " + name_common + " " + life_form);
+        full_Name = genus + " " + type;
 
     }
 }
