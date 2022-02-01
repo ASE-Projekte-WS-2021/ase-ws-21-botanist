@@ -1,7 +1,11 @@
 package com.example.urbotanist.ui.map;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,11 +24,15 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
+
+import java.util.ArrayList;
 
 import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
-public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback{
+public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback {
 
     private MapViewModel mViewModel;
     //private ImageViewTouch map;
@@ -43,6 +51,8 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         mapView = (MapView) v.findViewById(R.id.google_map);
         mapView.onCreate(savedInstanceState);
 
+        mViewModel = new MapViewModel();
+
         //create Map, TODO check permission
         mapView.getMapAsync(this);
 
@@ -59,27 +69,42 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         mViewModel = new ViewModelProvider(this).get(MapViewModel.class);
     }
 
-    public void initGUI(){
+    public void initGUI() {
         loadMap();
     }
 
-    private void loadMap(){
+    private void loadMap() {
         //old picture-map
         /**map = getView().findViewById(R.id.map);
-        map.setImageResource(R.drawable.garden_map);
-        map.setDisplayType(ImageViewTouchBase.DisplayType.FIT_HEIGHT);
-        map.setScrollEnabled(true);
-        map.setQuickScaleEnabled(true);*/
+         map.setImageResource(R.drawable.garden_map);
+         map.setDisplayType(ImageViewTouchBase.DisplayType.FIT_HEIGHT);
+         map.setScrollEnabled(true);
+         map.setQuickScaleEnabled(true);*/
 
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        map.getUiSettings().setZoomControlsEnabled(true);
-        map.addMarker(new MarkerOptions().position(new LatLng(12,12)));
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(12,12), 10));
+        //setup map and get permissions
+        initMap();
+
+        //setup polygons
+        mViewModel.initData(map);
     }
+
+    private void initMap() {
+        map.getUiSettings().setZoomControlsEnabled(true);
+
+        //get user location
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
+        }
+        map.setMyLocationEnabled(true);
+        map.getUiSettings().setMyLocationButtonEnabled(true);
+    }
+
 
     @Override
     public void onResume() {
