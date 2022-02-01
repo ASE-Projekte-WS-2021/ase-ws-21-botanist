@@ -12,6 +12,7 @@ import android.widget.Button;
 
 import com.example.urbotanist.ui.Plant.Plant;
 import com.example.urbotanist.ui.Search.SearchFragment;
+import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     MapFragment mapFragment = new MapFragment();
     SearchFragment searchFragment = new SearchFragment();
+    InfoFragment infoFragment = new InfoFragment();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,14 @@ public class MainActivity extends AppCompatActivity {
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loadCurrentScreenFragment(searchFragment);
+            }
+        });
+
+        Button infoButton = findViewById(R.id.bar_icon_background);
+
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                infoFragment.show(getSupportFragmentManager(), "Info");
             }
         });
     }
