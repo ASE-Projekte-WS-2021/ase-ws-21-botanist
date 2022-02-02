@@ -11,9 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/searchItemView"
-        android:text="TESTtesxt"
         android:gravity="center"
-        android:textSize="15dp"
+        android:textSize="15sp"
         />
     </LinearLayout>
 

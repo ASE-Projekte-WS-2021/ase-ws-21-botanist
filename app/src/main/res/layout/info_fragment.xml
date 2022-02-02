@@ -7,7 +7,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.info.InfoFragment">
+    android:background="@color/light_grey"
+    tools:context=".ui.info.InfoFragment"
+    >
 
     <TextView
         android:id="@+id/infoTitle"
@@ -35,6 +37,7 @@
                 android:id="@+id/infoText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:text="@string/infoContent" />
         </LinearLayout>
     </ScrollView>

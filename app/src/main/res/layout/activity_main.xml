@@ -30,23 +30,42 @@
             app:layout_constraintWidth_percent="0.30"
             android:layout_height="match_parent"
             android:background="@drawable/bar_icon_background"
-            android:foreground="@drawable/compass_icon"
-            android:foregroundTint="@color/green"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:orientation="vertical" />
 
+        <ImageView
+            android:id="@+id/compass_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/compass_icon"
+            app:layout_constraintLeft_toLeftOf="@id/map_button"
+            app:layout_constraintRight_toRightOf="@id/map_button"
+            app:tint="@color/green"
+            android:scaleType="fitCenter"
+            android:elevation="8dp"/>
+
+            />
         <Button
             android:id="@+id/search_button"
             android:layout_width="0dp"
             app:layout_constraintWidth_percent="0.30"
             android:layout_height="match_parent"
             android:background="@drawable/bar_icon_background"
-            android:foreground="@drawable/search_icon"
-            android:foregroundTint="@color/green"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/map_button"
             android:orientation="vertical" />
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/search_icon"
+            app:layout_constraintStart_toStartOf="@id/search_button"
+            app:layout_constraintEnd_toEndOf="@id/search_button"
+            app:tint="@color/green"
+            android:scaleType="fitCenter"
+            android:elevation="8dp"/>
 
         <Button
             android:id="@+id/bar_icon_background"
@@ -57,6 +76,7 @@
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:orientation="vertical"
+
             />
         <ImageView
             android:id="@+id/bar_icon"
@@ -67,6 +87,8 @@
             app:layout_constraintLeft_toLeftOf="@id/bar_icon_background"
             app:layout_constraintRight_toRightOf="@id/bar_icon_background"
             app:tint="@color/green"
+            android:scaleType="fitCenter"
+            android:elevation="8dp"
             />
 
 
