@@ -22,7 +22,7 @@ public class Plant {
         this.name_common = name_common;
         this.life_form = life_form;
 
-        Log.d("tag", genus + " " + type + " " + family + " " + location  + " " + plant_native + " " + name_common + " " + life_form);
+        //Log.d("tag", genus + " " + type + " " + family + " " + location  + " " + plant_native + " " + name_common + " " + life_form);
         full_Name = genus + " " + type;
 
     }
