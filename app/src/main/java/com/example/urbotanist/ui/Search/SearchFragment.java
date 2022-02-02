@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,6 +55,7 @@ public class SearchFragment extends CurrentScreenFragment {
         searchListAdapter = new PlantSearchAdapter(new String[0]);
         searchListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
         searchListRecycler.setAdapter(searchListAdapter);
+        searchListRecycler.addItemDecoration(new DividerItemDecoration(searchListRecycler.getContext(), DividerItemDecoration.VERTICAL));
         initSearch();
 
 
