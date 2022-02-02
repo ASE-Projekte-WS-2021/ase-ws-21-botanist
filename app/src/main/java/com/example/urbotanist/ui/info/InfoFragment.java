@@ -14,8 +14,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.urbotanist.R;
+import com.example.urbotanist.ui.CurrentScreenFragment;
 
-public class InfoFragment extends DialogFragment {
+public class InfoFragment extends CurrentScreenFragment {
 
 //    private InfoViewModel mViewModel;
     private boolean impClick = false;
@@ -30,8 +31,6 @@ public class InfoFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-        super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.info_fragment, container, false);
         infoTitle = (TextView) v.findViewById(R.id.infoTitle);
         infoText = (TextView) v.findViewById(R.id.infoText);
