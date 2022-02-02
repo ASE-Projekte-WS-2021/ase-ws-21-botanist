@@ -12,13 +12,16 @@ import android.widget.Button;
 
 import com.example.urbotanist.ui.Plant.Plant;
 import com.example.urbotanist.ui.Search.SearchFragment;
+import com.example.urbotanist.ui.Search.SearchListener;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SearchListener {
+    DatabaseAdapterActivity mDbHelper;
 
     MapFragment mapFragment = new MapFragment();
     SearchFragment searchFragment = new SearchFragment();
@@ -34,13 +37,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initDatabase() {
-        DatabaseAdapterActivity mDbHelper = new DatabaseAdapterActivity(this);
+        mDbHelper = new DatabaseAdapterActivity(this);
         mDbHelper.createDatabase();
-        mDbHelper.open();
 
-        ArrayList<Plant> testdata = mDbHelper.getSearchResult("erica");
-
-        mDbHelper.close();
     }
 
     
@@ -66,18 +65,24 @@ public class MainActivity extends AppCompatActivity {
 
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                infoFragment.show(getSupportFragmentManager(), "Info");
+                loadCurrentScreenFragment(infoFragment);
             }
         });
     }
 
 
     public void loadCurrentScreenFragment(Fragment fragment){
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        TranslateAnimation animation = new TranslateAnimation(0,0,30,60);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
 
+    @Override
+    public List<Plant> searchPlant(String searchTerm) {
+        mDbHelper.open();
 
+        ArrayList<Plant> foundPlants = mDbHelper.getSearchResult(searchTerm);
+
+        mDbHelper.close();
+        return foundPlants;
+    }
 }
