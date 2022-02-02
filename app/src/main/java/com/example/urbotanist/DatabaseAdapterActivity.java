@@ -18,11 +18,11 @@ public class DatabaseAdapterActivity {
 
     private final Context mContext;
     private SQLiteDatabase mDb;
-    private DatabaseHelperActivity mDbHelper;
+    private DatabaseHelper mDbHelper;
 
     public DatabaseAdapterActivity(Context context) {
         this.mContext = context;
-        mDbHelper = new DatabaseHelperActivity(mContext);
+        mDbHelper = new DatabaseHelper(mContext);
     }
 
     public DatabaseAdapterActivity createDatabase() throws SQLException {

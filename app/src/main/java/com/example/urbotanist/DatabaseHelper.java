@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-class DatabaseHelperActivity extends SQLiteOpenHelper {
+class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
     private SQLiteDatabase dataBase;
@@ -35,7 +35,7 @@ class DatabaseHelperActivity extends SQLiteOpenHelper {
     public static final String COLUMN_LIFEFORM = "LEBENSFORM";
 
 
-    public DatabaseHelperActivity(@Nullable Context context) {
+    public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         DB_FILE = context.getDatabasePath(DATABASE_NAME);
         this.context = context;
@@ -60,7 +60,6 @@ class DatabaseHelperActivity extends SQLiteOpenHelper {
             try {
                 // Copy the database from assests
                 copyDataBase();
-                Log.e(TAG, "createDatabase database created");
             } catch (IOException mIOException) {
                 throw new Error("ErrorCopyingDataBase");
             }
