@@ -38,6 +38,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         DB_FILE = context.getDatabasePath(DATABASE_NAME);
+        Log.v("DB_Path", DB_FILE.getAbsolutePath());
         this.context = context;
     }
 
@@ -85,7 +86,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean openDataBase() throws SQLException {
-        // Log.v("DB_PATH", DB_FILE.getAbsolutePath());
+        Log.v("DB_PATH", DB_FILE.getAbsolutePath());
         dataBase = SQLiteDatabase.openDatabase(DB_FILE.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
         // mDataBase = SQLiteDatabase.openDatabase(DB_FILE, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
         return dataBase != null;

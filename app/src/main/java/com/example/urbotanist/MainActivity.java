@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -39,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener {
     private void initDatabase() {
         mDbHelper = new DatabaseAdapterActivity(this);
         mDbHelper.createDatabase();
-
     }
 
     
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener {
     @Override
     public List<Plant> searchPlant(String searchTerm) {
         mDbHelper.open();
-
+        Log.d("tag", "in search");
         ArrayList<Plant> foundPlants = mDbHelper.getSearchResult(searchTerm);
 
         mDbHelper.close();
