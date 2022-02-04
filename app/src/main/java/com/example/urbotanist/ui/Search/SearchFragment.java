@@ -1,6 +1,7 @@
 package com.example.urbotanist.ui.Search;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
@@ -98,7 +99,9 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
         MainActivity mainActivity = (MainActivity) getActivity();
         if(mainActivity != null) {
             mainActivity.setCurrentPlant(plant);
-            mainActivity.loadCurrentScreenFragment(mainActivity.plantFragment);
+            mainActivity.plantFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
+            mainActivity.plantFragment.show(mainActivity.getSupportFragmentManager(), "Info");
+            //mainActivity.loadCurrentScreenFragment(mainActivity.plantFragment);
 
         }
         else{

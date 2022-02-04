@@ -95,4 +95,5 @@ public class MainActivity extends AppCompatActivity implements SearchListener {
         mDbHelper.close();
         return foundPlants;
     }
+
 }

@@ -44,7 +44,7 @@ public class InfoFragment extends CurrentScreenFragment {
         super.onStart();
         impButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(impClick) {
+                if(!impClick) {
                     infoTitle.setText(getResources().getString(R.string.impressum));
                     infoText.setText(getResources().getString(R.string.impressumContent));
                     impButton.setText(getResources().getString(R.string.info));

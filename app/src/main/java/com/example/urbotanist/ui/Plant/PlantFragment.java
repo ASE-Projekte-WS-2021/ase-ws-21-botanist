@@ -1,23 +1,35 @@
 package com.example.urbotanist.ui.Plant;
 
+import static android.view.WindowManager.*;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 
-public class PlantFragment extends CurrentScreenFragment {
+public class PlantFragment extends DialogFragment {
 
     private PlantViewModel mViewModel;
     private TextView plantFullNameView;
@@ -48,9 +60,23 @@ public class PlantFragment extends CurrentScreenFragment {
     @Override
     public void onStart() {
         super.onStart();
+        getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
         mViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
         mViewModel.setSelectedPlant(((MainActivity)getActivity()).getCurrentPlant());
         setupUiText();
+        Window window = getDialog().getWindow();
+        window.setGravity(Gravity.TOP|Gravity.RIGHT);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.90);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.75);
+        window.setLayout(width, height);
+        WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
+        p.y = (int)(getResources().getDisplayMetrics().heightPixels*0.04);
+        getDialog().getWindow().setAttributes(p);
+        getDialog().setCanceledOnTouchOutside(true);
+        /*TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,1f,Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,0);
+        getView().setAnimation(animation);
+        animation.setDuration(500);
+        animation.start();*/
 
     }
 
