@@ -20,6 +20,6 @@
     <string name="plant_common_name_prefix">Volksmund:</string>
     <string name="PLANT_COMMON_NAME">PLANT_COMMON_NAME</string>
     <string name="PLANT_LOCATION">XY</string>
-    <string name="PLANT_AVAILABILTY">AVAILABILTY</string>
+    <string name="PLANT_AVAILABILTY">  ️  ✓  ️</string>
 
 </resources>
