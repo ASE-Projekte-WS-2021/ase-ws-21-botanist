@@ -19,7 +19,6 @@ import com.example.urbotanist.ui.CurrentScreenFragment;
 public class InfoFragment extends CurrentScreenFragment {
 
 //    private InfoViewModel mViewModel;
-    private boolean impClick = false;
     private TextView infoTitle;
     private TextView infoText;
     private Button impButton;
@@ -44,7 +43,7 @@ public class InfoFragment extends CurrentScreenFragment {
         super.onStart();
         impButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(impClick) {
+                if(!(getResources().getString(R.string.impressum) == infoTitle.getText())) {
                     infoTitle.setText(getResources().getString(R.string.impressum));
                     infoText.setText(getResources().getString(R.string.impressumContent));
                     impButton.setText(getResources().getString(R.string.info));
@@ -53,7 +52,6 @@ public class InfoFragment extends CurrentScreenFragment {
                     infoText.setText(getResources().getString(R.string.infoContent));
                     impButton.setText(getResources().getString(R.string.impressum));
                 }
-                impClick = !impClick;
             }
         });
 //        mViewModel = new ViewModelProvider(this).get(InfoViewModel.class);

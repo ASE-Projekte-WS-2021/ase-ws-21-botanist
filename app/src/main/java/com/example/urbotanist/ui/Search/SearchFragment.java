@@ -1,6 +1,7 @@
 package com.example.urbotanist.ui.Search;
 
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
@@ -17,19 +18,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 import com.example.urbotanist.ui.Plant.Plant;
 
+import java.util.Collections;
 import java.util.List;
 
-public class SearchFragment extends CurrentScreenFragment {
+public class SearchFragment extends CurrentScreenFragment implements SearchResultClickListener {
 
     private SearchViewModel mViewModel;
     private SearchView searchView;
     private SearchListener searchListener;
     private RecyclerView searchListRecycler;
     private PlantSearchAdapter searchListAdapter;
+    private String TAG = this.getClass().getSimpleName();
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -52,7 +56,7 @@ public class SearchFragment extends CurrentScreenFragment {
         View v = inflater.inflate(R.layout.search_fragment, container, false);
         searchView = v.findViewById(R.id.search_bar);
         searchListRecycler = v.findViewById(R.id.searchListRecycler);
-        searchListAdapter = new PlantSearchAdapter(new String[0]);
+        searchListAdapter = new PlantSearchAdapter(Collections.emptyList(),this::onSearchResultClick);
         searchListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
         searchListRecycler.setAdapter(searchListAdapter);
         searchListRecycler.addItemDecoration(new DividerItemDecoration(searchListRecycler.getContext(), DividerItemDecoration.VERTICAL));
@@ -66,30 +70,42 @@ public class SearchFragment extends CurrentScreenFragment {
     public void onStart() {
         super.onStart();
         mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-        initSearch();
     }
-
 
     public void initSearch(){
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                List<Plant> foundPlants =  searchListener.searchPlant(query);
+                //searchListAdapter = new PlantSearchAdapter(plantNames);
+                searchListAdapter.localDataSet = foundPlants;
+                searchListAdapter.notifyDataSetChanged();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 List<Plant> foundPlants =  searchListener.searchPlant(newText);
-                String[] plantNames = new String[foundPlants.size()];
-                for(int i = 0; i < foundPlants.size(); i++){
-                    //Log.d("searchrestults:", plant.full_Name);
-                    plantNames[i] = foundPlants.get(i).full_Name;
-                }
                 //searchListAdapter = new PlantSearchAdapter(plantNames);
-                searchListAdapter.localDataSet = plantNames;
+                searchListAdapter.localDataSet = foundPlants;
                 searchListAdapter.notifyDataSetChanged();
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onSearchResultClick(Plant plant) {
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if(mainActivity != null) {
+            mainActivity.setCurrentPlant(plant);
+            mainActivity.plantFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
+            mainActivity.plantFragment.show(mainActivity.getSupportFragmentManager(), "Info");
+            //mainActivity.loadCurrentScreenFragment(mainActivity.plantFragment);
+
+        }
+        else{
+            Log.e("TAG", "Failed to open Fragment; MainActivity not found");
+        }
     }
 }

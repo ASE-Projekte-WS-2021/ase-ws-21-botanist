@@ -1,7 +1,5 @@
 package com.example.urbotanist.ui.Plant;
 
-import android.util.Log;
-
 public class Plant {
 
     public String full_Name;
