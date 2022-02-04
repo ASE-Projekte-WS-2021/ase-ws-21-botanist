@@ -11,6 +11,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
 import com.example.urbotanist.ui.Plant.Plant;
+import com.example.urbotanist.ui.Plant.PlantFragment;
 import com.example.urbotanist.ui.Search.SearchFragment;
 import com.example.urbotanist.ui.Search.SearchListener;
 import com.example.urbotanist.ui.info.InfoFragment;
@@ -23,9 +24,11 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SearchListener {
     DatabaseAdapterActivity mDbHelper;
 
-    MapFragment mapFragment = new MapFragment();
-    SearchFragment searchFragment = new SearchFragment();
-    InfoFragment infoFragment = new InfoFragment();
+    public MapFragment mapFragment = new MapFragment();
+    public SearchFragment searchFragment = new SearchFragment();
+    public InfoFragment infoFragment = new InfoFragment();
+    public PlantFragment plantFragment = new PlantFragment();
+    Plant currentPlant;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +76,13 @@ public class MainActivity extends AppCompatActivity implements SearchListener {
 
     public void loadCurrentScreenFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    public void setCurrentPlant(Plant plant){
+        this.currentPlant = plant;
+    }
+    public Plant getCurrentPlant(){
+        return this.currentPlant;
     }
 
 

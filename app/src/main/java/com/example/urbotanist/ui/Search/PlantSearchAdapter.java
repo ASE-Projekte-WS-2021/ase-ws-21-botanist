@@ -8,10 +8,14 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.urbotanist.R;
+import com.example.urbotanist.ui.Plant.Plant;
+
+import java.util.List;
 
 public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter.ViewHolder> {
 
-    String[] localDataSet;
+    List<Plant> localDataSet;
+    SearchResultClickListener searchResultClickListener;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
@@ -34,8 +38,9 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
      * @param dataSet String[] containing the data to populate views to be used
      * by RecyclerView.
      */
-    public PlantSearchAdapter(String[] dataSet) {
+    public PlantSearchAdapter(List<Plant> dataSet, SearchResultClickListener searchResultClickListener) {
         localDataSet = dataSet;
+        this.searchResultClickListener = searchResultClickListener;
     }
 
     // Create new views (invoked by the layout manager)
@@ -44,7 +49,6 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.search_result_item, viewGroup, false);
-
         return new ViewHolder(view);
     }
 
@@ -54,13 +58,22 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(localDataSet[position]);
+        viewHolder.getTextView().setText(localDataSet.get(position).fullName);
+        viewHolder.getTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchResultClickListener.onSearchResultClick(localDataSet.get(viewHolder.getAdapterPosition()));
+            }
+        });
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return localDataSet.length;
+        return localDataSet.size();
     }
+
+
+
 
 }
