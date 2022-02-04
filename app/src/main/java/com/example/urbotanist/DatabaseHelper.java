@@ -1,12 +1,15 @@
 package com.example.urbotanist;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
+
+import com.example.urbotanist.ui.Plant.Plant;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -24,21 +27,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     public static String TAG = "DATABASEACTIVITY";
 
-    public static final String TABLE_NAME = "bestand1";
-    public static final String COLUMN_ID = "PRIMS";
-    public static final String COLUMN_GENUS = "GATTUNG";
-    public static final String COLUMN_TYPE = "ART";
-    public static final String COLUMN_FAMILY = "FAMILIE";
-    public static final String COLUMN_LOCATION = "STANDORT";
-    public static final String COLUMN_NATIVE = "VORKOMMEN";
-    public static final String COLUMN_COMMON = "VOLKSNAME";
-    public static final String COLUMN_LIFEFORM = "LEBENSFORM";
-
-
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         DB_FILE = context.getDatabasePath(DATABASE_NAME);
-        Log.v("DB_Path", DB_FILE.getAbsolutePath());
         this.context = context;
     }
 
@@ -61,11 +52,40 @@ class DatabaseHelper extends SQLiteOpenHelper {
             try {
                 // Copy the database from assests
                 copyDataBase();
+                //joinDataBase();
             } catch (IOException mIOException) {
                 throw new Error("ErrorCopyingDataBase");
             }
         }
     }
+
+    /*private void joinDataBase() {
+        Log.d(TAG, "wir try ");
+        try {
+            Log.d(TAG, "und wir tryen weiter");
+            String sql = "CREATE TABLE [IF NOT EXISTS] .plantDatabase (" +
+                    "ID INTEGER PRIMARY KEY, BESTAND TEXT, " +
+                    "GATTUNG TEXT, ART string, FAMILIE TEXT, " +
+                    "STANDORT TEXT, VORKOMMEN TEXT, VOLKSNAMEN TEXT, LEBENSFORM TEXT, " +
+                    "standortKurz TEXT, standortLang TEXT, alterBegriff TEXT)";
+            dataBase.execSQL(sql);
+            Log.d(TAG, "anderes b");
+
+            String joinSql =
+                    " SELECT database_bestand1.BESTAND, database_bestand1.GATTUNG, database_bestand1.ART," +
+                    " database_bestand1.FAMILIE, database_bestand1.STANDORT_G," +
+                    " database_bestand1.VORKOMMEN, database_bestand1.VOLKSNAMEN, database_bestand1.LEBENSFORM," +
+                    " database_standorte.kurz, database_standorte.lang, database_standorte.alterBegriff" +
+                    " FROM database_standorte" +
+                    " INNER JOIN database_bestand1 ON database_bestand1.STANDORT_G=database_standorte.alterBegriff";
+            Cursor c = dataBase.query("plantDatabase", null, null, null, null, null, null);
+            Log.d(TAG, "anderes aaaaaah");
+        } catch (SQLException mSQLException) {
+            Log.d(TAG, "aaaaaah");
+            Log.e(TAG, "getTestData >>"+ mSQLException.toString());
+            throw mSQLException;
+        }
+    } */
 
     // Check that the database file exists in databases folder
     private boolean checkDataBase() {
@@ -86,9 +106,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public boolean openDataBase() throws SQLException {
-        Log.v("DB_PATH", DB_FILE.getAbsolutePath());
         dataBase = SQLiteDatabase.openDatabase(DB_FILE.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        // mDataBase = SQLiteDatabase.openDatabase(DB_FILE, null, SQLiteDatabase.NO_LOCALIZED_COLLATORS);
         return dataBase != null;
     }
 

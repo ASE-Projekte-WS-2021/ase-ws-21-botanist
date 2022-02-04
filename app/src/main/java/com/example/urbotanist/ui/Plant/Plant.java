@@ -1,29 +1,31 @@
 package com.example.urbotanist.ui.Plant;
 
+import android.util.Log;
+
 public class Plant {
 
-    public String full_Name;
-    public String name_genus;
-    public String name_type;
-    public String name_family;
-    public String location_short;
+    public String fullName;
+    public String genusName;
+    public String typeName;
+    public String familyName;
+    public String location;
     public String location_long;
-    public String plant_native;
-    public String name_common;
+    public String plantNative;
+    public String commonName;
     public String life_form;
 
     public Plant(String genus, String type, String family, String location_short, String location_long, String plant_native, String name_common, String life_form) {
-        name_genus = genus;
-        name_type = type;
-        name_family = family;
-        this.location_short = location_short;
+        genusName = genus;
+        typeName = type;
+        familyName = family;
+        this.location = location_short;
         this.location_long = location_long;
-        this.plant_native = plant_native;
-        this.name_common = name_common;
+        plantNative = plant_native;
+        this.commonName = name_common;
         this.life_form = life_form;
 
-        Log.d("tag", genus + " " + type + " " + family + " " + location_short + " " + location_long + " " + plant_native + " " + name_common + " " + life_form);
-        full_Name = genus + " " + type;
+        //Log.d("taggrio", genus + " " + type + " " + family + " " + location_short + " " + location_long + " " + plant_native + " " + name_common + " " + life_form);
+        fullName = genus + " " + type;
 
     }
 }

@@ -89,9 +89,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener {
     @Override
     public List<Plant> searchPlant(String searchTerm) {
         mDbHelper.open();
-        Log.d("tag", "in search");
         ArrayList<Plant> foundPlants = mDbHelper.getSearchResult(searchTerm);
-
         mDbHelper.close();
         return foundPlants;
     }

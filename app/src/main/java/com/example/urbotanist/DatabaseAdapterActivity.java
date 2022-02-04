@@ -54,11 +54,11 @@ public class DatabaseAdapterActivity {
     public ArrayList<Plant> getSearchResult(String searchTerm) {
         ArrayList<Plant> results= new ArrayList<Plant>();
         try {
-            String sql ="SELECT * FROM bestand1" +
-                    " WHERE GATTUNG LIKE '%" + searchTerm + "%'" +
-                    " OR ART LIKE '%" + searchTerm + "%'" +
-                    " OR FAMILIE LIKE '%" + searchTerm + "%'" +
-                    " OR VOLKSNAMEN LIKE '%" + searchTerm + "%'";
+            String sql = "SELECT * FROM plantDatabase" +
+                    " WHERE plantDatabase.GATTUNG LIKE '%" + searchTerm + "%'" +
+                    " OR plantDatabase.ART LIKE '%" + searchTerm + "%'" +
+                    " OR plantDatabase.FAMILIE LIKE '%" + searchTerm + "%'" +
+                    " OR plantDatabase.VOLKSNAMEN LIKE '%" + searchTerm + "%'";
 
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur != null) {
@@ -68,16 +68,14 @@ public class DatabaseAdapterActivity {
                         String genus = mCur.getString(2);
                         String type = mCur.getString(3);
                         String family = mCur.getString(4);
-                        Log.d("tag", "forLocation");
                         //location contains old name, update to new name
-                        String[] location = updateLocationName(mCur.getString(5));
                         String plant_native = mCur.getString(6);
                         String name_common = mCur.getString(7);
                         String life_form = mCur.getString(8);
+                        String locShort = mCur.getString(9);
+                        String locLong = mCur.getString(10);
 
-                        Log.d("tag", "hallo");
-
-                        results.add(new Plant(genus, type, family, location[0], location[1], plant_native, name_common, life_form));
+                        results.add(new Plant(genus, type, family, locShort, locLong, plant_native, name_common, life_form));
                     }
                 }
             }
@@ -86,26 +84,6 @@ public class DatabaseAdapterActivity {
             Log.e(TAG, "getTestData >>"+ mSQLException.toString());
             throw mSQLException;
         }
-    }
-
-    private String[] updateLocationName(String location){
-        String[] name = {" ", " "};
-        try {
-            String sql ="SELECT * FROM standorte" +
-                    " WHERE alter_Begriff LIKE '%" + location + "%'";
-            Cursor mCur = mDb.rawQuery(sql, null);
-            if (mCur != null) {
-                while (mCur.moveToNext()) {
-                    // table contains plants previously in the garden, only those with "+" in row 1 are currently planted
-                    name[0] = mCur.getString(1);
-                    name[1] = mCur.getString(2);
-                }
-            }
-        } catch (SQLException mSQLException) {
-            Log.e(TAG, "getTestData >>"+ mSQLException.toString());
-            throw mSQLException;
-        }
-        return name;
     }
 }
 
