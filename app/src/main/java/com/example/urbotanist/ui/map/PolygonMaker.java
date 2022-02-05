@@ -78,6 +78,7 @@ public class PolygonMaker {
     private void initPolygonOptions() {
         polyOpA = new PolygonOptions()
                 .add(new LatLng(48.994040,12.090085),
+                        new LatLng(48.993783, 12.091022),
                         new LatLng(48.993608, 12.091456),
                         new LatLng(48.993465, 12.091358),
                         new LatLng(48.993536, 12.090970),

@@ -42,6 +42,7 @@ public class MapViewModel extends ViewModel {
     private static final int COLOR_AREA_G = 0x80FF7F7E;
 
     private List<PolygonOptions> polyOpList;
+    private static final int POLY_STROKE_WIDTH = 6;
 
     public MapViewModel() {
         polyMaker = new PolygonMaker();
@@ -72,7 +73,8 @@ public class MapViewModel extends ViewModel {
     private void addPolygonsToMap() {
         int test = polyOpList.size();
         for (int i = 0; i < test; i++) {
-            map.addPolygon(polyOpList.get(i));
+            Polygon polygon = map.addPolygon(polyOpList.get(i));
+            polygon.setStrokeWidth(POLY_STROKE_WIDTH);
         }
     }
 }
