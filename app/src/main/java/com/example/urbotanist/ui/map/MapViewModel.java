@@ -63,7 +63,7 @@ public class MapViewModel extends ViewModel {
                .title("Marker"));
 
        addPolygonsToMap();
-       
+
        map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanic_garden, 18));
 
 

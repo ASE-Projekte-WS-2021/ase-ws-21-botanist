@@ -263,13 +263,19 @@ public class PolygonMaker {
                         new LatLng(48.994670, 12.090063));
 
         polyOpS = new PolygonOptions()
-                .add(new LatLng(48.992985, 12.091516),
-                        new LatLng(48.993540, 12.091541),
-                        new LatLng(48.993592, 12.091425),
-                        new LatLng(48.993516, 12.091324),
-                        new LatLng(48.993612, 12.089953),
-                        new LatLng(48.993113, 12.089794),
-                        new LatLng(48.992837, 12.089988),
-                        new LatLng(48.992735, 12.090326));
+                .add(new LatLng(48.993622, 12.089916),
+                        new LatLng(48.993560, 12.090528),
+                        new LatLng(48.993492, 12.090836),
+                        new LatLng(48.993536, 12.090970),
+                        new LatLng(48.993465, 12.091358),
+                        new LatLng(48.993608, 12.091456),
+                        new LatLng(48.993553, 12.091583),
+                        new LatLng(48.992953, 12.091486),
+                        new LatLng(48.992744, 12.090663),
+                        new LatLng(48.992753, 12.090184),
+                        new LatLng(48.992841,12.089948),
+                        new LatLng(48.993013, 12.089745),
+                        new LatLng(48.993260, 12.089792));
+
     }
 }
