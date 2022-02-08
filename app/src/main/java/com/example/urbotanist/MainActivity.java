@@ -1,31 +1,32 @@
 package com.example.urbotanist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
 import com.example.urbotanist.ui.Plant.Plant;
 import com.example.urbotanist.ui.Plant.PlantFragment;
+import com.example.urbotanist.ui.Plant.PlantSelectedListener;
 import com.example.urbotanist.ui.Search.SearchFragment;
 import com.example.urbotanist.ui.Search.SearchListener;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements SearchListener {
+public class MainActivity extends AppCompatActivity implements SearchListener, PlantSelectedListener {
     DatabaseAdapterActivity mDbHelper;
 
-    public MapFragment mapFragment = new MapFragment();
+    public MapFragment mapFragment = new MapFragment("");
     public SearchFragment searchFragment = new SearchFragment();
     public InfoFragment infoFragment = new InfoFragment();
     public PlantFragment plantFragment = new PlantFragment();
@@ -35,9 +36,23 @@ public class MainActivity extends AppCompatActivity implements SearchListener {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
         setUpButtons();
         initDatabase();
 
+        plantFragment.setPlantSelectListener(new PlantSelectedListener() {
+            @Override
+            public void onPlantSelected(String location) {
+                initPlantArea(location);
+            }
+        });
+        //plantFragment.setPlantSelectListener(this::onPlantSelected);
+    }
+
+    private void initPlantArea(String location){
+        MapFragment locationFragment = new MapFragment(location);
+        plantFragment.closeWindow();
+        loadCurrentScreenFragment(locationFragment);
     }
 
     private void initDatabase() {
@@ -94,4 +109,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener {
         return foundPlants;
     }
 
+    @Override
+    public void onPlantSelected(String location) {
+        initPlantArea(location);
+    }
 }

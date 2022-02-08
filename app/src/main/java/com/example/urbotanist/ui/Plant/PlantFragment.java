@@ -25,25 +25,29 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 
-public class PlantFragment extends DialogFragment {
+public class PlantFragment extends DialogFragment{
 
     private PlantViewModel mViewModel;
     private TextView plantFullNameView;
     private TextView plantFamilyNameView;
     private TextView plantTypeNameView;
-    private TextView plantLocationView;
+    private Button plantLocationButton;
     private TextView plantCommonNameView;
     private TextView plantGenusNameView;
+
+    private PlantSelectedListener listener;
 
     public static PlantFragment newInstance() {
         return new PlantFragment();
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -53,8 +57,18 @@ public class PlantFragment extends DialogFragment {
         plantGenusNameView = v.findViewById(R.id.plant_genus_name);
         plantFamilyNameView = v.findViewById(R.id.plant_family_name);
         plantTypeNameView = v.findViewById(R.id.plant_type_name);
-        plantLocationView = v.findViewById(R.id.plant_location);
+        plantLocationButton = v.findViewById(R.id.plant_location);
         plantCommonNameView = v.findViewById(R.id.plant_common_name);
+
+        plantLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onPlantSelected(mViewModel.selectedPlant.location);
+                }
+            }
+        });
+
         return v;
     }
 
@@ -82,14 +96,24 @@ public class PlantFragment extends DialogFragment {
 
     }
 
+    public void closeWindow() {
+        getDialog().cancel();
+    }
+
     public void setupUiText(){
         Log.d("test",mViewModel.selectedPlant.toString());
         plantFullNameView.setText(mViewModel.selectedPlant.fullName);
         plantGenusNameView.setText(mViewModel.selectedPlant.genusName);
         plantFamilyNameView.setText(mViewModel.selectedPlant.familyName);
         plantTypeNameView.setText(mViewModel.selectedPlant.typeName);
-        plantLocationView.setText(mViewModel.selectedPlant.location);
+        plantLocationButton.setText(mViewModel.selectedPlant.location);
         plantCommonNameView.setText(mViewModel.selectedPlant.commonName);
     }
+
+    public void setPlantSelectListener(PlantSelectedListener listener) {
+        this.listener = listener;
+    }
+
+
 
 }

@@ -71,10 +71,16 @@ public class MapViewModel extends ViewModel {
     }
 
     private void addPolygonsToMap() {
-        int test = polyOpList.size();
-        for (int i = 0; i < test; i++) {
+        int size = polyOpList.size();
+        for (int i = 0; i < size; i++) {
             Polygon polygon = map.addPolygon(polyOpList.get(i));
             polygon.setStrokeWidth(POLY_STROKE_WIDTH);
         }
+    }
+
+    public void setPlantLocation(String location){
+        Polygon polygon = map.addPolygon(polyOpList.get(10));
+        polygon.setFillColor(COLOR_AREA_A);
+        //Log.d("Farbe: ", location);
     }
 }

@@ -41,16 +41,11 @@
             android:text="@string/plant_location_prefix"
             android:textSize="20sp" />
 
-        <TextView
+        <Button
             android:id="@+id/plant_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:background="@color/light_red"
-            android:gravity="center"
-            android:text="@string/PLANT_LOCATION"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="@string/PLANT_LOCATION" />
 
         <TextView
             android:id="@+id/plant_currently_available"

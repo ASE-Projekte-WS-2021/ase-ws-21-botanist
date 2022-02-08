@@ -38,9 +38,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     //private ImageViewTouch map;
     private GoogleMap map;
     private MapView mapView;
+    private String location;
 
-    public static MapFragment newInstance() {
-        return new MapFragment();
+    public MapFragment(String location) {
+            this.location = location;
     }
 
     @Override
@@ -55,7 +56,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
         //create Map, TODO check permission
         mapView.getMapAsync(this);
-
         return v;
     }
 
@@ -65,7 +65,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         super.onStart();
         mapView.onStart();
         initGUI();
-        Log.d("test", "newmapFragment");
         mViewModel = new ViewModelProvider(this).get(MapViewModel.class);
     }
 
@@ -91,6 +90,9 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
         //setup polygons
         mViewModel.initData(map);
+        if (location != "") {
+            setPlantLocation(location);
+        }
     }
 
     private void initMap() {
@@ -140,5 +142,9 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     public void onLowMemory() {
         super.onLowMemory();
         mapView.onLowMemory();
+    }
+
+    private void setPlantLocation(String location) {
+        mViewModel.setPlantLocation(this.location);
     }
 }
