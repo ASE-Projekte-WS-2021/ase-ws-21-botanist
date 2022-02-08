@@ -57,15 +57,9 @@ public class MapViewModel extends ViewModel {
 
    public void initData (GoogleMap googleMap) {
        map = googleMap;
-
-       LatLng botanic_garden = new LatLng(48.993161, 12.090753);
-
-       map.addMarker(new MarkerOptions()
-               .position(botanic_garden)
-               .title("Marker"));
-
+       
        addPolygonsToMap();
-
+       LatLng botanic_garden = new LatLng(48.993161, 12.090753);
        map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanic_garden, 18));
 
 
