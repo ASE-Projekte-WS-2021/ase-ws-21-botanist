@@ -4,7 +4,10 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PolygonMaker {
 
@@ -35,43 +38,40 @@ public class PolygonMaker {
     private PolygonOptions polyOpY;
     private PolygonOptions polyOpZ;
 
-    private final List<PolygonOptions> polyOpList = new ArrayList<>();
-
+    private final HashMap<String,ArrayList<PolygonOptions>> polyOpList = new HashMap<>();;
+    
     public PolygonMaker() {
         initPolygonOptions();
         fillList();
     }
 
     private void fillList() {
-        polyOpList.add(polyOpA);
-        polyOpList.add(polyOpB);
-        polyOpList.add(polyOpC);
-        polyOpList.add(polyOpD);
-        polyOpList.add(polyOpE);
-        polyOpList.add(polyOpF);
-        polyOpList.add(polyOpG);
-        polyOpList.add(polyOpH);
-        polyOpList.add(polyOpI);
-        polyOpList.add(polyOpJ);
-        polyOpList.add(polyOpK);
-        polyOpList.add(polyOpL);
-        polyOpList.add(polyOpM);
-        polyOpList.add(polyOpN);
-        polyOpList.add(polyOpP);
-        polyOpList.add(polyOpR);
-        polyOpList.add(polyOpS);
-        polyOpList.add(polyOpTOne);
-        polyOpList.add(polyOpTTwo);
-        polyOpList.add(polyOpUOne);
-        polyOpList.add(polyOpUTwo);
-        polyOpList.add(polyOpUThree);
-        polyOpList.add(polyOpV);
-        polyOpList.add(polyOpX);
-        polyOpList.add(polyOpY);
-        polyOpList.add(polyOpZ);
+        polyOpList.put("A", new ArrayList(Arrays.asList(polyOpA)));
+        polyOpList.put("B", new ArrayList(Arrays.asList(polyOpB)));
+        polyOpList.put("C", new ArrayList(Arrays.asList(polyOpC)));
+        polyOpList.put("D", new ArrayList(Arrays.asList(polyOpD)));
+        polyOpList.put("E", new ArrayList(Arrays.asList(polyOpE)));
+        polyOpList.put("F", new ArrayList(Arrays.asList(polyOpF)));
+        polyOpList.put("G", new ArrayList(Arrays.asList(polyOpG)));
+        polyOpList.put("H", new ArrayList(Arrays.asList(polyOpH)));
+        polyOpList.put("I", new ArrayList(Arrays.asList(polyOpI)));
+        polyOpList.put("J", new ArrayList(Arrays.asList(polyOpJ)));
+        polyOpList.put("K", new ArrayList(Arrays.asList(polyOpK)));
+        polyOpList.put("L", new ArrayList(Arrays.asList(polyOpL)));
+        polyOpList.put("M", new ArrayList(Arrays.asList(polyOpM)));
+        polyOpList.put("N", new ArrayList(Arrays.asList(polyOpN)));
+        polyOpList.put("P", new ArrayList(Arrays.asList(polyOpP)));
+        polyOpList.put("R", new ArrayList(Arrays.asList(polyOpR)));
+        polyOpList.put("S", new ArrayList(Arrays.asList(polyOpS)));
+        polyOpList.put("T", new ArrayList(Arrays.asList(polyOpTOne, polyOpTTwo)));
+        polyOpList.put("U", new ArrayList(Arrays.asList(polyOpUOne,polyOpUTwo,polyOpUThree)));
+        polyOpList.put("V", new ArrayList(Arrays.asList(polyOpV)));
+        polyOpList.put("X", new ArrayList(Arrays.asList(polyOpX)));
+        polyOpList.put("Y", new ArrayList(Arrays.asList(polyOpY)));
+        polyOpList.put("Z", new ArrayList(Arrays.asList(polyOpZ)));
     }
 
-    public List<PolygonOptions> getPolyOptions() {
+    public HashMap<String,ArrayList<PolygonOptions>> getPolyOptions() {
         return polyOpList;
     }
 
