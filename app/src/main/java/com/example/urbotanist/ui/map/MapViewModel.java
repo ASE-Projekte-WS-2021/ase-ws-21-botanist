@@ -43,6 +43,12 @@ public class MapViewModel extends ViewModel {
 
     private List<PolygonOptions> polyOpList;
     private static final int POLY_STROKE_WIDTH = 6;
+    private static final int INDEX_T_ONE = 17;
+    private static final int INDEX_T_TWO = 18;
+    private static final int INDEX_U_ONE = 19;
+    private static final int INDEX_U_TWO = 20;
+    private static final int INDEX_U_THREE = 21;
+
 
     public MapViewModel() {
         polyMaker = new PolygonMaker();
@@ -50,11 +56,6 @@ public class MapViewModel extends ViewModel {
     }
 
    public void initData (GoogleMap googleMap) {
-       /**set marker
-       LatLng botanic_garden = new LatLng(48.993161, 12.090753);
-
-       Polygon area = map.addPolygon(polyOpA);
-       area.setFillColor(0x80C8D79E);**/
        map = googleMap;
 
        LatLng botanic_garden = new LatLng(48.993161, 12.090753);
@@ -79,8 +80,83 @@ public class MapViewModel extends ViewModel {
     }
 
     public void setPlantLocation(String location){
-        Polygon polygon = map.addPolygon(polyOpList.get(10));
-        polygon.setFillColor(COLOR_AREA_A);
+        switch (location) {
+            case "A":
+                map.addPolygon(polyOpList.get(0).fillColor(COLOR_AREA_A));
+                break;
+            case "B":
+                map.addPolygon(polyOpList.get(1).fillColor(COLOR_AREA_A));
+                break;
+            case "C":
+                map.addPolygon(polyOpList.get(2).fillColor(COLOR_AREA_A));
+                break;
+            case "D":
+                map.addPolygon(polyOpList.get(3).fillColor(COLOR_AREA_A));
+                break;
+            case "E":
+                map.addPolygon(polyOpList.get(4).fillColor(COLOR_AREA_A));
+                break;
+            case "F":
+                map.addPolygon(polyOpList.get(5).fillColor(COLOR_AREA_A));
+                break;
+            case "G":
+                map.addPolygon(polyOpList.get(6).fillColor(COLOR_AREA_A));
+                break;
+            case "H":
+                map.addPolygon(polyOpList.get(7).fillColor(COLOR_AREA_A));
+                break;
+            case "I":
+                map.addPolygon(polyOpList.get(8).fillColor(COLOR_AREA_A));
+                break;
+            case "J":
+                map.addPolygon(polyOpList.get(9).fillColor(COLOR_AREA_A));
+                break;
+            case "K":
+                map.addPolygon(polyOpList.get(10).fillColor(COLOR_AREA_A));
+                break;
+            case "L":
+                map.addPolygon(polyOpList.get(11).fillColor(COLOR_AREA_A));
+                break;
+            case "M":
+                map.addPolygon(polyOpList.get(12).fillColor(COLOR_AREA_A));
+                break;
+            case "N":
+                map.addPolygon(polyOpList.get(13).fillColor(COLOR_AREA_A));
+                break;
+            case "P":
+                map.addPolygon(polyOpList.get(14).fillColor(COLOR_AREA_A));
+                break;
+            case "R":
+                map.addPolygon(polyOpList.get(15).fillColor(COLOR_AREA_A));
+                break;
+            case "S":
+                map.addPolygon(polyOpList.get(16).fillColor(COLOR_AREA_A));
+                break;
+            case "T":
+                map.addPolygon(polyOpList.get(17).fillColor(COLOR_AREA_A));
+                map.addPolygon(polyOpList.get(18).fillColor(COLOR_AREA_A));
+                break;
+            case "U":
+                map.addPolygon(polyOpList.get(19).fillColor(COLOR_AREA_A));
+                map.addPolygon(polyOpList.get(20).fillColor(COLOR_AREA_A));
+                map.addPolygon(polyOpList.get(21).fillColor(COLOR_AREA_A));
+                break;
+            case "V":
+                map.addPolygon(polyOpList.get(22).fillColor(COLOR_AREA_A));
+                break;
+            case "X":
+                map.addPolygon(polyOpList.get(23).fillColor(COLOR_AREA_A));
+                break;
+            case "Y":
+                map.addPolygon(polyOpList.get(24).fillColor(COLOR_AREA_A));
+                break;
+            case "Z":
+                map.addPolygon(polyOpList.get(25).fillColor(COLOR_AREA_A));
+                break;
+        }
+
+        //Polygon polygon = map.addPolygon(polyOpList.get(10));
+        //polygon.setFillColor(COLOR_AREA_A);
         //Log.d("Farbe: ", location);
     }
 }

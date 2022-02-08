@@ -91,7 +91,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         //setup polygons
         mViewModel.initData(map);
         if (location != "") {
-            setPlantLocation(location);
+            setPlantLocation();
         }
     }
 
@@ -144,7 +144,8 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         mapView.onLowMemory();
     }
 
-    private void setPlantLocation(String location) {
-        mViewModel.setPlantLocation(this.location);
+    private void setPlantLocation() {
+        String areaType = location.substring(0,1);
+        mViewModel.setPlantLocation(areaType);
     }
 }
