@@ -6,13 +6,17 @@
         <entry key="..\:/01 - Uni/ASE - Projekt/ase-ws-21-botanist/app/src/main/res/layout/activity_main.xml" value="0.39791666666666664" />
         <entry key="..\:/01 - Uni/ASE - Projekt/ase-ws-21-botanist/app/src/main/res/layout/map_fragment.xml" value="0.39791666666666664" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable-anydpi/compass_icon.xml" value="0.21875" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable-anydpi/search_icon.xml" value="0.26871794871794874" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.21875" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/ic_botanist_logo_g.xml" value="0.21875" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/ic_botanist_logo_k.xml" value="0.21875" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/ic_icon_map.xml" value="0.26871794871794874" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/ic_icon_search.xml" value="0.26871794871794874" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/ic_launcher_background.xml" value="0.21875" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.21875" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/ic_plantitemcard.xml" value="0.21875" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/icon_background.xml" value="0.21875" />
-        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/activity_main.xml" value="0.2046875" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/fragment_inventory_search_list.xml" value="0.2210144927536232" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/info_fragment.xml" value="0.2210144927536232" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/inventory_favorites_fragment.xml" value="0.20652173913043478" />
@@ -21,6 +25,10 @@
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/plant_fragment.xml" value="0.17831813576494426" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/search_fragment.xml" value="0.1838768115942029" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/search_result_item.xml" value="0.15942028985507245" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.26871794871794874" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.22135416666666666" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/mipmap-anydpi-v26/icon.xml" value="0.26871794871794874" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/mipmap-anydpi-v26/icon_round.xml" value="0.21875" />
       </map>
     </option>
   </component>

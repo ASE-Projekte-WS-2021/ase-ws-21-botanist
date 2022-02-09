@@ -46,7 +46,10 @@
             android:layout_height="match_parent"
             android:elevation="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/compass_icon"
+            android:layout_marginBottom="15dp"
+            android:scaleX="0.95"
+            android:scaleY="0.95"
+            android:src="@drawable/ic_icon_map"
             app:layout_constraintLeft_toLeftOf="@id/map_button"
             app:layout_constraintRight_toRightOf="@id/map_button"
             app:tint="@color/green" />
@@ -69,7 +72,10 @@
             android:layout_height="match_parent"
             android:elevation="8dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/search_icon"
+            android:layout_marginBottom="10dp"
+            android:scaleX="0.86"
+            android:scaleY="0.86"
+            android:src="@drawable/ic_icon_search"
             app:layout_constraintEnd_toEndOf="@id/search_button"
             app:layout_constraintStart_toStartOf="@id/search_button"
             app:tint="@color/green" />
