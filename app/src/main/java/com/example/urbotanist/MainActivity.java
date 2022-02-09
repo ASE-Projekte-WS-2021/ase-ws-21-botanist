@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     public InfoFragment infoFragment = new InfoFragment();
     public PlantFragment plantFragment = new PlantFragment();
     Plant currentPlant;
+    private Button showMapButton;
+    private Button searchButton;
+    private Button infoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,49 +70,44 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     
 
     private void setUpButtons() {
-        Button showMapButton = findViewById(R.id.map_button);
-        Button searchButton = findViewById(R.id.search_button);
-        Button infoButton = findViewById(R.id.bar_icon_background);
-        Button[] allButtons = {showMapButton, searchButton, infoButton};
-        focusButton(allButtons, showMapButton);
+        showMapButton = findViewById(R.id.map_button);
+        searchButton = findViewById(R.id.search_button);
+        infoButton = findViewById(R.id.bar_icon_background);
         showMapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                focusButton(allButtons, showMapButton);
                 loadCurrentScreenFragment(mapFragment);
             }
         });
-
-
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                focusButton(allButtons, searchButton);
                 loadCurrentScreenFragment(searchFragment);
             }
         });
-
-
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                focusButton(allButtons, infoButton);
                 loadCurrentScreenFragment(infoFragment);
 
             }
         });
 
     }
-    private void resetButtons(Button[] buttons){
-        for (Button button : buttons) {
-            button.getBackground().setAlpha(128);
-        }
-    }
-
-    private void focusButton(Button[] buttons, Button focusButton){
-        resetButtons(buttons);
+    private void focusButton(Button focusButton){
+        infoButton.getBackground().setAlpha(128);
+        searchButton.getBackground().setAlpha(128);
+        showMapButton.getBackground().setAlpha(128);
         focusButton.getBackground().setAlpha(255);
     }
 
 
     public void loadCurrentScreenFragment(Fragment fragment){
+        String fragmentName = fragment.getClass().getSimpleName();
+        if (infoFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(infoButton);
+        } else if (searchFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(searchButton);
+        } else if (mapFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(showMapButton);
+        }
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
