@@ -3,30 +3,109 @@
     android:id="@+id/activityLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@android:style/Theme.Light.NoTitleBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <it.sephiroth.android.library.imagezoom.ImageViewTouch
-        android:id="@+id/map"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/light_grey"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp" />
 
-    <Button
-        android:id="@+id/infoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SeeMapInfo"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:background="@color/green"
+        android:layout_marginTop="10dp"
+        android:layout_height="115dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <Button
+            android:id="@+id/map_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bar_icon_background"
+            android:orientation="vertical"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintWidth_percent="0.30" />
+
+        <ImageView
+            android:id="@+id/compass_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:elevation="8dp"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="15dp"
+            android:scaleX="0.95"
+            android:scaleY="0.95"
+            android:src="@drawable/ic_icon_map"
+            app:layout_constraintLeft_toLeftOf="@id/map_button"
+            app:layout_constraintRight_toRightOf="@id/map_button"
+            app:tint="@color/green" />
+
+        />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bar_icon_background"
+            android:orientation="vertical"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/map_button"
+            app:layout_constraintWidth_percent="0.30" />
+
+        <ImageView
+            android:id="@+id/search_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:elevation="8dp"
+            android:scaleType="fitCenter"
+            android:layout_marginBottom="10dp"
+            android:scaleX="0.86"
+            android:scaleY="0.86"
+            android:src="@drawable/ic_icon_search"
+            app:layout_constraintEnd_toEndOf="@id/search_button"
+            app:layout_constraintStart_toStartOf="@id/search_button"
+            app:tint="@color/green" />
+
+        <Button
+            android:id="@+id/bar_icon_background"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/botanist_icon_background"
+            android:orientation="vertical"
+            app:layout_constraintBaseline_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.40"
+
+            />
+
+        <ImageView
+            android:id="@+id/bar_icon"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="27dp"
+            android:elevation="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/botanist_icon"
+            app:layout_constraintLeft_toLeftOf="@id/bar_icon_background"
+            app:layout_constraintRight_toRightOf="@id/bar_icon_background"
+            app:tint="@color/green" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,64 +1,148 @@
 package com.example.urbotanist;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.motion.widget.Debug;
-import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
-
-
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ImageButton;
 
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
-import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
+import com.example.urbotanist.database.DatabaseAdapterActivity;
+import com.example.urbotanist.ui.Plant.Plant;
+import com.example.urbotanist.ui.Plant.PlantFragment;
+import com.example.urbotanist.ui.Plant.PlantSelectedListener;
+import com.example.urbotanist.ui.Search.SearchFragment;
+import com.example.urbotanist.ui.Search.SearchListener;
+import com.example.urbotanist.ui.info.InfoFragment;
+import com.example.urbotanist.ui.map.MapFragment;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
-public class MainActivity extends AppCompatActivity {
-    private ImageViewTouch map;
+import java.util.ArrayList;
+import java.util.List;
+
+
+public class MainActivity extends AppCompatActivity implements SearchListener, PlantSelectedListener {
+    DatabaseAdapterActivity mDbHelper;
+
+    public MapFragment mapFragment = new MapFragment("");
+    public SearchFragment searchFragment = new SearchFragment();
+    public InfoFragment infoFragment = new InfoFragment();
+    public PlantFragment plantFragment = new PlantFragment();
+    Plant currentPlant;
+    private Button showMapButton;
+    private Button searchButton;
+    private Button infoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-        initGUI();
 
-    }
+        setUpButtons();
+        initDatabase();
+        loadCurrentScreenFragment(mapFragment);
 
-    private void initGUI(){
-        loadMap();
-        loadButtons();
-    }
-
-    private void loadMap(){
-        map = findViewById(R.id.map);
-        map.setImageResource(R.drawable.garden_map);
-        map.setDisplayType(ImageViewTouchBase.DisplayType.FIT_HEIGHT);
-        map.setScrollEnabled(true);
-        map.setQuickScaleEnabled(true);
-
-    }
-
-    private void loadButtons(){
-        Button infoButton = findViewById(R.id.infoButton);
-        infoButton.setOnClickListener(new View.OnClickListener() {
+        plantFragment.setAreaSelectListener(new PlantSelectedListener() {
             @Override
-            public void onClick(View view) {
-                Log.d("pivot", "x: "+map.getScrollY());
-                Log.d("pivot", "y: "+map.getClipBounds().centerX());
+            public void onAreaSelected(String location) {
+                showMapWithArea(location);
+            }
+        });
+    }
+
+    private void showMapWithArea(String location){
+        MapFragment locationFragment = new MapFragment(location);
+        plantFragment.closeWindow();
+        loadCurrentScreenFragment(locationFragment);
+    }
+
+    private void initDatabase() {
+        mDbHelper = new DatabaseAdapterActivity(this);
+        mDbHelper.createDatabase();
+    }
+
+    
+
+    private void setUpButtons() {
+        showMapButton = findViewById(R.id.map_button);
+        searchButton = findViewById(R.id.search_button);
+        infoButton = findViewById(R.id.bar_icon_background);
+        showMapButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loadCurrentScreenFragment(mapFragment);
+            }
+        });
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loadCurrentScreenFragment(searchFragment);
+            }
+        });
+        infoButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                loadCurrentScreenFragment(infoFragment);
+
             }
         });
 
-        Button pivotButton = new Button(this);
-        pivotButton.setBackgroundResource(R.drawable.round_button);
+    }
+    private void focusButton(Button focusButton){
+        infoButton.getBackground().setAlpha(128);
+        searchButton.getBackground().setAlpha(128);
+        showMapButton.getBackground().setAlpha(128);
+        focusButton.getBackground().setAlpha(255);
+    }
 
-        ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.activityLayout);
-        layout.addView(pivotButton);
-        pivotButton.setX(map.getTranslationX());
-        pivotButton.setY(map.getPivotY());
+
+    public void loadCurrentScreenFragment(Fragment fragment){
+        String fragmentName = fragment.getClass().getSimpleName();
+        if (infoFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(infoButton);
+        } else if (searchFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(searchButton);
+        } else if (mapFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(showMapButton);
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
+    }
+
+    public void setCurrentPlant(Plant plant){
+        this.currentPlant = plant;
+    }
+    public Plant getCurrentPlant(){
+        return this.currentPlant;
+    }
 
 
+    @Override
+    public List<Plant> searchPlant(String searchTerm) {
+        mDbHelper.open();
+        ArrayList<Plant> foundPlants = mDbHelper.getSearchResult(searchTerm);
+        mDbHelper.close();
+        return foundPlants;
+    }
+
+    @Override
+    public ArrayList<String> searchLocations(String genus, String type){
+        mDbHelper.open();
+        ArrayList<String> newLocations = mDbHelper.getLocationsForPlant(genus, type);
+        mDbHelper.close();
+        return newLocations;
+    }
+
+    @Override
+    public void onAreaSelected(String location) {
+        showMapWithArea(location);
+        //for each location show on map
+        /*
+        for (int i = 0; i < locations.size(); i++){
+            initPlantArea(locations.get(i)[0]);
+        }
+        */
     }
 }
