@@ -167,6 +167,15 @@
                     android:text="@string/PLANT_COMMON_NAME"
                     android:textSize="15sp" />
 
+                <TextView
+                    android:id="@+id/plant_alternative_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:gravity="center"
+                    android:text="@string/PLANT_COMMON_NAME"
+                    android:textSize="15sp" />
+
 
             </LinearLayout>
         </LinearLayout>

@@ -7,6 +7,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -25,12 +26,14 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.contentcapture.ContentCaptureCondition;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
+import com.example.urbotanist.ui.Search.SearchListener;
 
 public class PlantFragment extends DialogFragment{
 
@@ -41,6 +44,8 @@ public class PlantFragment extends DialogFragment{
     private Button plantLocationButton;
     private TextView plantCommonNameView;
     private TextView plantGenusNameView;
+    private TextView plantAlternativeLocation;
+    private SearchListener searchListener;
 
     private PlantSelectedListener listener;
 
@@ -59,6 +64,7 @@ public class PlantFragment extends DialogFragment{
         plantTypeNameView = v.findViewById(R.id.plant_type_name);
         plantLocationButton = v.findViewById(R.id.plant_location);
         plantCommonNameView = v.findViewById(R.id.plant_common_name);
+        plantAlternativeLocation = v.findViewById(R.id.plant_alternative_location);
 
         plantLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +76,16 @@ public class PlantFragment extends DialogFragment{
         });
 
         return v;
+    }
+
+    @Override
+    public void onAttach(Context context){
+        super.onAttach(context);
+        try{
+            searchListener = (SearchListener) context;
+        }catch (ClassCastException e){
+            Log.e("CastException", "Activity must extend searchListener: " + e.getLocalizedMessage());
+        }
     }
 
 
@@ -106,8 +122,10 @@ public class PlantFragment extends DialogFragment{
         plantGenusNameView.setText(mViewModel.selectedPlant.genusName);
         plantFamilyNameView.setText(mViewModel.selectedPlant.familyName);
         plantTypeNameView.setText(mViewModel.selectedPlant.typeName);
+
         plantLocationButton.setText(mViewModel.selectedPlant.location);
         plantCommonNameView.setText(mViewModel.selectedPlant.commonName);
+        plantAlternativeLocation.setText(searchListener.searchLocations(mViewModel.selectedPlant.genusName, mViewModel.selectedPlant.typeName).get(0)[0]);
     }
 
     public void setPlantSelectListener(PlantSelectedListener listener) {

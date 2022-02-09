@@ -6,7 +6,6 @@ public class PlantViewModel extends ViewModel {
 
     Plant selectedPlant;
 
-
     public void setSelectedPlant(Plant selectedPlant){
         this.selectedPlant = selectedPlant;
     };

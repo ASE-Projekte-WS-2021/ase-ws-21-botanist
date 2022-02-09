@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     public InfoFragment infoFragment = new InfoFragment();
     public PlantFragment plantFragment = new PlantFragment();
     Plant currentPlant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +111,21 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     }
 
     @Override
+    public ArrayList<String[]> searchLocations(String genus, String type){
+        mDbHelper.open();
+        ArrayList<String[]> newLocations = mDbHelper.getLocationsForPlant(genus, type);
+        mDbHelper.close();
+        return newLocations;
+    }
+
+    @Override
     public void onPlantSelected(String location) {
         initPlantArea(location);
+        //for each location show on map
+        /*
+        for (int i = 0; i < locations.size(); i++){
+            initPlantArea(locations.get(i)[0]);
+        }
+        */
     }
 }
