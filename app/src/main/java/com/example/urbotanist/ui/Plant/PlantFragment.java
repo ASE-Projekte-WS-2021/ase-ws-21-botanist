@@ -39,6 +39,7 @@ public class PlantFragment extends DialogFragment{
     private GridLayout alternativeLocationContainer;
     private SearchListener searchListener;
 
+
     private PlantSelectedListener listener;
 
     public static PlantFragment newInstance() {
@@ -56,6 +57,16 @@ public class PlantFragment extends DialogFragment{
         plantTypeNameView = v.findViewById(R.id.plant_type_name);
         plantCommonNameView = v.findViewById(R.id.plant_common_name);
         alternativeLocationContainer = v.findViewById(R.id.alternative_locations_container);
+
+
+        plantLocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    listener.onAreaSelected(mViewModel.selectedPlant.location);
+                }
+            }
+        });
 
         return v;
     }
@@ -80,8 +91,8 @@ public class PlantFragment extends DialogFragment{
         setupUi();
         Window window = getDialog().getWindow();
         window.setGravity(Gravity.TOP|Gravity.RIGHT);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.90);
-        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.75);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.95);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.90);
         window.setLayout(width, height);
         WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
         p.y = (int)(getResources().getDisplayMetrics().heightPixels*0.04);

@@ -70,6 +70,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     public void onStart() {
         super.onStart();
         mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+
     }
 
     public void initSearch(){

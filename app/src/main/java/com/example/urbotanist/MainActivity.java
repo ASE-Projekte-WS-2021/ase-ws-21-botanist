@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.urbotanist.database.DatabaseAdapterActivity;
 import com.example.urbotanist.ui.Plant.Plant;
@@ -32,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     public InfoFragment infoFragment = new InfoFragment();
     public PlantFragment plantFragment = new PlantFragment();
     Plant currentPlant;
+    private Button showMapButton;
+    private Button searchButton;
+    private Button infoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
 
         setUpButtons();
         initDatabase();
+        loadCurrentScreenFragment(mapFragment);
 
         plantFragment.setAreaSelectListener(new PlantSelectedListener() {
             @Override
@@ -64,33 +70,44 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     
 
     private void setUpButtons() {
-        Button showMapButton = findViewById(R.id.map_button);
-
+        showMapButton = findViewById(R.id.map_button);
+        searchButton = findViewById(R.id.search_button);
+        infoButton = findViewById(R.id.bar_icon_background);
         showMapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loadCurrentScreenFragment(mapFragment);
             }
         });
-
-        Button searchButton = findViewById(R.id.search_button);
-
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loadCurrentScreenFragment(searchFragment);
             }
         });
-
-        Button infoButton = findViewById(R.id.bar_icon_background);
-
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loadCurrentScreenFragment(infoFragment);
+
             }
         });
+
+    }
+    private void focusButton(Button focusButton){
+        infoButton.getBackground().setAlpha(128);
+        searchButton.getBackground().setAlpha(128);
+        showMapButton.getBackground().setAlpha(128);
+        focusButton.getBackground().setAlpha(255);
     }
 
 
     public void loadCurrentScreenFragment(Fragment fragment){
+        String fragmentName = fragment.getClass().getSimpleName();
+        if (infoFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(infoButton);
+        } else if (searchFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(searchButton);
+        } else if (mapFragment.getClass().getSimpleName().equals(fragmentName)) {
+            focusButton(showMapButton);
+        }
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).commit();
     }
 
