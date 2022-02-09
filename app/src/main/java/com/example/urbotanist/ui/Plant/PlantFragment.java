@@ -91,8 +91,8 @@ public class PlantFragment extends DialogFragment{
         setupUi();
         Window window = getDialog().getWindow();
         window.setGravity(Gravity.TOP|Gravity.RIGHT);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.90);
-        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.75);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.95);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.90);
         window.setLayout(width, height);
         WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
         p.y = (int)(getResources().getDisplayMetrics().heightPixels*0.04);
