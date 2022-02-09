@@ -21,6 +21,6 @@
     <string name="PLANT_COMMON_NAME">PLANT_COMMON_NAME</string>
     <string name="PLANT_LOCATION">XY</string>
     <string name="PLANT_AVAILABILTY">  ️  ✓  ️</string>
-    <string name="alternative_locations_header">Other locations of this plant:</string>
+    <string name="plant_locations_header">Locations:</string>
 
 </resources>

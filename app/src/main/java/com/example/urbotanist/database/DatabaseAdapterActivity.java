@@ -102,8 +102,9 @@ public class DatabaseAdapterActivity {
             if (mCur != null) {
                 while (mCur.moveToNext()) {
                     String locShort = mCur.getString(9);
-                    //String locLong = mCur.getString(10);
-                    locations.add(locShort);
+                    if(!locations.contains(locShort)) {
+                        locations.add(locShort);
+                    }
                 }
             }
             return locations;
