@@ -1,39 +1,34 @@
 package com.example.urbotanist.ui.map;
 
-import androidx.core.app.ActivityCompat;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
 
-import java.util.ArrayList;
 
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
-import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
+public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback, ActivityResultCallback {
 
-public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback {
-
+    private String TAG = "MapFragment";
     private MapViewModel mViewModel;
     //private ImageViewTouch map;
     private GoogleMap map;
@@ -95,17 +90,34 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         }
     }
 
+
     private void initMap() {
         map.getUiSettings().setZoomControlsEnabled(true);
 
-        //get user location
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[] { Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION }, 100);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        if(mainActivity != null) {
+            if ((ContextCompat.checkSelfPermission(
+                    getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
+                    getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED)) {
+                // You can use the API that requires the permission.
+            } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) && mainActivity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                // In an educational UI, explain to the user why your app requires this
+                // permission for a specific feature to behave as expected. In this UI,
+                // include a "cancel" or "no thanks" button that allows the user to
+                // continue using your app without granting the permission.
+            } else {
+                // You can directly ask for the permission.
+                // The registered ActivityResultCallback gets the result of this request.
+                requestPermissionLauncher.launch(
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION});
+            }
+
         }
-        map.setMyLocationEnabled(true);
-        map.getUiSettings().setMyLocationButtonEnabled(true);
+
     }
+
 
 
     @Override
@@ -148,4 +160,17 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         String areaType = location.substring(0,1);
         mViewModel.setPlantLocation(areaType);
     }
+
+    @Override
+    public void onActivityResult(Object result) {
+
+    }
+
+    @SuppressLint("MissingPermission")
+    private ActivityResultLauncher<String[]> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
+        if(permissions.get(Manifest.permission.ACCESS_COARSE_LOCATION) && permissions.get(Manifest.permission.ACCESS_FINE_LOCATION)){
+            map.setMyLocationEnabled(true);
+            map.getUiSettings().setMyLocationButtonEnabled(true);
+            }
+    });
 }
