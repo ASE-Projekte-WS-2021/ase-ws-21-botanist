@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.urbotanist.database.DatabaseAdapterActivity;
 import com.example.urbotanist.ui.Plant.Plant;
@@ -41,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
 
         setUpButtons();
         initDatabase();
+        loadCurrentScreenFragment(mapFragment);
 
         plantFragment.setAreaSelectListener(new PlantSelectedListener() {
             @Override
@@ -65,28 +68,44 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
 
     private void setUpButtons() {
         Button showMapButton = findViewById(R.id.map_button);
-
+        Button searchButton = findViewById(R.id.search_button);
+        Button infoButton = findViewById(R.id.bar_icon_background);
+        Button[] allButtons = {showMapButton, searchButton, infoButton};
+        focusButton(allButtons, showMapButton);
         showMapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                focusButton(allButtons, showMapButton);
                 loadCurrentScreenFragment(mapFragment);
             }
         });
 
-        Button searchButton = findViewById(R.id.search_button);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                focusButton(allButtons, searchButton);
                 loadCurrentScreenFragment(searchFragment);
             }
         });
 
-        Button infoButton = findViewById(R.id.bar_icon_background);
 
         infoButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                focusButton(allButtons, infoButton);
                 loadCurrentScreenFragment(infoFragment);
+
             }
         });
+
+    }
+    private void resetButtons(Button[] buttons){
+        for (Button button : buttons) {
+            button.getBackground().setAlpha(128);
+        }
+    }
+
+    private void focusButton(Button[] buttons, Button focusButton){
+        resetButtons(buttons);
+        focusButton.getBackground().setAlpha(255);
     }
 
 

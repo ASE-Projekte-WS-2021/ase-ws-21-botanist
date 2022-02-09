@@ -38,6 +38,7 @@ public class PlantFragment extends DialogFragment{
     private LinearLayout alternativeLocationContainer;
     private SearchListener searchListener;
 
+
     private PlantSelectedListener listener;
 
     public static PlantFragment newInstance() {
@@ -56,6 +57,7 @@ public class PlantFragment extends DialogFragment{
         plantLocationButton = v.findViewById(R.id.plant_location);
         plantCommonNameView = v.findViewById(R.id.plant_common_name);
         alternativeLocationContainer = v.findViewById(R.id.alternative_locations_container);
+
 
         plantLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
