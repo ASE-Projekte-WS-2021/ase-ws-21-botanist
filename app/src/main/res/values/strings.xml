@@ -3,7 +3,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="google_maps_key">AIzaSyBMvybxlFfbGFtJE-zcAzRVDsYvAarRhDo</string>
-    <string name="info">Öffungszeiten</string>
+    <string name="info">Info</string>
     <string name="infoContent">Mo-Mi:  7.00-16.00 Uhr\nDo:  7.00-15.30 Uhr\nFr:
         7.00-14.00 Uhr\nSa:    geschlossen\nSo: 11.00-18.00 Uhr</string>
     <string name="impressum">Impressum</string>

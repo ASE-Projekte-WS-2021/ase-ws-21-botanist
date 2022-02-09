@@ -9,88 +9,91 @@
     android:background="@color/green"
     tools:context=".MainActivity">
 
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="4dp"
         app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent="0.83"/>
-
+        tools:layout_editor_absoluteX="0dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintHeight_percent="0.17"
+        android:layout_marginTop="10dp"
+        android:layout_height="120dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <Button
             android:id="@+id/map_button"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.30"
             android:layout_height="match_parent"
             android:background="@drawable/bar_icon_background"
+            android:orientation="vertical"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:orientation="vertical" />
+            app:layout_constraintWidth_percent="0.30" />
 
         <ImageView
             android:id="@+id/compass_icon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:elevation="8dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/compass_icon"
             app:layout_constraintLeft_toLeftOf="@id/map_button"
             app:layout_constraintRight_toRightOf="@id/map_button"
-            app:tint="@color/green"
-            android:scaleType="fitCenter"
-            android:elevation="8dp"/>
+            app:tint="@color/green" />
 
-            />
+        />
+
         <Button
             android:id="@+id/search_button"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.30"
             android:layout_height="match_parent"
             android:background="@drawable/bar_icon_background"
+            android:orientation="vertical"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/map_button"
-            android:orientation="vertical" />
+            app:layout_constraintWidth_percent="0.30" />
 
         <ImageView
             android:id="@+id/search_icon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/search_icon"
-            app:layout_constraintStart_toStartOf="@id/search_button"
-            app:layout_constraintEnd_toEndOf="@id/search_button"
-            app:tint="@color/green"
+            android:elevation="8dp"
             android:scaleType="fitCenter"
-            android:elevation="8dp"/>
+            android:src="@drawable/search_icon"
+            app:layout_constraintEnd_toEndOf="@id/search_button"
+            app:layout_constraintStart_toStartOf="@id/search_button"
+            app:tint="@color/green" />
 
         <Button
             android:id="@+id/bar_icon_background"
             android:layout_width="0dp"
-            app:layout_constraintWidth_percent="0.40"
             android:layout_height="match_parent"
             android:background="@drawable/botanist_icon_background"
+            android:orientation="vertical"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:orientation="vertical"
+            app:layout_constraintWidth_percent="0.40"
 
             />
+
         <ImageView
             android:id="@+id/bar_icon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:src="@drawable/botanist_icon"
             android:layout_marginLeft="27dp"
+            android:elevation="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/botanist_icon"
             app:layout_constraintLeft_toLeftOf="@id/bar_icon_background"
             app:layout_constraintRight_toRightOf="@id/bar_icon_background"
-            app:tint="@color/green"
-            android:scaleType="fitCenter"
-            android:elevation="8dp"
-            />
-
+            app:tint="@color/green" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
