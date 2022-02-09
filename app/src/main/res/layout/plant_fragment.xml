@@ -62,6 +62,7 @@
     </LinearLayout>
 
     <ScrollView
+        android:id="@+id/plant_info_scoll_view_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/position_info_container">
@@ -167,19 +168,35 @@
                     android:text="@string/PLANT_COMMON_NAME"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/plant_alternative_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:gravity="center"
-                    android:text="@string/PLANT_COMMON_NAME"
-                    android:textSize="15sp" />
-
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/alternative_locations_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:text="@string/alternative_locations_header"
+        app:layout_constraintTop_toBottomOf="@+id/plant_info_scoll_view_container"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/alternative_locations_container"
+        app:layout_constraintTop_toBottomOf="@+id/alternative_locations_header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:gravity="center"
+        android:orientation="horizontal" />
+
+
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface SearchListener {
     public List<Plant> searchPlant(String searchTerm);
-    public ArrayList<String[]> searchLocations(String genus, String type);
+    public ArrayList<String> searchLocations(String genus, String type);
 }

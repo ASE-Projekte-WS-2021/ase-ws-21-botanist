@@ -1,7 +1,6 @@
-package com.example.urbotanist;
+package com.example.urbotanist.database;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -91,20 +90,20 @@ public class DatabaseAdapterActivity {
     }
 
     // plantnames are unique by type and genus
-    public ArrayList<String[]> getLocationsForPlant(String genus, String type) {
-        ArrayList<String[]> locations= new ArrayList<String[]>();
+    public ArrayList<String> getLocationsForPlant(String genus, String type) {
+        ArrayList<String> locations= new ArrayList<String>();
         try {
             String sql = "SELECT * FROM plantDatabase" +
-                    " WHERE plantDatabase.GATTUNG LIKE '%" + genus + "%'" +
-                    " AND plantDatabase.ART LIKE '%" + type + "%'" +
-                    " AND plantDatabase.BESTAND LIKE '%+%'";
+                    " WHERE plantDatabase.GATTUNG='"+ genus +
+                    "' AND plantDatabase.ART='"+type +
+                    "' AND plantDatabase.BESTAND='+' ";
 
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur != null) {
                 while (mCur.moveToNext()) {
                     String locShort = mCur.getString(9);
-                    String locLong = mCur.getString(10);
-                    locations.add(new String[]{ locShort , locLong});
+                    //String locLong = mCur.getString(10);
+                    locations.add(locShort);
                 }
             }
             return locations;

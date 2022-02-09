@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.urbotanist.database.DatabaseAdapterActivity;
 import com.example.urbotanist.ui.Plant.Plant;
 import com.example.urbotanist.ui.Plant.PlantFragment;
 import com.example.urbotanist.ui.Plant.PlantSelectedListener;
@@ -41,16 +42,15 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
         setUpButtons();
         initDatabase();
 
-        plantFragment.setPlantSelectListener(new PlantSelectedListener() {
+        plantFragment.setAreaSelectListener(new PlantSelectedListener() {
             @Override
-            public void onPlantSelected(String location) {
-                initPlantArea(location);
+            public void onAreaSelected(String location) {
+                showMapWithArea(location);
             }
         });
-        //plantFragment.setPlantSelectListener(this::onPlantSelected);
     }
 
-    private void initPlantArea(String location){
+    private void showMapWithArea(String location){
         MapFragment locationFragment = new MapFragment(location);
         plantFragment.closeWindow();
         loadCurrentScreenFragment(locationFragment);
@@ -111,16 +111,16 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     }
 
     @Override
-    public ArrayList<String[]> searchLocations(String genus, String type){
+    public ArrayList<String> searchLocations(String genus, String type){
         mDbHelper.open();
-        ArrayList<String[]> newLocations = mDbHelper.getLocationsForPlant(genus, type);
+        ArrayList<String> newLocations = mDbHelper.getLocationsForPlant(genus, type);
         mDbHelper.close();
         return newLocations;
     }
 
     @Override
-    public void onPlantSelected(String location) {
-        initPlantArea(location);
+    public void onAreaSelected(String location) {
+        showMapWithArea(location);
         //for each location show on map
         /*
         for (int i = 0; i < locations.size(); i++){

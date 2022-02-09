@@ -1,4 +1,4 @@
-package com.example.urbotanist;
+package com.example.urbotanist.database;
 
 import android.content.Context;
 import android.database.Cursor;
