@@ -58,16 +58,6 @@ public class PlantFragment extends DialogFragment{
         plantCommonNameView = v.findViewById(R.id.plant_common_name);
         alternativeLocationContainer = v.findViewById(R.id.alternative_locations_container);
 
-
-        plantLocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (listener != null) {
-                    listener.onAreaSelected(mViewModel.selectedPlant.location);
-                }
-            }
-        });
-
         return v;
     }
 
