@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
@@ -33,6 +34,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     private SearchListener searchListener;
     private RecyclerView searchListRecycler;
     private PlantSearchAdapter searchListAdapter;
+    private TextView noSearchResultsText;
     private String TAG = this.getClass().getSimpleName();
 
     public static SearchFragment newInstance() {
@@ -55,7 +57,8 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.search_fragment, container, false);
         searchView = v.findViewById(R.id.search_bar);
-        searchListRecycler = v.findViewById(R.id.searchListRecycler);
+        searchListRecycler = v.findViewById(R.id.search_list_recycler);
+        noSearchResultsText = v.findViewById(R.id.no_search_results_text);
         searchListAdapter = new PlantSearchAdapter(Collections.emptyList(),this::onSearchResultClick);
         searchListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
         searchListRecycler.setAdapter(searchListAdapter);
@@ -80,6 +83,12 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
                 List<Plant> foundPlants =  searchListener.searchPlant(query);
                 //searchListAdapter = new PlantSearchAdapter(plantNames);
                 searchListAdapter.localDataSet = foundPlants;
+                if(foundPlants.size() > 0){
+                    noSearchResultsText.setVisibility(View.GONE);
+                }
+                else{
+                    noSearchResultsText.setVisibility(View.VISIBLE);
+                }
                 searchListAdapter.notifyDataSetChanged();
                 return false;
             }
@@ -90,6 +99,12 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
                 //searchListAdapter = new PlantSearchAdapter(plantNames);
                 searchListAdapter.localDataSet = foundPlants;
                 searchListAdapter.notifyDataSetChanged();
+                if(foundPlants.size() > 0){
+                    noSearchResultsText.setVisibility(View.GONE);
+                }
+                else{
+                    noSearchResultsText.setVisibility(View.VISIBLE);
+                }
                 return false;
             }
         });

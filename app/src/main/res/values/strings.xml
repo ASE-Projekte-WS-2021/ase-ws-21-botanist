@@ -22,5 +22,6 @@
     <string name="PLANT_LOCATION">XY</string>
     <string name="PLANT_AVAILABILTY">  ️  ✓  ️</string>
     <string name="plant_locations_header">Locations:</string>
+    <string name="no_search_results_found">Keine Ergebnisse gefunden</string>
 
 </resources>
