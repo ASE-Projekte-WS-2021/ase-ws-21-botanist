@@ -3,37 +3,25 @@ on:
   push:
     branches: [ main ]
 jobs:
-  build:
+  APK:
+      name: Generate APK
       runs-on: ubuntu-latest
       steps:
         # https://github.com/actions/checkout
         - name: git-checkout
           uses: actions/checkout@v2
-        - name: Set up our JDK environment
-          uses: actions/setup-java@v1.4.3
+        - name: Set up JDK environment
+          uses: actions/setup-java@v2.5.0
           with:
-            java-version: 11
-        - name: build Apk
-          id: buildAPK
-          uses: eskatos/gradle-command-action@v1.3.3
-          with:
-            gradle-version: current
-            wrapper-cache-enabled: true
-            dependencies-cache-enabled: true
-            configuration-cache-enabled: true
-            arguments: assembleRelease
-        # Tests should happend here
-        #- name: Sign apk
-        #  id: signApk
-        #  uses: r0adkll/sign-android-release@v1.0.1
-        #  with:
-        #    releaseDirectory: app/build/outputs/apk/ourbuildtype/release
-            #alias: ${{ secrets.KEYALIAS }}
-            #signingKeyBase64: ${{ secrets.KEYSTORE }}
-            #keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-            #keyPassword: ${{ secrets.KEY_PASSWORD }}
+            distribution: 'zulu' # See 'Supported distributions' for available options
+            java-version: '11'
+        - name: Set execution flag for gradlew
+          run: chmod +x gradlew
+        - name: Build APK
+          run: bash ./gradlew assembleDebug --stacktrace
         - name: Upload APK
-          uses: actions/upload-artifact@v2.2.0
+          uses: actions/upload-artifact@v1
           with:
-            name: Release artifact
-            path: app/build/outputs/apk/dev/app-artifact-*.apk
+            name: apk
+            path: app/build/outputs/apk/debug/app-debug.apk
+       

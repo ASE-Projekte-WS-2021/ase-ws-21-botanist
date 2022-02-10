@@ -41,5 +41,6 @@
     <string name="PLANT_AVAILABILTY">  ️  ✓  ️</string>
     <string name="plant_locations_header">Standorte:</string>
     <string name="no_search_results_found">Keine Ergebnisse gefunden</string>
+    <string name="user_position_button_text">Meine Position zeigen</string>
 
 </resources>

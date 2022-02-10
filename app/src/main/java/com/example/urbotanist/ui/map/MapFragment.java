@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
@@ -24,9 +25,17 @@ import com.example.urbotanist.ui.CurrentScreenFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 
 public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback, ActivityResultCallback {
+
+    private final LatLng SOUTH_WEST_MAP_BORDER = new LatLng(48.992262952936514,12.089423798024654);
+    private final LatLng NORTH_EAST_MAP_BORDER = new LatLng(48.995638443353734,12.093880958855152);
+    private final float MIN_ZOOM_LEVEL = 13.314879f;
+    private final float MAX_ZOOM_LEVEL = 19.351759f;
+    private final LatLngBounds MAP_BOUNDS = new LatLngBounds(SOUTH_WEST_MAP_BORDER,NORTH_EAST_MAP_BORDER);
 
     private String TAG = "MapFragment";
     private MapViewModel mViewModel;
@@ -34,6 +43,8 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     private GoogleMap map;
     private MapView mapView;
     private String location;
+    private Button showUserPositionButton;
+
 
     public MapFragment(String location) {
             this.location = location;
@@ -44,9 +55,15 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.map_fragment, container, false);
 
-        mapView = (MapView) v.findViewById(R.id.google_map);
+        mapView = v.findViewById(R.id.google_map);
         mapView.onCreate(savedInstanceState);
-
+        showUserPositionButton = v.findViewById(R.id.show_user_position_button);
+        showUserPositionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestLocationPermissions();
+            }
+        });
         mViewModel = new MapViewModel();
 
         //create Map, TODO check permission
@@ -91,9 +108,19 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     }
 
 
+
     private void initMap() {
         map.getUiSettings().setZoomControlsEnabled(true);
+        map.setLatLngBoundsForCameraTarget(MAP_BOUNDS);
+        map.setMaxZoomPreference(MAX_ZOOM_LEVEL);
+        map.setMinZoomPreference(MIN_ZOOM_LEVEL);
+        requestLocationPermissions();
 
+
+
+    }
+
+    private void requestLocationPermissions(){
         MainActivity mainActivity = (MainActivity) getActivity();
         if(mainActivity != null) {
             if ((ContextCompat.checkSelfPermission(
@@ -101,21 +128,22 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
                     PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
                     getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) ==
                     PackageManager.PERMISSION_GRANTED)) {
-                // You can use the API that requires the permission.
-            } else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) && mainActivity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                map.setMyLocationEnabled(true);
+                map.getUiSettings().setMyLocationButtonEnabled(true);
+            }
+            //else if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_COARSE_LOCATION) && mainActivity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                 // In an educational UI, explain to the user why your app requires this
                 // permission for a specific feature to behave as expected. In this UI,
                 // include a "cancel" or "no thanks" button that allows the user to
                 // continue using your app without granting the permission.
-            } else {
-                // You can directly ask for the permission.
-                // The registered ActivityResultCallback gets the result of this request.
+            //}
+            else {
+                showUserPositionButton.setVisibility(View.VISIBLE);
                 requestPermissionLauncher.launch(
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION});
             }
 
         }
-
     }
 
 
@@ -171,6 +199,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         if(permissions.get(Manifest.permission.ACCESS_COARSE_LOCATION) && permissions.get(Manifest.permission.ACCESS_FINE_LOCATION)){
             map.setMyLocationEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(true);
+            showUserPositionButton.setVisibility(View.GONE);
             }
+        else{
+            showUserPositionButton.setVisibility(View.VISIBLE);
+        }
     });
 }
