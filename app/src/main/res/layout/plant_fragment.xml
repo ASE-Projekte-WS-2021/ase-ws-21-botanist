@@ -106,7 +106,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:gravity="center"
-                        android:text="@string/PLANT_FAMILY_NAME"
                         android:textSize="15sp" />
 
                     <TextView
@@ -115,7 +114,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:gravity="center"
-                        android:text="@string/PLANT_GENUS_NAME"
                         android:textSize="15sp" />
 
                     <TextView
@@ -124,7 +122,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:gravity="center"
-                        android:text="@string/PLANT_TYPE_NAME"
                         android:textSize="15sp" />
 
                     <TextView
@@ -133,7 +130,6 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:gravity="center"
-                        android:text="@string/PLANT_COMMON_NAME"
                         android:textSize="15sp" />
 
                 </LinearLayout>

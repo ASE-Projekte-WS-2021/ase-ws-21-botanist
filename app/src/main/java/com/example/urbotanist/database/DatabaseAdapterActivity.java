@@ -52,7 +52,6 @@ public class DatabaseAdapterActivity {
     }
 
     public ArrayList<Plant> getSearchResult(String searchTerm) {
-        ArrayList<String> alreadySearched = new ArrayList<String>();
         ArrayList<Plant> results= new ArrayList<Plant>();
         try {
             String sql = "SELECT * FROM plantDatabase" +
@@ -65,21 +64,17 @@ public class DatabaseAdapterActivity {
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur != null) {
                 while (mCur.moveToNext()) {
-                    //if plant was already searched don't start new sql
-                    if (!alreadySearched.contains(mCur.getString(2) +  mCur.getString(3))){
-                        // table contains plants previously in the garden, only those with "+" in row 1 are currently planted
-                        String genus = mCur.getString(2);
-                        String type = mCur.getString(3);
-                        String family = mCur.getString(4);
-                        String plant_native = mCur.getString(6);
-                        String name_common = mCur.getString(7);
-                        String life_form = mCur.getString(8);
-                        String location_short = mCur.getString(9);
-                        String location_long = mCur.getString(10);
+                    // table contains plants previously in the garden, only those with "+" in row 1 are currently planted
+                    String genus = mCur.getString(2);
+                    String type = mCur.getString(3);
+                    String family = mCur.getString(4);
+                    String plant_native = mCur.getString(6);
+                    String name_common = mCur.getString(7);
+                    String life_form = mCur.getString(8);
+                    String location_short = mCur.getString(9);
+                    String location_long = mCur.getString(10);
 
-                        results.add(new Plant(genus, type, family, location_short, location_long, plant_native, name_common, life_form));
-                        alreadySearched.add(genus + type);
-                    }
+                    results.add(new Plant(genus, type, family, location_short, location_long, plant_native, name_common, life_form));
                 }
             }
             return results;
