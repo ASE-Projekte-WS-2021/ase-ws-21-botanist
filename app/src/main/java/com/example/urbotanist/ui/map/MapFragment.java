@@ -17,6 +17,7 @@ import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
@@ -42,6 +43,8 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     private GoogleMap map;
     private MapView mapView;
     private String location;
+    private Button showUserPositionButton;
+
 
     public MapFragment(String location) {
             this.location = location;
@@ -54,7 +57,13 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
         mapView = v.findViewById(R.id.google_map);
         mapView.onCreate(savedInstanceState);
-
+        showUserPositionButton = v.findViewById(R.id.show_user_position_button);
+        showUserPositionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                requestLocationPermissions();
+            }
+        });
         mViewModel = new MapViewModel();
 
         //create Map, TODO check permission
@@ -129,6 +138,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
                 // continue using your app without granting the permission.
             //}
             else {
+                showUserPositionButton.setVisibility(View.VISIBLE);
                 requestPermissionLauncher.launch(
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION});
             }
@@ -189,6 +199,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         if(permissions.get(Manifest.permission.ACCESS_COARSE_LOCATION) && permissions.get(Manifest.permission.ACCESS_FINE_LOCATION)){
             map.setMyLocationEnabled(true);
             map.getUiSettings().setMyLocationButtonEnabled(true);
+            showUserPositionButton.setVisibility(View.GONE);
             }
+        else{
+            showUserPositionButton.setVisibility(View.VISIBLE);
+        }
     });
 }
