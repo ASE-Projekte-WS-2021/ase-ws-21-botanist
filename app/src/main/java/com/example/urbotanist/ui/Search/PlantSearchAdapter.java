@@ -72,10 +72,12 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
         //SpannableString fullName = new SpannableString(localDataSet.get(position).fullName);
         //fullName.setSpan(new UnderlineSpan(), 0, fullName.length(), 0);
         viewHolder.getAllViews()[0].setText(localDataSet.get(position).fullName);
-        viewHolder.getAllViews()[1].setText("Familie der \"" + localDataSet.get(position).familyName + "\"");
         if (!localDataSet.get(position).commonName.isEmpty()) {
-            viewHolder.getAllViews()[2].setText("(" + localDataSet.get(position).commonName + ")");
+            viewHolder.getAllViews()[1].setText("(" + localDataSet.get(position).commonName + ")");
+        }else{
+            viewHolder.getAllViews()[1].setVisibility(View.GONE);
         }
+        viewHolder.getAllViews()[2].setText("Familie der \"" + localDataSet.get(position).familyName + "\"");
 
 
         //for all textViews

@@ -20,7 +20,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/display_family_name"
+            android:id="@+id/display_common_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -28,7 +28,7 @@
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/display_common_name"
+            android:id="@+id/display_family_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10sp"
