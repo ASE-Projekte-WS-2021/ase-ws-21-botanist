@@ -74,6 +74,7 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
         viewHolder.getAllViews()[0].setText(localDataSet.get(position).fullName);
         if (!localDataSet.get(position).commonName.isEmpty()) {
             viewHolder.getAllViews()[1].setText("(" + localDataSet.get(position).commonName + ")");
+            viewHolder.getAllViews()[1].setVisibility(View.VISIBLE);
         }else{
             viewHolder.getAllViews()[1].setVisibility(View.GONE);
         }
