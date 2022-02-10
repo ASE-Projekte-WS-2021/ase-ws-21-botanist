@@ -1,19 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeightLarge">
+    android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        >
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/searchItemView"
-        android:gravity="center"
-        android:textSize="15sp"
-        />
+        android:background="#E6E6E6"
+        android:orientation="vertical" >
+        
+        <TextView
+            android:id="@+id/searchItemView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7sp"
+            android:gravity="center"
+            android:textColor="#333E2F"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/display_family_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#5A5A5A"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/display_common_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10sp"
+            android:gravity="center"
+            android:textColor="#5A5A5A"
+            android:textSize="18sp" />
     </LinearLayout>
 
 </FrameLayout>

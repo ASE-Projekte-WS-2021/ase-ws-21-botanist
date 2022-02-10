@@ -1,5 +1,7 @@
 package com.example.urbotanist.ui.Search;
 
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,16 +21,24 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
+        private final TextView commonNameView;
+        private final TextView familyNameView;
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
 
             textView = (TextView) view.findViewById(R.id.searchItemView);
+            commonNameView = (TextView) view.findViewById(R.id.display_common_name);
+            familyNameView = (TextView) view.findViewById(R.id.display_family_name);
         }
 
-        public TextView getTextView() {
-            return textView;
+        public TextView[] getAllViews() {
+            TextView[] allTextViews = new TextView[3];
+            allTextViews[0] = textView;
+            allTextViews[1] = commonNameView;
+            allTextViews[2] = familyNameView;
+            return allTextViews;
         }
     }
 
@@ -58,13 +68,25 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(localDataSet.get(position).fullName);
-        viewHolder.getTextView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchResultClickListener.onSearchResultClick(localDataSet.get(viewHolder.getAdapterPosition()));
-            }
-        });
+
+        //SpannableString fullName = new SpannableString(localDataSet.get(position).fullName);
+        //fullName.setSpan(new UnderlineSpan(), 0, fullName.length(), 0);
+        viewHolder.getAllViews()[0].setText(localDataSet.get(position).fullName);
+        viewHolder.getAllViews()[1].setText("Familie der \"" + localDataSet.get(position).familyName + "\"");
+        if (!localDataSet.get(position).commonName.isEmpty()) {
+            viewHolder.getAllViews()[2].setText("(" + localDataSet.get(position).commonName + ")");
+        }
+
+
+        //for all textViews
+        for(int i = 0; i < viewHolder.getAllViews().length; i++){
+            viewHolder.getAllViews()[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    searchResultClickListener.onSearchResultClick(localDataSet.get(viewHolder.getAdapterPosition()));
+                }
+            });
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -72,8 +94,5 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
     public int getItemCount() {
         return localDataSet.size();
     }
-
-
-
 
 }
