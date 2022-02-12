@@ -47,140 +47,202 @@
                     android:id="@+id/infoTableOpeningHours"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="25dp">
-
+                    android:stretchColumns="2,3"
+                    android:layout_marginBottom="30dp">
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
-
                         <TextView
-                            android:padding="8dip"
+                            android:padding="20dip"
+                            android:textStyle="bold"
                             android:text="@string/infoOpeningHoursTitle" />
                     </TableRow>
-
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
-
                         <TextView
-                            android:padding="3dip"
-                            android:text="@string/infoOpeningHoursR1C1" />
-
+                            android:layout_marginHorizontal="10dp"
+                            android:padding="5dip"
+                            android:textStyle="bold"
+                            android:text="@string/infoOpeningHoursR2C1" />
                         <TextView
                             android:gravity="right"
-                            android:padding="3dip"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="bottom"
+                            android:padding="5dip"
                             android:text="@string/infoOpeningHoursR1C2" />
-
                         <TextView
                             android:gravity="right"
-                            android:padding="3dip"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="bottom"
+                            android:padding="5dip"
                             android:text="@string/infoOpeningHoursR1C3" />
                     </TableRow>
-
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/black"
-                        android:padding="0.3dip" />
-
+                        android:padding="0.1dip" />
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
-
                         <TextView
-                            android:padding="5dip"
-                            android:text="@string/infoOpeningHoursR2C1" />
-
-                        <TextView
+                            android:layout_column="1"
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR2C2" />
-
                         <TextView
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR2C3" />
                     </TableRow>
-
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
-
                         <TextView
+                            android:layout_marginHorizontal="10dp"
                             android:padding="5dip"
+                            android:textStyle="bold"
                             android:text="@string/infoOpeningHoursR3C1" />
-
                         <TextView
+                            android:layout_column="2" />
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:padding="0.1dip" />
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_column="1"
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR3C2" />
-
                         <TextView
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR3C3" />
                     </TableRow>
-
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
-
                         <TextView
+                            android:layout_marginHorizontal="10dp"
                             android:padding="5dip"
+                            android:textStyle="bold"
                             android:text="@string/infoOpeningHoursR4C1" />
-
                         <TextView
+                            android:layout_column="2"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:padding="0.1dip" />
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_column="1"
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR4C2" />
-
                         <TextView
-                            android:gravity="right"
+                            android:gravity="right" android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR4C3" />
                     </TableRow>
-
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_marginHorizontal="10dp"
+                            android:padding="5dip"
+                            android:textStyle="bold"
+                            android:text="@string/infoOpeningHoursR5C1" />
+                        <TextView
+                            android:layout_column="2"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:padding="0.1dip" />
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
 
                         <TextView
-                            android:padding="5dip"
-                            android:text="@string/infoOpeningHoursR5C1" />
-
-                        <TextView
+                            android:layout_column="1"
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR5C2" />
 
                         <TextView
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR5C3" />
                     </TableRow>
-
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center">
+                        <TextView
+                            android:layout_marginHorizontal="10dp"
+                            android:padding="5dip"
+                            android:textStyle="bold"
+                            android:text="@string/infoOpeningHoursR6C1" />
+                        <TextView
+                            android:layout_column="2"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        android:padding="0.1dip" />
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
 
                         <TextView
-                            android:padding="5dip"
-                            android:text="@string/infoOpeningHoursR6C1" />
-
-                        <TextView
+                            android:layout_column="1"
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR6C2" />
 
                         <TextView
                             android:gravity="right"
+                            android:layout_marginHorizontal="10dp"
+                            android:layout_gravity="top"
                             android:padding="5dip"
                             android:text="@string/infoOpeningHoursR6C3" />
                     </TableRow>
@@ -188,6 +250,8 @@
 
                 <TextView
                     android:id="@+id/infoText"
+
+                    android:background="@drawable/layout_border"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
