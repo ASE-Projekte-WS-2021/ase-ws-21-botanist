@@ -1,2 +1,2 @@
-![# UR Botanist](Botanist_Logo_g.svg)
+![# UR Botanist|250](Botanist_Logo_g.svg)
 WIP
