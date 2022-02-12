@@ -21,4 +21,7 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsFloating">true</item>
     </style>
+    <style name="noTransition" parent="Theme.URBotanist">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 </resources>

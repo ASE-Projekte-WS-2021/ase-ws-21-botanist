@@ -47,11 +47,12 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.noTransition);
         setContentView(R.layout.activity_main);
         setupSplashscreen();
         initDatabase();
         preloadViews();
-        executeDelayedActions(8300);
+        executeDelayedActions(4000);
     }
 
     private void preloadViews() {
@@ -79,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
                 splashscreen.setVisibility(View.INVISIBLE);
                 mapFragment.requestLocationPermissions();
                 setupListeners();
+                setTheme(R.style.Theme_URBotanist);
             }
         },delay);
     }

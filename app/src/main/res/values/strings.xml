@@ -10,13 +10,13 @@
     <string name="infoOpeningHoursR1C3">Gewächshäuser</string>
     <string name="infoOpeningHoursR2C1">Mo-Mi</string>
     <string name="infoOpeningHoursR2C2">7.00-16.00 Uhr</string>
-    <string name="infoOpeningHoursR2C3">7.00-9.15 Uhr\n9.45-12.00 Uhr\n12.45-15.30 Uhr</string>
+    <string name="infoOpeningHoursR2C3">7.00- 9.15 Uhr\n 9.45-12.00 Uhr\n12.45-15.30 Uhr</string>
     <string name="infoOpeningHoursR3C1">Do</string>
     <string name="infoOpeningHoursR3C2">7.00-15.30 Uhr</string>
-    <string name="infoOpeningHoursR3C3">7.00-9.15 Uhr\n9.45-12.00 Uhr\n12.45-15.30 Uhr</string>
+    <string name="infoOpeningHoursR3C3">7.00- 9.15 Uhr\n 9.45-12.00 Uhr\n12.45-15.30 Uhr</string>
     <string name="infoOpeningHoursR4C1">Fr</string>
     <string name="infoOpeningHoursR4C2">7.00-14.00 Uhr</string>
-    <string name="infoOpeningHoursR4C3">7.00-9.15 Uhr\n9.45-12.00 Uhr</string>
+    <string name="infoOpeningHoursR4C3">7.00- 9.15 Uhr\n 9.45-12.00 Uhr</string>
     <string name="infoOpeningHoursR5C1">Sa</string>
     <string name="infoOpeningHoursR5C2">geschlossen</string>
     <string name="infoOpeningHoursR5C3">geschlossen</string>
