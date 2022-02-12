@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
             @Override
             public void run() {
                 splashscreen.setVisibility(View.INVISIBLE);
+                mapFragment.requestLocationPermissions();
                 setupListeners();
             }
         },delay);

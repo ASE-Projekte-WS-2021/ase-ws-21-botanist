@@ -114,13 +114,9 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         map.setLatLngBoundsForCameraTarget(MAP_BOUNDS);
         map.setMaxZoomPreference(MAX_ZOOM_LEVEL);
         map.setMinZoomPreference(MIN_ZOOM_LEVEL);
-        requestLocationPermissions();
-
-
-
     }
 
-    private void requestLocationPermissions(){
+    public void requestLocationPermissions(){
         MainActivity mainActivity = (MainActivity) getActivity();
         if(mainActivity != null) {
             if ((ContextCompat.checkSelfPermission(
