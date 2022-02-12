@@ -51,14 +51,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
         setupSplashscreen();
         initDatabase();
         preloadViews();
-        plantFragment.setAreaSelectListener(new PlantSelectedListener() {
-            @Override
-            public void onAreaSelected(String location) {
-                showMapWithArea(location);
-            }
-        });
-        stopSplashScreen();
-        setUpButtonListeners();
+        executeDelayedActions(6000);
     }
 
     private void preloadViews() {
@@ -74,14 +67,15 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
         splashscreen.setVisibility(View.VISIBLE);
     }
 
-    private void stopSplashScreen() {
+    private void executeDelayedActions(int delay) {
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 splashscreen.setVisibility(View.INVISIBLE);
+                setupListeners();
             }
-        },6000);
+        },delay);
     }
 
     private void showMapWithArea(String location){
@@ -97,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
 
     
 
-    private void setUpButtonListeners() {
+    private void setupListeners() {
         showMapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loadCurrentScreenFragment(mapFragment);
@@ -114,7 +108,12 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
 
             }
         });
-
+        plantFragment.setAreaSelectListener(new PlantSelectedListener() {
+            @Override
+            public void onAreaSelected(String location) {
+                showMapWithArea(location);
+            }
+        });
     }
     private void focusButton(Button focusButton){
         infoButton.getBackground().setAlpha(128);
