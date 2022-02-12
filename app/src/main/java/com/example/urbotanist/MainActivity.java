@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
         setupSplashscreen();
         initDatabase();
         preloadViews();
-        executeDelayedActions(6000);
+        executeDelayedActions(8300);
     }
 
     private void preloadViews() {
