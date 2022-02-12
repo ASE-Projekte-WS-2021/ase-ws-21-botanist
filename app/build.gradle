@@ -25,6 +25,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    /*sourceSets {
+        main.res.srcDirs = ['src/main/res/splashscreen', 'src/main/res']
+    }*/
 }
 
 dependencies {
@@ -42,4 +45,5 @@ dependencies {
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.24'
 }

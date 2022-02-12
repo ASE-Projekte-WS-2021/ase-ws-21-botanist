@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +26,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import kotlinx.coroutines.android.HandlerDispatcher;
+import pl.droidsonroids.gif.GifDrawable;
+import pl.droidsonroids.gif.GifImageView;
+
 
 public class MainActivity extends AppCompatActivity implements SearchListener, PlantSelectedListener {
     DatabaseAdapterActivity mDbHelper;
@@ -37,23 +42,46 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     private Button showMapButton;
     private Button searchButton;
     private Button infoButton;
+    private GifImageView splashscreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-
-        setUpButtons();
+        setupSplashscreen();
         initDatabase();
-        loadCurrentScreenFragment(mapFragment);
-
+        preloadViews();
         plantFragment.setAreaSelectListener(new PlantSelectedListener() {
             @Override
             public void onAreaSelected(String location) {
                 showMapWithArea(location);
             }
         });
+        stopSplashScreen();
+        setUpButtonListeners();
+    }
+
+    private void preloadViews() {
+        showMapButton = findViewById(R.id.map_button);
+        searchButton = findViewById(R.id.search_button);
+        infoButton = findViewById(R.id.bar_icon_background);
+        loadCurrentScreenFragment(searchFragment);
+        loadCurrentScreenFragment(mapFragment);
+    }
+
+    private void setupSplashscreen() {
+        splashscreen = findViewById(R.id.splashscreen);
+        splashscreen.setVisibility(View.VISIBLE);
+    }
+
+    private void stopSplashScreen() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                splashscreen.setVisibility(View.INVISIBLE);
+            }
+        },6000);
     }
 
     private void showMapWithArea(String location){
@@ -69,10 +97,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
 
     
 
-    private void setUpButtons() {
-        showMapButton = findViewById(R.id.map_button);
-        searchButton = findViewById(R.id.search_button);
-        infoButton = findViewById(R.id.bar_icon_background);
+    private void setUpButtonListeners() {
         showMapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 loadCurrentScreenFragment(mapFragment);

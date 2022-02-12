@@ -9,7 +9,6 @@
     android:background="@color/white"
     tools:context=".MainActivity">
 
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
@@ -105,7 +104,15 @@
             app:tint="@color/green" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/splashscreen"
+        tools:visibility="invisible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        android:background="@drawable/botanist_splashscreen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
