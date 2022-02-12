@@ -18,13 +18,12 @@ import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 
 public class InfoFragment extends CurrentScreenFragment {
+    //exists to give some basic information
 
-//    private InfoViewModel mViewModel;
     private TextView infoTitle;
     private TextView infoText;
     private Button impButton;
     private TableLayout infoTable;
-
     public static InfoFragment newInstance() {
         return new InfoFragment();
     }
@@ -39,6 +38,7 @@ public class InfoFragment extends CurrentScreenFragment {
         impButton = (Button)v.findViewById(R.id.impressumButton);
         return v;
     }
+
 
 
     @Override
@@ -59,7 +59,6 @@ public class InfoFragment extends CurrentScreenFragment {
                 }
             }
         });
-//        mViewModel = new ViewModelProvider(this).get(InfoViewModel.class);
     }
 
 }

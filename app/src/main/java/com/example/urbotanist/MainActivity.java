@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     }
 
     private void preloadViews() {
+        //every task which tooks precious time to prepare
         showMapButton = findViewById(R.id.map_button);
         searchButton = findViewById(R.id.search_button);
         infoButton = findViewById(R.id.bar_icon_background);
@@ -63,11 +64,14 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
     }
 
     private void setupSplashscreen() {
+        //setting up the splashscreen
         splashscreen = findViewById(R.id.splashscreen);
         splashscreen.setVisibility(View.VISIBLE);
     }
 
     private void executeDelayedActions(int delay) {
+        //everything here should happen after a given delay
+        // - e.g. the End of the Splashscreen & showing requests
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -117,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
         });
     }
     private void focusButton(Button focusButton){
+        //highlights button of active UI-Fragment
         infoButton.getBackground().setAlpha(128);
         searchButton.getBackground().setAlpha(128);
         showMapButton.getBackground().setAlpha(128);

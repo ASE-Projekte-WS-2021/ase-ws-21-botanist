@@ -79,20 +79,6 @@ public class PlantFragment extends DialogFragment{
         mViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
         mViewModel.setSelectedPlant(((MainActivity)getActivity()).getCurrentPlant());
         setupUi();
-        Window window = getDialog().getWindow();
-        window.setGravity(Gravity.TOP|Gravity.RIGHT);
-        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.95);
-        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.90);
-        window.setLayout(width, height);
-        WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
-        p.y = (int)(getResources().getDisplayMetrics().heightPixels*0.04);
-        getDialog().getWindow().setAttributes(p);
-        getDialog().setCanceledOnTouchOutside(true);
-        /*TranslateAnimation animation = new TranslateAnimation(Animation.RELATIVE_TO_SELF,1f,Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,0,Animation.RELATIVE_TO_SELF,0);
-        getView().setAnimation(animation);
-        animation.setDuration(500);
-        animation.start();*/
-
     }
 
     public void closeWindow() {
@@ -107,6 +93,16 @@ public class PlantFragment extends DialogFragment{
         plantTypeNameView.setText(mViewModel.selectedPlant.typeName);
         plantCommonNameView.setText(mViewModel.selectedPlant.commonName);
         setupAlternativeLocations();
+        //the window overlap setup:
+        Window window = getDialog().getWindow();
+        window.setGravity(Gravity.TOP|Gravity.RIGHT);
+        int width = (int)(getResources().getDisplayMetrics().widthPixels*0.95);
+        int height = (int)(getResources().getDisplayMetrics().heightPixels*0.90);
+        window.setLayout(width, height);
+        WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
+        p.y = (int)(getResources().getDisplayMetrics().heightPixels*0.04);
+        getDialog().getWindow().setAttributes(p);
+        getDialog().setCanceledOnTouchOutside(true);
 
     }
 
