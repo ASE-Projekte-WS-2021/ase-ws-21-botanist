@@ -1,2 +1,2 @@
-![# UR Botanist](https://drive.google.com/file/d/1xBxd_H3vlWIlhfZHOf6ZiqiIi6VGuskr/view?usp=sharing)
+![# UR Botanist](https://github.com/ASE-Projekte-WS-2021/ase-ws-21-botanist/edit/main/Botanist_Logo_g.svg?raw=true)
 WIP
