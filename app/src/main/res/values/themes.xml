@@ -24,4 +24,7 @@
     <style name="noTransition" parent="Theme.URBotanist">
         <item name="android:windowAnimationStyle">@null</item>
     </style>
+    <style name="splStart" parent="Theme.URBotanist">
+        <item name="android:windowBackground">@drawable/splashbg</item>
+    </style>
 </resources>

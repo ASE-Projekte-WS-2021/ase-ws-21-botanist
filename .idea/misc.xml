@@ -19,8 +19,11 @@
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/icon_background.xml" value="0.21875" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/layout_border.xml" value="0.21875" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/round_button.xml" value="0.21875" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/splanim.xml" value="0.21875" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/splash_anim.xml" value="0.21875" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/splash_animation.xml" value="0.24322916666666666" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/splashanim.xml" value="0.23148148148148148" />
+        <entry key="..\:/ase-ws-21-botanist/app/src/main/res/drawable/splashbg.xml" value="0.67" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/activity_startup.xml" value="0.25" />
         <entry key="..\:/ase-ws-21-botanist/app/src/main/res/layout/fragment_inventory_search_list.xml" value="0.2210144927536232" />

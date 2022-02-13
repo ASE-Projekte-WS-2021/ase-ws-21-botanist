@@ -16,7 +16,8 @@
         android:theme="@style/Theme.URBotanist">
         <activity
             android:name=".StartupActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/splStart">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
