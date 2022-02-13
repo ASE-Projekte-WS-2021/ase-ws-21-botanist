@@ -1,6 +1,7 @@
-![# UR Botanist](Botanist_Logo_g.svg | width=250)
+<img src="Botanist_Logo_g.svg" width="250"/>
+![UR Botanist](Botanist_Logo_g.svg)
 
-##UR (a) Botanist und der Besuch im Botanischen Garten
+##UR Botanist und der Besuch im Botanischen Garten
 
 _Unsere namenloser Nutzer sucht gerne den botanische Garten auf. Bei seinem Besuch an der Universität Regensburger nutzt er sie er/sie die Gelegenheit und geht diesem Hobby nach, denn auf dem Gelände befindet sich solch einer. Im botanischen Garten findet der Nutzer eine Pflanze, die ihm/ihr gut gefällt. Er/sie möchte mehr über die Pflanze erfahren und öffnet die UR Botanist App. Dort findet der Nutzer heraus, dass man sich gerade in der europäischen Abteilung befindet. Da die Person noch mehr wissen möchte sucht er nach der Pflanze in der App und findet noch Lebensform und weitere Standorte heraus. Er/sie überlegt sich die Pflanze für den eigenen Garten anzuschaffen, ist sich aber unsicher welche benachbarten Pflanzen am besten wären. Die Person erinnert sich an die Standorte der Pflanze und um einen besseren Vergleich zu haben sucht diese mit Hilfe in der Anwendung dargestellten Karte auf. Danach schließt er zufrieden die App (und genießt weiter den Garten)._
 
