@@ -65,6 +65,7 @@ public class DatabaseAdapterActivity {
             if (mCur != null) {
                 while (mCur.moveToNext()) {
                     // table contains plants previously in the garden, only those with "+" in row 1 are currently planted
+                    int id = mCur.getPosition();
                     String genus = mCur.getString(2);
                     String type = mCur.getString(3);
                     String family = mCur.getString(4);
@@ -74,7 +75,7 @@ public class DatabaseAdapterActivity {
                     String location_short = mCur.getString(9);
                     String location_long = mCur.getString(10);
 
-                    results.add(new Plant(genus, type, family, location_short, location_long, plant_native, name_common, life_form));
+                    results.add(new Plant(id, genus, type, family, location_short, location_long, plant_native, name_common, life_form));
                 }
             }
             return results;

@@ -26,6 +26,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import kotlinx.coroutines.android.HandlerDispatcher;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
