@@ -160,7 +160,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                for(Plant plant : realm.where(Plant.class).beginsWith("fullName", "Erica").findAll()){
+                List<Plant> foundPlants = realm.where(Plant.class).beginsWith("fullName", "Erica").findAll().freeze();
+                for(Plant plant : foundPlants){
                     result.add(plant);
                     Log.d("TAGGARIO", result.toString());
                     Log.d("TAGGARIO", plant.fullName);
