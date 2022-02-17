@@ -34,9 +34,7 @@ public class Plant extends RealmObject {
         this.commonName = name_common;
         this.lifeForm = lifeForm;
 
-        //Log.d("taggrio", genus + " " + type + " " + family + " " + location_short + " " + location_long + " " + plant_native + " " + name_common + " " + life_form);
         fullName = genus + " " + type;
-
     }
 
     public void setFullName(String fullName){

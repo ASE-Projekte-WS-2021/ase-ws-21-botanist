@@ -94,18 +94,16 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
 
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-
-                List<Plant> foundPlants =  searchListener.searchPlant(newText);
-                //searchListAdapter = new PlantSearchAdapter(plantNames);
+            public boolean onQueryTextChange(String query) {
+                List<Plant> foundPlants =  searchListener.searchPlant(query);
                 searchListAdapter.localDataSet = foundPlants;
-                searchListAdapter.notifyDataSetChanged();
                 if(foundPlants.size() > 0){
                     noSearchResultsText.setVisibility(View.GONE);
                 }
                 else{
                     noSearchResultsText.setVisibility(View.VISIBLE);
                 }
+                searchListAdapter.notifyDataSetChanged();
                 return false;
             }
         });

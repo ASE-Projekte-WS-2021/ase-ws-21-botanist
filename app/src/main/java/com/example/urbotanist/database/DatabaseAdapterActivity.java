@@ -102,13 +102,13 @@ public class DatabaseAdapterActivity {
         try {
             String sql = "SELECT * FROM plantDatabase" +
                     " WHERE plantDatabase.GATTUNG='"+ genus +
-                    "' AND plantDatabase.ART='"+type +
+                    "' AND plantDatabase.ART='"+ type +
                     "' AND plantDatabase.BESTAND='+' ";
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur != null) {
                 while (mCur.moveToNext()) {
                     String name = mCur.getString(row);
-                    if(!result.contains(name)) {
+                    if(!result.contains(name) && name.length() > 0) {
                         result.add(name);
                     }
                 }

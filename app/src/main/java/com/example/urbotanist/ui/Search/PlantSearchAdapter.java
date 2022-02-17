@@ -74,7 +74,12 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
         //fullName.setSpan(new UnderlineSpan(), 0, fullName.length(), 0);
         viewHolder.getAllViews()[0].setText(localDataSet.get(position).fullName);
         if (!localDataSet.get(position).commonName.isEmpty()) {
-            viewHolder.getAllViews()[1].setText("(" + localDataSet.get(position).commonName + ")");
+            String allNames = "";
+            for (String name : localDataSet.get(position).commonName) {
+                allNames += name + ", ";
+            }
+            allNames = allNames.substring(0, allNames.length() - 2);
+            viewHolder.getAllViews()[1].setText("(" + allNames + ")");
             viewHolder.getAllViews()[1].setVisibility(View.VISIBLE);
         }else{
             viewHolder.getAllViews()[1].setVisibility(View.GONE);

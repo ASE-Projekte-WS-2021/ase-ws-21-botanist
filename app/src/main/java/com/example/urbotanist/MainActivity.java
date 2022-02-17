@@ -26,6 +26,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import kotlinx.coroutines.android.HandlerDispatcher;
@@ -160,9 +161,18 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(@NonNull Realm realm) {
-                result.addAll(realm.where(Plant.class).beginsWith("fullName", searchTerm).findAll().freeze());
+                // .freeze() is used to create an own object that doesn't reference the query
+                result.addAll(realm.where(Plant.class).contains("fullName", searchTerm, Case.INSENSITIVE)
+                        .or().contains("familyName", searchTerm, Case.INSENSITIVE)
+                        .or().contains("commonName", searchTerm, Case.INSENSITIVE).findAll().freeze());
             }
         });
+
+        try {
+            Thread.sleep(100);
+        }catch (Exception e){
+            Log.e("Exception", "Time couldn't wait, it waits for noone. searchPlant, MainActivity" + e);
+        }
         return result;
     }
 
