@@ -59,7 +59,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
         searchView = v.findViewById(R.id.search_bar);
         searchListRecycler = v.findViewById(R.id.search_list_recycler);
         noSearchResultsText = v.findViewById(R.id.no_search_results_text);
-        searchListAdapter = new PlantSearchAdapter(Collections.emptyList(),this::onSearchResultClick);
+        searchListAdapter = new PlantSearchAdapter(Collections.emptyList(), this);
         searchListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
         searchListRecycler.setAdapter(searchListAdapter);
         searchListRecycler.addItemDecoration(new DividerItemDecoration(searchListRecycler.getContext(), DividerItemDecoration.VERTICAL));
@@ -81,7 +81,6 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
             @Override
             public boolean onQueryTextSubmit(String query) {
                 List<Plant> foundPlants =  searchListener.searchPlant(query);
-                //searchListAdapter = new PlantSearchAdapter(plantNames);
                 searchListAdapter.localDataSet = foundPlants;
                 if(foundPlants.size() > 0){
                     noSearchResultsText.setVisibility(View.GONE);
@@ -96,7 +95,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                /*
+
                 List<Plant> foundPlants =  searchListener.searchPlant(newText);
                 //searchListAdapter = new PlantSearchAdapter(plantNames);
                 searchListAdapter.localDataSet = foundPlants;
@@ -107,8 +106,6 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
                 else{
                     noSearchResultsText.setVisibility(View.VISIBLE);
                 }
-                */
-
                 return false;
             }
         });

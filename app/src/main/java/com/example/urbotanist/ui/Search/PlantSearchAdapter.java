@@ -72,7 +72,6 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
 
         //SpannableString fullName = new SpannableString(localDataSet.get(position).fullName);
         //fullName.setSpan(new UnderlineSpan(), 0, fullName.length(), 0);
-        Log.d("onBindViewHolder",  "localDataSet.get(position).fullName " + localDataSet.get(position).fullName);
         viewHolder.getAllViews()[0].setText(localDataSet.get(position).fullName);
         if (!localDataSet.get(position).commonName.isEmpty()) {
             viewHolder.getAllViews()[1].setText("(" + localDataSet.get(position).commonName + ")");

@@ -1,31 +1,18 @@
 package com.example.urbotanist.ui.map;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.urbotanist.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import it.sephiroth.android.library.imagezoom.ImageViewTouch;
-import it.sephiroth.android.library.imagezoom.ImageViewTouchBase;
 
 public class MapViewModel extends ViewModel {
     // TODO: Implement the ViewModel

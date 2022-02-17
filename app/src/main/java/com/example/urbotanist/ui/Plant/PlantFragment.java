@@ -86,7 +86,6 @@ public class PlantFragment extends DialogFragment{
     }
 
     public void setupUi(){
-        Log.d("test",mViewModel.selectedPlant.toString());
         plantFullNameView.setText(mViewModel.selectedPlant.fullName);
         plantGenusNameView.setText(mViewModel.selectedPlant.genusName);
         plantFamilyNameView.setText(mViewModel.selectedPlant.familyName);

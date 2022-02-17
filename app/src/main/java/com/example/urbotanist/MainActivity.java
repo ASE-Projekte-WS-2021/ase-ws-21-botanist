@@ -155,46 +155,22 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
 
     @Override
     public List<Plant> searchPlant(String searchTerm) {
-        ArrayList<Plant> result = new ArrayList<Plant>();
+        ArrayList<Plant> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
-            public void execute(Realm realm) {
-                List<Plant> foundPlants = realm.where(Plant.class).beginsWith("fullName", "Erica").findAll().freeze();
-                for(Plant plant : foundPlants){
-                    result.add(plant);
-                    Log.d("TAGGARIO", result.toString());
-                    Log.d("TAGGARIO", plant.fullName);
-                    Log.d("REALMYREALM", realm.isClosed() + "");
-                }
-                Log.d("RELAMYREALM", "nach for + " + realm.isClosed() + "");
+            public void execute(@NonNull Realm realm) {
+                result.addAll(realm.where(Plant.class).beginsWith("fullName", searchTerm).findAll().freeze());
             }
         });
-        Log.d("RELAMYREALM", "for return + " + realm.isClosed() + "");
-        //realm.close();
         return result;
     }
 
-    public void testQuerie(){
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                for(Plant plant : realm.where(Plant.class).beginsWith("fullName", "Eric").findAll())
-                    Log.d("plantquerie", plant.fullName);
-            }
-        });
-    }
 
     @Override
     public void onAreaSelected(String location) {
         showMapWithArea(location);
-        //for each location show on map
-        /*
-        for (int i = 0; i < locations.size(); i++){
-            initPlantArea(locations.get(i)[0]);
-        }
-        */
+
     }
 
 
