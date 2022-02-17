@@ -1,6 +1,7 @@
 package com.example.urbotanist.ui.Plant;
 
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -12,17 +13,17 @@ public class Plant extends RealmObject {
     public String genusName;
     public String typeName;
     public String familyName;
-    public String location;
-    public String locationLong;
+    public RealmList<String>  location;
+    public RealmList<String>  locationLong;
     public String plantNative;
-    public String commonName;
+    public RealmList<String> commonName;
     public String lifeForm;
 
     public Plant(){
 
     };
 
-    public Plant(int id, String genus, String type, String family, String location_short, String locationLong, String plant_native, String name_common, String lifeForm) {
+    public Plant(int id, String genus, String type, String family, RealmList<String>  location_short, RealmList<String>  locationLong, String plant_native, RealmList<String> name_common, String lifeForm) {
         this.id = id;
         genusName = genus;
         typeName = type;
@@ -67,17 +68,17 @@ public class Plant extends RealmObject {
         return familyName;
     }
 
-    public void setLocation(String location){
+    public void setLocation(RealmList<String> location){
         this.location =  location;
     }
-    public String getLocation(){
+    public RealmList<String>  getLocation(){
         return location;
     }
 
-    public void setLocationLong(String locationLong){
+    public void setLocationLong(RealmList<String>  locationLong){
         this.locationLong = locationLong;
     }
-    public String getLocationLong(){
+    public RealmList<String>  getLocationLong(){
         return locationLong;
     }
 
@@ -88,12 +89,10 @@ public class Plant extends RealmObject {
         return plantNative;
     }
 
-    public void setCommonName(String commonName){
+    public void setCommonName(RealmList<String>  commonName){
         this.commonName =  commonName;
     }
-    public String getCommonName(){
-        return commonName;
-    }
+    public RealmList<String>  getCommonName(){ return commonName; }
 
     public void setLifeForm(String life_form){
         this.lifeForm =  life_form;

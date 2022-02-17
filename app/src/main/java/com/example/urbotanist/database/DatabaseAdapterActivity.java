@@ -1,6 +1,7 @@
 package com.example.urbotanist.database;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -10,6 +11,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.urbotanist.ui.Plant.Plant;
+
+import io.realm.Realm;
+import io.realm.RealmList;
 
 // https://stackoverflow.com/questions/9109438/how-to-use-an-existing-database-with-an-android-application
 
@@ -53,6 +57,7 @@ public class DatabaseAdapterActivity {
 
     public ArrayList<Plant> getSearchResult(String searchTerm) {
         ArrayList<Plant> results= new ArrayList<Plant>();
+        ArrayList<String> alreadySaved = new ArrayList<String>();
         try {
             String sql = "SELECT * FROM plantDatabase" +
                     " WHERE plantDatabase.BESTAND LIKE '%+%'" +
@@ -68,14 +73,21 @@ public class DatabaseAdapterActivity {
                     int id = mCur.getPosition();
                     String genus = mCur.getString(2);
                     String type = mCur.getString(3);
-                    String family = mCur.getString(4);
-                    String plant_native = mCur.getString(6);
-                    String name_common = mCur.getString(7);
-                    String life_form = mCur.getString(8);
-                    String location_short = mCur.getString(9);
-                    String location_long = mCur.getString(10);
+                    if(!alreadySaved.contains(genus + type)){
+                        String family = mCur.getString(4);
+                        String plant_native = mCur.getString(6);
+                        //get all native names for a plant
+                        RealmList<String> name_common = getAllNativeNames(genus, type, 7);
+                        //String name_common = mCur.getString(7);
+                        String life_form = mCur.getString(8);
+                        RealmList<String> location_short = getAllNativeNames(genus, type, 9);
+                        RealmList<String> location_long = getAllNativeNames(genus, type, 10);
+                        //String location_short = mCur.getString(9);
+                        //String location_long = mCur.getString(10);
 
-                    results.add(new Plant(id, genus, type, family, location_short, location_long, plant_native, name_common, life_form));
+                        results.add(new Plant(id, genus, type, family, location_short, location_long, plant_native, name_common, life_form));
+                        alreadySaved.add(genus + type);
+                    }
                 }
             }
             return results;
@@ -85,29 +97,28 @@ public class DatabaseAdapterActivity {
         }
     }
 
-    // plantnames are unique by type and genus
-    public ArrayList<String> getLocationsForPlant(String genus, String type) {
-        ArrayList<String> locations= new ArrayList<String>();
+    private RealmList<String> getAllNativeNames(String genus, String type, int row) {
+        RealmList<String> result = new RealmList<String>();
         try {
             String sql = "SELECT * FROM plantDatabase" +
                     " WHERE plantDatabase.GATTUNG='"+ genus +
                     "' AND plantDatabase.ART='"+type +
                     "' AND plantDatabase.BESTAND='+' ";
-
             Cursor mCur = mDb.rawQuery(sql, null);
             if (mCur != null) {
                 while (mCur.moveToNext()) {
-                    String locShort = mCur.getString(9);
-                    if(!locations.contains(locShort)) {
-                        locations.add(locShort);
+                    String name = mCur.getString(row);
+                    if(!result.contains(name)) {
+                        result.add(name);
                     }
                 }
             }
-            return locations;
+            return result;
         } catch (SQLException mSQLException) {
             Log.e(TAG, "getTestData >>"+ mSQLException.toString());
             throw mSQLException;
         }
     }
+
 }
 

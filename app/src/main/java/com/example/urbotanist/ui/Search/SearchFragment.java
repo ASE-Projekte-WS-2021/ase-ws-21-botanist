@@ -93,8 +93,10 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
                 return false;
             }
 
+
             @Override
             public boolean onQueryTextChange(String newText) {
+                /*
                 List<Plant> foundPlants =  searchListener.searchPlant(newText);
                 //searchListAdapter = new PlantSearchAdapter(plantNames);
                 searchListAdapter.localDataSet = foundPlants;
@@ -105,6 +107,8 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
                 else{
                     noSearchResultsText.setVisibility(View.VISIBLE);
                 }
+                */
+
                 return false;
             }
         });

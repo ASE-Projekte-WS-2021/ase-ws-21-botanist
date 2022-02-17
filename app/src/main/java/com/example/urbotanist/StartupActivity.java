@@ -54,7 +54,7 @@ public class StartupActivity extends AppCompatActivity {
                 realm.copyToRealm(plants);
             }
         });
-
+        realm.close();
 
     }
 }

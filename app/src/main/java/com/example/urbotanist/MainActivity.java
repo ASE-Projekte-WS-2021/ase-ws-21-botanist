@@ -155,18 +155,34 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
 
     @Override
     public List<Plant> searchPlant(String searchTerm) {
-        mDbHelper.open();
-        ArrayList<Plant> foundPlants = mDbHelper.getSearchResult(searchTerm);
-        mDbHelper.close();
-        return foundPlants;
+        ArrayList<Plant> result = new ArrayList<Plant>();
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for(Plant plant : realm.where(Plant.class).beginsWith("fullName", "Erica").findAll()){
+                    result.add(plant);
+                    Log.d("TAGGARIO", result.toString());
+                    Log.d("TAGGARIO", plant.fullName);
+                    Log.d("REALMYREALM", realm.isClosed() + "");
+                }
+                Log.d("RELAMYREALM", "nach for + " + realm.isClosed() + "");
+            }
+        });
+        Log.d("RELAMYREALM", "for return + " + realm.isClosed() + "");
+        //realm.close();
+        return result;
     }
 
-    @Override
-    public ArrayList<String> searchLocations(String genus, String type){
-        mDbHelper.open();
-        ArrayList<String> newLocations = mDbHelper.getLocationsForPlant(genus, type);
-        mDbHelper.close();
-        return newLocations;
+    public void testQuerie(){
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                for(Plant plant : realm.where(Plant.class).beginsWith("fullName", "Eric").findAll())
+                    Log.d("plantquerie", plant.fullName);
+            }
+        });
     }
 
     @Override
@@ -179,4 +195,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
         }
         */
     }
+
+
 }

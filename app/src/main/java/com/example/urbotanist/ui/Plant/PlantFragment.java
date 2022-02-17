@@ -91,8 +91,8 @@ public class PlantFragment extends DialogFragment{
         plantGenusNameView.setText(mViewModel.selectedPlant.genusName);
         plantFamilyNameView.setText(mViewModel.selectedPlant.familyName);
         plantTypeNameView.setText(mViewModel.selectedPlant.typeName);
-        plantCommonNameView.setText(mViewModel.selectedPlant.commonName);
-        setupAlternativeLocations();
+        // plantCommonNameView.setText(mViewModel.selectedPlant.commonName);
+        //setupAlternativeLocations();
         //the window overlap setup:
         Window window = getDialog().getWindow();
         window.setGravity(Gravity.TOP|Gravity.RIGHT);
@@ -106,6 +106,7 @@ public class PlantFragment extends DialogFragment{
 
     }
 
+    /*
     private void setupAlternativeLocations() {
         alternativeLocationContainer.setColumnCount(3);
         ArrayList<String> alternativeLocations = searchListener.searchLocations(mViewModel.selectedPlant.genusName, mViewModel.selectedPlant.typeName);
@@ -124,10 +125,12 @@ public class PlantFragment extends DialogFragment{
             alternativeLocationContainer.addView(locationButton);
         }
     }
+    */
 
     public void setAreaSelectListener(PlantSelectedListener listener) {
         this.listener = listener;
     }
+
 
 
 

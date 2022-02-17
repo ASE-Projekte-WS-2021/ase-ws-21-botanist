@@ -2,6 +2,7 @@ package com.example.urbotanist.ui.Search;
 
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class PlantSearchAdapter  extends RecyclerView.Adapter<PlantSearchAdapter
 
         //SpannableString fullName = new SpannableString(localDataSet.get(position).fullName);
         //fullName.setSpan(new UnderlineSpan(), 0, fullName.length(), 0);
+        Log.d("onBindViewHolder",  "localDataSet.get(position).fullName " + localDataSet.get(position).fullName);
         viewHolder.getAllViews()[0].setText(localDataSet.get(position).fullName);
         if (!localDataSet.get(position).commonName.isEmpty()) {
             viewHolder.getAllViews()[1].setText("(" + localDataSet.get(position).commonName + ")");
