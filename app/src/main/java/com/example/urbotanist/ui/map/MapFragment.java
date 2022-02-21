@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Icon;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -25,8 +26,14 @@ import com.example.urbotanist.ui.CurrentScreenFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.maps.android.ui.IconGenerator;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 
 public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback, ActivityResultCallback {
@@ -39,12 +46,12 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
     private String TAG = "MapFragment";
     private MapViewModel mViewModel;
+    private MarkerMaker mMarker;
     //private ImageViewTouch map;
     private GoogleMap map;
     private MapView mapView;
     private String location;
     private Button showUserPositionButton;
-
 
     public MapFragment(String location) {
             this.location = location;
@@ -65,9 +72,13 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
             }
         });
         mViewModel = new MapViewModel();
+        mMarker = new MarkerMaker();
 
         //create Map, TODO check permission
         mapView.getMapAsync(this);
+
+
+
         return v;
     }
 
@@ -105,8 +116,32 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         if (location != "") {
             setPlantLocation();
         }
+
+        /*LatLng botanic_garden = new LatLng(48.993161, 12.090753);
+        IconGenerator iconGen = new IconGenerator(getActivity());
+        MarkerOptions mOp = new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon("E")))
+                .title("Blabla")
+                .position(botanic_garden)
+                .flat(true);
+        map.addMarker(mOp);*/
+
+        addInfoMarker();
     }
 
+    private void addInfoMarker() {
+        ArrayList<MarkerInfo> markerInfos = mMarker.getMarkerInfoArray();
+        IconGenerator iconGen = new IconGenerator(getActivity());
+
+        for (MarkerInfo info : markerInfos) {
+            MarkerOptions mOp = new MarkerOptions()
+                    .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getLocationName())))
+                    .title(info.getAreaName())
+                    .position(info.getLocation())
+                    .flat(true);
+            map.addMarker(mOp);
+        }
+    }
 
 
     private void initMap() {
