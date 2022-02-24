@@ -25,10 +25,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.Sort;
 import kotlinx.coroutines.android.HandlerDispatcher;
 import pl.droidsonroids.gif.GifDrawable;
 import pl.droidsonroids.gif.GifImageView;
@@ -162,17 +164,36 @@ public class MainActivity extends AppCompatActivity implements SearchListener, P
             @Override
             public void execute(@NonNull Realm realm) {
                 // .freeze() is used to create an own object that doesn't reference the query
+                result.addAll(realm.where(Plant.class).beginsWith("fullName", searchTerm, Case.INSENSITIVE).findAll()
+                        .sort("fullName", Sort.ASCENDING).freeze());
+
+                result.addAll(realm.where(Plant.class).beginsWith("familyName", searchTerm, Case.INSENSITIVE)
+                        .or().beginsWith("commonName", searchTerm, Case.INSENSITIVE).findAll()
+                        .sort("fullName", Sort.ASCENDING).freeze());
+
                 result.addAll(realm.where(Plant.class).contains("fullName", searchTerm, Case.INSENSITIVE)
                         .or().contains("familyName", searchTerm, Case.INSENSITIVE)
-                        .or().contains("commonName", searchTerm, Case.INSENSITIVE).findAll().freeze());
+                        .or().contains("commonName", searchTerm, Case.INSENSITIVE).findAll()
+                        .sort("fullName", Sort.ASCENDING).freeze());
             }
         });
 
         try {
             Thread.sleep(100);
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e("Exception", "Time couldn't wait, it waits for noone. searchPlant, MainActivity" + e);
         }
+
+        /*ArrayList<Plant> distinctRes = new ArrayList<>();
+
+        for (Plant p : result) {
+            if(!distinctRes.contains(p)){
+                distinctRes.add(p);
+            }
+        }*/
+
+        //result.stream().distinct().collect(Collectors.toList());
+
         return result;
     }
 
