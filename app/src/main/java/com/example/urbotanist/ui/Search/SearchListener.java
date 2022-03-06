@@ -1,11 +1,9 @@
-package com.example.urbotanist.ui.Search;
+package com.example.urbotanist.ui.search;
 
-import com.example.urbotanist.ui.Plant.Plant;
-
-import java.util.ArrayList;
+import com.example.urbotanist.ui.plant.Plant;
 import java.util.List;
 
 public interface SearchListener {
-    public List<Plant> searchPlant(String searchTerm);
-    public ArrayList<String> searchLocations(String genus, String type);
+
+  public List<Plant> searchPlant(String searchTerm);
 }

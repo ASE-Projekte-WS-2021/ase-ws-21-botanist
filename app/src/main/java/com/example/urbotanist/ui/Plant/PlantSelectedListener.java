@@ -1,5 +1,6 @@
-package com.example.urbotanist.ui.Plant;
+package com.example.urbotanist.ui.plant;
 
 public interface PlantSelectedListener {
-    public void onAreaSelected(String location);
+
+  public void onAreaSelected(String location);
 }

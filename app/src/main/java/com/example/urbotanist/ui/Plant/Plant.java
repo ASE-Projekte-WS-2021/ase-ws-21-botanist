@@ -1,31 +1,115 @@
-package com.example.urbotanist.ui.Plant;
+package com.example.urbotanist.ui.plant;
 
-import android.util.Log;
 
-public class Plant {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
-    public String fullName;
-    public String genusName;
-    public String typeName;
-    public String familyName;
-    public String location;
-    public String location_long;
-    public String plantNative;
-    public String commonName;
-    public String life_form;
+public class Plant extends RealmObject {
 
-    public Plant(String genus, String type, String family, String location_short, String location_long, String plant_native, String name_common, String life_form) {
-        genusName = genus;
-        typeName = type;
-        familyName = family;
-        this.location = location_short;
-        this.location_long = location_long;
-        plantNative = plant_native;
-        this.commonName = name_common;
-        this.life_form = life_form;
+  @PrimaryKey
+  public int id;
+  public String fullName;
+  public String genusName;
+  public String typeName;
+  public String familyName;
+  public RealmList<String> location;
+  public RealmList<String> locationLong;
+  public String plantNative;
+  public RealmList<String> commonName;
+  public String lifeForm;
 
-        //Log.d("taggrio", genus + " " + type + " " + family + " " + location_short + " " + location_long + " " + plant_native + " " + name_common + " " + life_form);
-        fullName = genus + " " + type;
+  public Plant() {
 
-    }
+  }
+
+  ;
+
+  public Plant(int id, String genus, String type, String family, RealmList<String> locationShort,
+      RealmList<String> locationLong, String plantNative, RealmList<String> nameCommon,
+      String lifeForm) {
+    this.id = id;
+    genusName = genus;
+    typeName = type;
+    familyName = family;
+    this.location = locationShort;
+    this.locationLong = locationLong;
+    this.plantNative = plantNative;
+    this.commonName = nameCommon;
+    this.lifeForm = lifeForm;
+
+    fullName = genus + " " + type;
+  }
+
+  public void setFullName(String fullName) {
+    this.fullName = fullName;
+  }
+
+  public String getFullName() {
+    return fullName;
+  }
+
+  public void setGenusName(String genusName) {
+    this.genusName = genusName;
+  }
+
+  public String getGenusName() {
+    return genusName;
+  }
+
+  public void setTypeName(String typeName) {
+    this.typeName = typeName;
+  }
+
+  public String getTypeName() {
+    return typeName;
+  }
+
+  public void setFamilyName(String familyName) {
+    this.familyName = familyName;
+  }
+
+  public String getFamilyName() {
+    return familyName;
+  }
+
+  public void setLocation(RealmList<String> location) {
+    this.location = location;
+  }
+
+  public RealmList<String> getLocation() {
+    return location;
+  }
+
+  public void setLocationLong(RealmList<String> locationLong) {
+    this.locationLong = locationLong;
+  }
+
+  public RealmList<String> getLocationLong() {
+    return locationLong;
+  }
+
+  public void setPlantNative(String plantNative) {
+    this.plantNative = plantNative;
+  }
+
+  public String getPlantNative() {
+    return plantNative;
+  }
+
+  public void setCommonName(RealmList<String> commonName) {
+    this.commonName = commonName;
+  }
+
+  public RealmList<String> getCommonName() {
+    return commonName;
+  }
+
+  public void setLifeForm(String lifeForm) {
+    this.lifeForm = lifeForm;
+  }
+
+  public String getLifeForm() {
+    return lifeForm;
+  }
 }
