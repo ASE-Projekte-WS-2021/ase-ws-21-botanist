@@ -1,0 +1,28 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the main branch
+  push:
+    branches: [developer,main]
+  pull_request:
+    branches: [developer,main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - name: git-checkout
+        uses: actions/checkout@v2
+      - name: Set up JDK environment
+        uses: actions/setup-java@v2.5.0
+        with:
+          distribution: 'zulu' # See 'Supported distributions' for available options
+          java-version: '11'
+
+      - name: Run gradle checkstyle tasks
+        run: ./gradlew checkstyle --stacktrace
