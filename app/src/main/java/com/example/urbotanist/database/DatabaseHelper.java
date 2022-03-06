@@ -19,45 +19,45 @@ import java.io.OutputStream;
 
 class DatabaseHelper extends SQLiteOpenHelper {
 
-    private Context context;
-    private SQLiteDatabase dataBase;
-    private final File DB_FILE;
-    public static final String DATABASE_NAME = "database.sqlite";
-    public static final int DATABASE_VERSION = 1;
+  private Context context;
+  private SQLiteDatabase dataBase;
+  private final File DB_FILE;
+  public static final String DATABASE_NAME = "database.sqlite";
+  public static final int DATABASE_VERSION = 1;
 
-    public static String TAG = "DATABASEACTIVITY";
+  public static String TAG = "DATABASEACTIVITY";
 
-    public DatabaseHelper(@Nullable Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        DB_FILE = context.getDatabasePath(DATABASE_NAME);
-        this.context = context;
+  public DatabaseHelper(@Nullable Context context) {
+    super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    DB_FILE = context.getDatabasePath(DATABASE_NAME);
+    this.context = context;
+  }
+
+  @Override
+  public void onCreate(SQLiteDatabase db) {
+
+  }
+
+  @Override
+  public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+  }
+
+  public void createDataBase() throws IOException {
+    // If the database does not exist, copy it from the assets.
+    boolean mDataBaseExist = checkDataBase();
+    if (!mDataBaseExist) {
+      this.getReadableDatabase();
+      this.close();
+      try {
+        // Copy the database from assests
+        copyDataBase();
+        //joinDataBase();
+      } catch (IOException mIOException) {
+        throw new Error("ErrorCopyingDataBase");
+      }
     }
-
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
-
-    public void createDataBase() throws IOException {
-        // If the database does not exist, copy it from the assets.
-        boolean mDataBaseExist = checkDataBase();
-        if(!mDataBaseExist) {
-            this.getReadableDatabase();
-            this.close();
-            try {
-                // Copy the database from assests
-                copyDataBase();
-                //joinDataBase();
-            } catch (IOException mIOException) {
-                throw new Error("ErrorCopyingDataBase");
-            }
-        }
-    }
+  }
 
     /*private void joinDataBase() {
         Log.d(TAG, "wir try ");
@@ -87,34 +87,35 @@ class DatabaseHelper extends SQLiteOpenHelper {
         }
     } */
 
-    // Check that the database file exists in databases folder
-    private boolean checkDataBase() {
-        return DB_FILE.exists();
-    }
+  // Check that the database file exists in databases folder
+  private boolean checkDataBase() {
+    return DB_FILE.exists();
+  }
 
-    private void copyDataBase() throws IOException {
-        InputStream mInput = context.getAssets().open(DATABASE_NAME);
-        OutputStream mOutput = new FileOutputStream(DB_FILE);
-        byte[] mBuffer = new byte[1024];
-        int mLength;
-        while ((mLength = mInput.read(mBuffer)) > 0) {
-            mOutput.write(mBuffer, 0, mLength);
-        }
-        mOutput.flush();
-        mOutput.close();
-        mInput.close();
+  private void copyDataBase() throws IOException {
+    InputStream mInput = context.getAssets().open(DATABASE_NAME);
+    OutputStream mOutput = new FileOutputStream(DB_FILE);
+    byte[] mBuffer = new byte[1024];
+    int mLength;
+    while ((mLength = mInput.read(mBuffer)) > 0) {
+      mOutput.write(mBuffer, 0, mLength);
     }
+    mOutput.flush();
+    mOutput.close();
+    mInput.close();
+  }
 
-    public boolean openDataBase() throws SQLException {
-        dataBase = SQLiteDatabase.openDatabase(DB_FILE.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
-        return dataBase != null;
-    }
+  public boolean openDataBase() throws SQLException {
+    dataBase = SQLiteDatabase
+        .openDatabase(DB_FILE.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
+    return dataBase != null;
+  }
 
-    @Override
-    public synchronized void close() {
-        if(dataBase != null) {
-            dataBase.close();
-        }
-        super.close();
+  @Override
+  public synchronized void close() {
+    if (dataBase != null) {
+      dataBase.close();
     }
+    super.close();
+  }
 }

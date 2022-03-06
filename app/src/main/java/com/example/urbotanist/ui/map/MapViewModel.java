@@ -15,12 +15,13 @@ import java.util.HashMap;
 
 
 public class MapViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
-    private String TAG = "MAPVIEWMODEL";
-    private GoogleMap map;
-    private PolygonMaker polyMaker;
 
-    private static final int currentAreaColorCode = 0x80FDAD02;
+  // TODO: Implement the ViewModel
+  private String TAG = "MAPVIEWMODEL";
+  private GoogleMap map;
+  private PolygonMaker polyMaker;
+
+  private static final int currentAreaColorCode = 0x80FDAD02;
     /*
     private static final int COLOR_AREA_B = 0x80FFFFBF;
     private static final int COLOR_AREA_E = 0x80CDAA66;
@@ -31,8 +32,8 @@ public class MapViewModel extends ViewModel {
     private static final int COLOR_AREA_G = 0x80FF7F7E;
      */
 
-    private HashMap<String,ArrayList<PolygonOptions>> polyOpList;
-    private static final int POLY_STROKE_WIDTH = 6;
+  private HashMap<String, ArrayList<PolygonOptions>> polyOpList;
+  private static final int POLY_STROKE_WIDTH = 6;
     /*
     private static final int INDEX_T_ONE = 17;
     private static final int INDEX_T_TWO = 18;
@@ -42,37 +43,37 @@ public class MapViewModel extends ViewModel {
      */
 
 
-    public MapViewModel() {
-        polyMaker = new PolygonMaker();
-        polyOpList = polyMaker.getPolyOptions();
+  public MapViewModel() {
+    polyMaker = new PolygonMaker();
+    polyOpList = polyMaker.getPolyOptions();
+  }
+
+  public void initData(GoogleMap googleMap) {
+    map = googleMap;
+
+    addPolygonsToMap();
+    LatLng botanic_garden = new LatLng(48.993161, 12.090753);
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanic_garden, 18));
+
+
+  }
+
+  private void addPolygonsToMap() {
+    for (ArrayList<PolygonOptions> polygonList : polyOpList.values()) {
+      for (PolygonOptions polygonOption : polygonList) {
+        Polygon polygon = map.addPolygon(polygonOption);
+        polygon.setStrokeWidth(POLY_STROKE_WIDTH);
+      }
     }
+  }
 
-   public void initData (GoogleMap googleMap) {
-       map = googleMap;
-       
-       addPolygonsToMap();
-       LatLng botanic_garden = new LatLng(48.993161, 12.090753);
-       map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanic_garden, 18));
-
-
+  public void setPlantLocation(String location) {
+    if (polyOpList.get(location) != null) {
+      for (PolygonOptions polygonOptions : polyOpList.get(location)) {
+        map.addPolygon(polygonOptions.fillColor(currentAreaColorCode));
+      }
+    } else {
+      Log.e(TAG, "plant location not found in " + TAG);
     }
-
-    private void addPolygonsToMap() {
-        for (ArrayList<PolygonOptions> polygonList : polyOpList.values()){
-            for(PolygonOptions polygonOption : polygonList) {
-                Polygon polygon = map.addPolygon(polygonOption);
-                polygon.setStrokeWidth(POLY_STROKE_WIDTH);
-            }
-        }
-    }
-
-    public void setPlantLocation(String location){
-        if(polyOpList.get(location) != null) {
-            for (PolygonOptions polygonOptions : polyOpList.get(location)) {
-                map.addPolygon(polygonOptions.fillColor(currentAreaColorCode));
-            }
-        }else{
-            Log.e(TAG, "plant location not found in "+TAG);
-        }
-    }
+  }
 }

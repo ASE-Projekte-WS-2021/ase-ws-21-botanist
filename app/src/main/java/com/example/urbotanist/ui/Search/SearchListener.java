@@ -6,5 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface SearchListener {
-    public List<Plant> searchPlant(String searchTerm);
+
+  public List<Plant> searchPlant(String searchTerm);
 }

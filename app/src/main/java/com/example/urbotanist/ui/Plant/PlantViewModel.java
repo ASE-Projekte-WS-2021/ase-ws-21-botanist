@@ -4,9 +4,10 @@ import androidx.lifecycle.ViewModel;
 
 public class PlantViewModel extends ViewModel {
 
-    Plant selectedPlant;
+  Plant selectedPlant;
 
-    public void setSelectedPlant(Plant selectedPlant){
-        this.selectedPlant = selectedPlant;
-    };
+  public void setSelectedPlant(Plant selectedPlant) {
+    this.selectedPlant = selectedPlant;
+  }
+
 }
