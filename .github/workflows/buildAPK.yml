@@ -1,4 +1,4 @@
-name: Botanist
+name: CI Build
 on: 
   push:
     branches: [ main ]
