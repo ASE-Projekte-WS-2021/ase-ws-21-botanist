@@ -1,4 +1,4 @@
-package com.example.urbotanist.ui.Plant;
+package com.example.urbotanist.ui.plant;
 
 import androidx.lifecycle.ViewModel;
 

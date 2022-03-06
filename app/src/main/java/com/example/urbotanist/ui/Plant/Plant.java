@@ -1,4 +1,4 @@
-package com.example.urbotanist.ui.Plant;
+package com.example.urbotanist.ui.plant;
 
 
 import io.realm.RealmList;
@@ -25,17 +25,17 @@ public class Plant extends RealmObject {
 
   ;
 
-  public Plant(int id, String genus, String type, String family, RealmList<String> location_short,
-      RealmList<String> locationLong, String plant_native, RealmList<String> name_common,
+  public Plant(int id, String genus, String type, String family, RealmList<String> locationShort,
+      RealmList<String> locationLong, String plantNative, RealmList<String> nameCommon,
       String lifeForm) {
     this.id = id;
     genusName = genus;
     typeName = type;
     familyName = family;
-    this.location = location_short;
+    this.location = locationShort;
     this.locationLong = locationLong;
-    plantNative = plant_native;
-    this.commonName = name_common;
+    this.plantNative = plantNative;
+    this.commonName = nameCommon;
     this.lifeForm = lifeForm;
 
     fullName = genus + " " + type;
@@ -105,8 +105,8 @@ public class Plant extends RealmObject {
     return commonName;
   }
 
-  public void setLifeForm(String life_form) {
-    this.lifeForm = life_form;
+  public void setLifeForm(String lifeForm) {
+    this.lifeForm = lifeForm;
   }
 
   public String getLifeForm() {

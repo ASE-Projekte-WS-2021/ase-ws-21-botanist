@@ -1,14 +1,8 @@
-package com.example.urbotanist.ui.Plant;
+package com.example.urbotanist.ui.plant;
 
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,21 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
-import com.example.urbotanist.ui.Search.SearchListener;
-
-import java.util.ArrayList;
-import java.util.Objects;
+import com.example.urbotanist.ui.search.SearchListener;
 
 public class PlantFragment extends DialogFragment {
 
-  private PlantViewModel mViewModel;
+  private PlantViewModel plantViewModel;
   private TextView plantFullNameView;
   private TextView plantFamilyNameView;
   private TextView plantTypeNameView;
@@ -76,8 +68,8 @@ public class PlantFragment extends DialogFragment {
   public void onStart() {
     super.onStart();
     getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
-    mViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
-    mViewModel.setSelectedPlant(((MainActivity) getActivity()).getCurrentPlant());
+    plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
+    plantViewModel.setSelectedPlant(((MainActivity) getActivity()).getCurrentPlant());
     setupUi();
   }
 
@@ -86,10 +78,10 @@ public class PlantFragment extends DialogFragment {
   }
 
   public void setupUi() {
-    plantFullNameView.setText(mViewModel.selectedPlant.fullName);
-    plantGenusNameView.setText(mViewModel.selectedPlant.genusName);
-    plantFamilyNameView.setText(mViewModel.selectedPlant.familyName);
-    plantTypeNameView.setText(mViewModel.selectedPlant.typeName);
+    plantFullNameView.setText(plantViewModel.selectedPlant.fullName);
+    plantGenusNameView.setText(plantViewModel.selectedPlant.genusName);
+    plantFamilyNameView.setText(plantViewModel.selectedPlant.familyName);
+    plantTypeNameView.setText(plantViewModel.selectedPlant.typeName);
     // plantCommonNameView.setText(mViewModel.selectedPlant.commonName);
     //setupAlternativeLocations();
     //the window overlap setup:
@@ -105,26 +97,28 @@ public class PlantFragment extends DialogFragment {
 
   }
 
-    /*
-    private void setupAlternativeLocations() {
-        alternativeLocationContainer.setColumnCount(3);
-        ArrayList<String> alternativeLocations = searchListener.searchLocations(mViewModel.selectedPlant.genusName, mViewModel.selectedPlant.typeName);
+  /*
+  private void setupAlternativeLocations() {
+    alternativeLocationContainer.setColumnCount(3);
+    ArrayList<String> alternativeLocations =
+     searchListener.searchLocations(mViewModel.selectedPlant.genusName,
+      mViewModel.selectedPlant.typeName);
 
-        for(String location : alternativeLocations){
-            Button locationButton = new Button(getContext());
-            locationButton.setText(location);
-            locationButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (listener != null) {
-                        listener.onAreaSelected(location);
-                    }
+    for(String location : alternativeLocations){
+        Button locationButton = new Button(getContext());
+        locationButton.setText(location);
+        locationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null) {
+                    listener.onAreaSelected(location);
                 }
-            });
-            alternativeLocationContainer.addView(locationButton);
-        }
-    }
-    */
+            }
+        });
+        alternativeLocationContainer.addView(locationButton);
+      }
+  }
+  */
 
   public void setAreaSelectListener(PlantSelectedListener listener) {
     this.listener = listener;

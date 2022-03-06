@@ -1,18 +1,12 @@
-package com.example.urbotanist.ui.Search;
+package com.example.urbotanist.ui.search;
 
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.urbotanist.R;
-import com.example.urbotanist.ui.Plant.Plant;
-
+import com.example.urbotanist.ui.plant.Plant;
 import java.util.List;
 
 public class PlantSearchAdapter extends RecyclerView.Adapter<PlantSearchAdapter.ViewHolder> {

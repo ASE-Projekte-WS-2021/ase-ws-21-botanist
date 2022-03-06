@@ -1,4 +1,4 @@
-package com.example.urbotanist.ui.Favorites;
+package com.example.urbotanist.ui.favorites;
 
 import androidx.lifecycle.ViewModel;
 

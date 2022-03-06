@@ -1,4 +1,4 @@
-package com.example.urbotanist.ui.Plant;
+package com.example.urbotanist.ui.plant;
 
 public interface PlantSelectedListener {
 

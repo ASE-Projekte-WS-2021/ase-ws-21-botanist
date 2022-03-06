@@ -1,41 +1,33 @@
-package com.example.urbotanist.ui.Search;
+package com.example.urbotanist.ui.search;
 
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
-import com.example.urbotanist.ui.Plant.Plant;
-
+import com.example.urbotanist.ui.plant.Plant;
 import java.util.Collections;
 import java.util.List;
 
 public class SearchFragment extends CurrentScreenFragment implements SearchResultClickListener {
 
-  private SearchViewModel mViewModel;
   private SearchView searchView;
   private SearchListener searchListener;
-  private RecyclerView searchListRecycler;
   private PlantSearchAdapter searchListAdapter;
   private TextView noSearchResultsText;
-  private String TAG = this.getClass().getSimpleName();
 
   public static SearchFragment newInstance() {
     return new SearchFragment();
@@ -57,7 +49,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
       @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.search_fragment, container, false);
     searchView = v.findViewById(R.id.search_bar);
-    searchListRecycler = v.findViewById(R.id.search_list_recycler);
+    RecyclerView searchListRecycler = v.findViewById(R.id.search_list_recycler);
     noSearchResultsText = v.findViewById(R.id.no_search_results_text);
     searchListAdapter = new PlantSearchAdapter(Collections.emptyList(), this);
     searchListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
@@ -72,7 +64,6 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   @Override
   public void onStart() {
     super.onStart();
-    mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
 
   }
 

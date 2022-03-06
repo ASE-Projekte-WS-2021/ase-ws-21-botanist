@@ -1,45 +1,33 @@
 package com.example.urbotanist;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import com.example.urbotanist.database.DatabaseAdapterActivity;
-import com.example.urbotanist.ui.Plant.Plant;
-import com.example.urbotanist.ui.Plant.PlantFragment;
-import com.example.urbotanist.ui.Plant.PlantSelectedListener;
-import com.example.urbotanist.ui.Search.SearchFragment;
-import com.example.urbotanist.ui.Search.SearchListener;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.example.urbotanist.ui.plant.Plant;
+import com.example.urbotanist.ui.plant.PlantFragment;
+import com.example.urbotanist.ui.plant.PlantSelectedListener;
+import com.example.urbotanist.ui.search.SearchFragment;
+import com.example.urbotanist.ui.search.SearchListener;
 import io.realm.Case;
 import io.realm.Realm;
-import io.realm.RealmConfiguration;
 import io.realm.Sort;
-import kotlinx.coroutines.android.HandlerDispatcher;
-import pl.droidsonroids.gif.GifDrawable;
+import java.util.ArrayList;
+import java.util.List;
 import pl.droidsonroids.gif.GifImageView;
 
 
 public class MainActivity extends AppCompatActivity implements SearchListener,
     PlantSelectedListener {
 
-  DatabaseAdapterActivity mDbHelper;
+  DatabaseAdapterActivity dbHelper;
 
   public MapFragment mapFragment = new MapFragment("");
   public SearchFragment searchFragment = new SearchFragment();
@@ -99,8 +87,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   }
 
   private void initDatabase() {
-    mDbHelper = new DatabaseAdapterActivity(this);
-    mDbHelper.createDatabase();
+    dbHelper = new DatabaseAdapterActivity(this);
+    dbHelper.createDatabase();
   }
 
 
@@ -190,13 +178,13 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       Log.e("Exception", "Time couldn't wait, it waits for noone. searchPlant, MainActivity" + e);
     }
 
-        /*ArrayList<Plant> distinctRes = new ArrayList<>();
+    /*ArrayList<Plant> distinctRes = new ArrayList<>();
 
-        for (Plant p : result) {
-            if(!distinctRes.contains(p)){
-                distinctRes.add(p);
-            }
-        }*/
+    for (Plant p : result) {
+        if(!distinctRes.contains(p)){
+            distinctRes.add(p);
+        }
+    }*/
 
     //result.stream().distinct().collect(Collectors.toList());
 

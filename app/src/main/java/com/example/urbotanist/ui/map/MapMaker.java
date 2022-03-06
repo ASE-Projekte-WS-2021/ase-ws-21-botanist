@@ -1,16 +1,13 @@
 package com.example.urbotanist.ui.map;
 
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.material.shape.MarkerEdgeTreatment;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class MarkerMaker {
+public class MapMaker {
 
-  private ArrayList<MarkerInfo> markerInfoArray = new ArrayList<MarkerInfo>();
+  private final ArrayList<MarkerInfo> markerInfoArray = new ArrayList<MarkerInfo>();
 
-  public MarkerMaker() {
+  public MapMaker() {
     initMarkerArray();
   }
 

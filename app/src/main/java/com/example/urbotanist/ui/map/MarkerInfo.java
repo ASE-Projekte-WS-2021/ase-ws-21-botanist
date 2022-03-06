@@ -4,9 +4,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class MarkerInfo {
 
-  private String locationName;
-  private LatLng location;
-  private String areaName;
+  private final String locationName;
+  private final LatLng location;
+  private final String areaName;
 
   public MarkerInfo(String locationName, LatLng location, String areaName) {
     this.locationName = locationName;

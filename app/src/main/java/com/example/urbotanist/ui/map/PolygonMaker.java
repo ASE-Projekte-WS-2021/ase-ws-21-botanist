@@ -2,12 +2,9 @@ package com.example.urbotanist.ui.map;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class PolygonMaker {
 
@@ -28,18 +25,17 @@ public class PolygonMaker {
   private PolygonOptions polyOpP;
   private PolygonOptions polyOpR;
   private PolygonOptions polyOpS;
-  private PolygonOptions polyOpTOne;
-  private PolygonOptions polyOpTTwo;
-  private PolygonOptions polyOpUOne;
-  private PolygonOptions polyOpUTwo;
-  private PolygonOptions polyOpUThree;
+  private PolygonOptions polyOpT1;
+  private PolygonOptions polyOpT2;
+  private PolygonOptions polyOpU1;
+  private PolygonOptions polyOpU2;
+  private PolygonOptions polyOpU3;
   private PolygonOptions polyOpV;
   private PolygonOptions polyOpX;
   private PolygonOptions polyOpY;
   private PolygonOptions polyOpZ;
 
   private final HashMap<String, ArrayList<PolygonOptions>> polyOpList = new HashMap<>();
-  ;
 
   public PolygonMaker() {
     initPolygonOptions();
@@ -64,8 +60,8 @@ public class PolygonMaker {
     polyOpList.put("P", new ArrayList(Arrays.asList(polyOpP)));
     polyOpList.put("R", new ArrayList(Arrays.asList(polyOpR)));
     polyOpList.put("S", new ArrayList(Arrays.asList(polyOpS)));
-    polyOpList.put("T", new ArrayList(Arrays.asList(polyOpTOne, polyOpTTwo)));
-    polyOpList.put("U", new ArrayList(Arrays.asList(polyOpUOne, polyOpUTwo, polyOpUThree)));
+    polyOpList.put("T", new ArrayList(Arrays.asList(polyOpT1, polyOpT2)));
+    polyOpList.put("U", new ArrayList(Arrays.asList(polyOpU1, polyOpU2, polyOpU3)));
     polyOpList.put("V", new ArrayList(Arrays.asList(polyOpV)));
     polyOpList.put("X", new ArrayList(Arrays.asList(polyOpX)));
     polyOpList.put("Y", new ArrayList(Arrays.asList(polyOpY)));
@@ -201,25 +197,25 @@ public class PolygonMaker {
             new LatLng(48.993487, 12.093818),
             new LatLng(48.993484, 12.092758));
 
-    polyOpTOne = new PolygonOptions()
+    polyOpT1 = new PolygonOptions()
         .add(new LatLng(48.993485, 12.092853),
             new LatLng(48.993480, 12.093473),
             new LatLng(48.993319, 12.093489),
             new LatLng(48.993325, 12.092834));
 
-    polyOpTTwo = new PolygonOptions()
+    polyOpT2 = new PolygonOptions()
         .add(new LatLng(48.993483, 12.093614),
             new LatLng(48.993487, 12.093818),
             new LatLng(48.993415, 12.093828),
             new LatLng(48.993414, 12.093615));
 
-    polyOpUOne = new PolygonOptions()
+    polyOpU1 = new PolygonOptions()
         .add(new LatLng(48.993074, 12.091570),
             new LatLng(48.993071, 12.091634),
             new LatLng(48.992865, 12.091704),
             new LatLng(48.992887, 12.091584));
 
-    polyOpUTwo = new PolygonOptions()
+    polyOpU2 = new PolygonOptions()
         .add(new LatLng(48.993552, 12.091610),
             new LatLng(48.993523, 12.092626),
             new LatLng(48.993484, 12.092638),
@@ -227,7 +223,7 @@ public class PolygonMaker {
             new LatLng(48.993499, 12.092276),
             new LatLng(48.993500, 12.091680));
 
-    polyOpUThree = new PolygonOptions()
+    polyOpU3 = new PolygonOptions()
         .add(new LatLng(48.992882, 12.091875),
             new LatLng(48.992922, 12.091971),
             new LatLng(48.993029, 12.092239),
