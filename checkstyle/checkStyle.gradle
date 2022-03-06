@@ -1,0 +1,16 @@
+apply plugin: 'checkstyle'
+
+task checkstyle(type: Checkstyle) {
+    description 'check code standard'
+    group 'verification'
+    configFile file('../checkstyle/google_checks.xml')
+    source 'src/main/java'
+    include '**/*.java'
+    exclude '**/gen/**'
+    exclude '**/R.java'
+    exclude '**/BuildConfig.java'
+    ignoreFailures = false
+    showViolations = true
+
+    classpath = files()
+}

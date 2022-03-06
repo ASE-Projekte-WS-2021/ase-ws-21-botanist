@@ -1,7 +1,6 @@
 package com.example.urbotanist;
 
 import android.app.Application;
-
 import io.realm.Realm;
 
 public class BotanistApplication extends Application {

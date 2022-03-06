@@ -13,6 +13,16 @@ buildscript {
     }
 }
 
+allprojects {
+    repositories {
+    }
+
+    ext {
+        compatibility = JavaVersion.VERSION_1_8
+    }
+    apply from: rootProject.file('checkstyle/checkStyle.gradle')
+}
+
 
 task clean(type: Delete) {
     delete rootProject.buildDir
