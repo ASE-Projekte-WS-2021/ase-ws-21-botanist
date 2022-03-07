@@ -112,6 +112,7 @@ public class DatabaseAdapterActivity {
             result.add(name);
           }
         }
+        cursor.close();
       }
       return result;
     } catch (SQLException sqlException) {
