@@ -3,9 +3,13 @@ package com.example.urbotanist.ui.map;
 import androidx.lifecycle.ViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.maps.android.ui.IconGenerator;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
@@ -13,8 +17,9 @@ import java.util.Objects;
 
 public class MapViewModel extends ViewModel {
 
-  // TODO: Implement the ViewModel
   private GoogleMap map;
+  private MapMarkerMaker mapMaker;
+  private IconGenerator iconGen;
 
   private static final int currentAreaColorCode = 0x80FDAD02;
   /*
@@ -29,18 +34,13 @@ public class MapViewModel extends ViewModel {
 
   private final HashMap<String, ArrayList<PolygonOptions>> polyOpList;
   private static final int POLY_STROKE_WIDTH = 6;
-  /*
-  private static final int INDEX_T_ONE = 17;
-  private static final int INDEX_T_TWO = 18;
-  private static final int INDEX_U_ONE = 19;
-  private static final int INDEX_U_TWO = 20;
-  private static final int INDEX_U_THREE = 21;
-   */
 
 
-  public MapViewModel() {
+  public MapViewModel(IconGenerator iconGen) {
+    this.iconGen = iconGen;
     PolygonMaker polyMaker = new PolygonMaker();
     polyOpList = polyMaker.getPolyOptions();
+    mapMaker = new MapMarkerMaker();
   }
 
   public void initData(GoogleMap googleMap) {
@@ -51,6 +51,20 @@ public class MapViewModel extends ViewModel {
     map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanicGarden, 18));
 
 
+  }
+
+  public void initInfoMarker() {
+    ArrayList<MarkerInfo> markerInfos = mapMaker.getMarkerInfoArray();
+
+    for (MarkerInfo info : markerInfos) {
+      MarkerOptions markerOptions = new MarkerOptions()
+              .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getLocationName())))
+              .title(info.getAreaName())
+              .position(info.getLocation())
+              .visible(false)
+              .flat(true);
+      map.addMarker(markerOptions);
+    }
   }
 
   private void addPolygonsToMap() {

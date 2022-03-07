@@ -3,19 +3,19 @@ package com.example.urbotanist.ui.map;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
-public class MapMaker {
+public class MapMarkerMaker {
 
   private final ArrayList<MarkerInfo> markerInfoArray = new ArrayList<MarkerInfo>();
 
-  public MapMaker() {
+  public MapMarkerMaker() {
     initMarkerArray();
   }
 
   private void initMarkerArray() {
     markerInfoArray
-        .add(new MarkerInfo("A", new LatLng(48.993714, 12.090622), "Bruch- und Auwälder"));
+            .add(new MarkerInfo("A", new LatLng(48.993714, 12.090622), "Bruch- und Auwälder"));
     markerInfoArray
-        .add(new MarkerInfo("B", new LatLng(48.993109, 12.089627), "Submediterraner Bereich"));
+            .add(new MarkerInfo("B", new LatLng(48.993109, 12.089627), "Submediterraner Bereich"));
     markerInfoArray.add(new MarkerInfo("C", new LatLng(48.993333, 12.092587), "Kalkalpenbeet"));
     markerInfoArray.add(new MarkerInfo("D", new LatLng(48.993002, 12.091739), "Schulgarten"));
     markerInfoArray
