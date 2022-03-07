@@ -43,6 +43,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   private MapView mapView;
   private String location;
   private Button showUserPositionButton;
+  private Button toggleMarkerButton;
 
   public MapFragment(String location) {
     this.location = location;
@@ -60,6 +61,13 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
       @Override
       public void onClick(View view) {
         requestLocationPermissions();
+      }
+    });
+    toggleMarkerButton = v.findViewById(R.id.toggle_marker_button);
+    toggleMarkerButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mapViewModel.toggleMarker();
       }
     });
     IconGenerator iconGen = new IconGenerator(getActivity());

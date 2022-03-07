@@ -5,6 +5,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
@@ -20,6 +21,7 @@ public class MapViewModel extends ViewModel {
   private GoogleMap map;
   private MapMarkerMaker mapMaker;
   private IconGenerator iconGen;
+  ArrayList<Marker> markerList = new ArrayList<Marker>();
 
   private static final int currentAreaColorCode = 0x80FDAD02;
   /*
@@ -54,16 +56,26 @@ public class MapViewModel extends ViewModel {
   }
 
   public void initInfoMarker() {
-    ArrayList<MarkerInfo> markerInfos = mapMaker.getMarkerInfoArray();
+    ArrayList<MarkerInfo> markerInfoList = mapMaker.getMarkerInfoArray();
 
-    for (MarkerInfo info : markerInfos) {
-      MarkerOptions markerOptions = new MarkerOptions()
+    for (MarkerInfo info : markerInfoList) {
+      Marker infoMarker = map.addMarker(new MarkerOptions()
               .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getLocationName())))
               .title(info.getAreaName())
               .position(info.getLocation())
               .visible(false)
-              .flat(true);
-      map.addMarker(markerOptions);
+              .flat(true));
+      markerList.add(infoMarker);
+    }
+  }
+
+  public void toggleMarker() {
+    for (Marker marker : markerList) {
+      if (marker.isVisible()) {
+        marker.setVisible(false);
+      } else {
+        marker.setVisible(true);
+      }
     }
   }
 
