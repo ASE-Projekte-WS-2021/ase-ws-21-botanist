@@ -15,14 +15,20 @@ public class MapMarkerMaker {
     markerInfoArray
             .add(new MarkerInfo("A", new LatLng(48.993714, 12.090622), "Bruch- und Auwälder"));
     markerInfoArray
-            .add(new MarkerInfo("B", new LatLng(48.993109, 12.089627), "Submediterraner Bereich"));
+            .add(new MarkerInfo("B", new LatLng(48.992941, 12.089658), "Submediterraner Bereich"));
     markerInfoArray.add(new MarkerInfo("C", new LatLng(48.993333, 12.092587), "Kalkalpenbeet"));
-    markerInfoArray.add(new MarkerInfo("D", new LatLng(48.993002, 12.091739), "Schulgarten"));
+    markerInfoArray.add(new MarkerInfo("D", new LatLng(48.993010, 12.091769), "Schulgarten"));
     markerInfoArray
         .add(new MarkerInfo("E", new LatLng(48.993669, 12.089771), "Eichen-Birkenwälder"));
     markerInfoArray.add(new MarkerInfo("F", new LatLng(48.993288, 12.091611), "Felsengarten"));
+    //markerInfoArray
+    //    .add(new MarkerInfo("G", new LatLng(48.992625, 12.090544), "Geografische Abteilung"));
     markerInfoArray
-        .add(new MarkerInfo("G", new LatLng(48.992625, 12.090544), "Geografische Abteilung"));
+            .add(new MarkerInfo("G3", new LatLng(48.992697, 12.091060), "Amerika"));
+    markerInfoArray
+            .add(new MarkerInfo("G2", new LatLng(48.992598, 12.090575), "Asien"));
+    markerInfoArray
+            .add(new MarkerInfo("G1", new LatLng(48.992637, 12.089911), "Europa"));
     markerInfoArray
         .add(new MarkerInfo("H", new LatLng(48.994818, 12.091314), "Alpine Höhenstufengliederung"));
     markerInfoArray
@@ -39,11 +45,16 @@ public class MapMarkerMaker {
         .add(new MarkerInfo("P", new LatLng(48.993413, 12.091968), "Pharmazeutischer Garten"));
     markerInfoArray.add(new MarkerInfo("R", new LatLng(48.993502, 12.093180), "Schaufensterbeete"));
     markerInfoArray.add(new MarkerInfo("T", new LatLng(48.993397, 12.093149), "Gewächshäuser"));
+    markerInfoArray.add(new MarkerInfo("T", new LatLng(48.993461, 12.093716), "Gewächshäuser"));
     markerInfoArray
         .add(new MarkerInfo("U", new LatLng(48.993532, 12.092116), "Rubus- & Sorbus-Sammlung"));
     markerInfoArray
+            .add(new MarkerInfo("U", new LatLng(48.992947, 12.092129), "Rubus- & Sorbus-Sammlung"));
+    markerInfoArray
+            .add(new MarkerInfo("U", new LatLng(48.992964, 12.091612), "Rubus- & Sorbus-Sammlung"));
+    markerInfoArray
         .add(new MarkerInfo("V", new LatLng(48.993163, 12.092096), "Versuchs- & Anzuchtflächen"));
-    markerInfoArray.add(new MarkerInfo("X", new LatLng(48.993304, 12.093059), "Vermehrungskästen"));
+    markerInfoArray.add(new MarkerInfo("X", new LatLng(48.993404, 12.092591), "Vermehrungskästen"));
     markerInfoArray.add(new MarkerInfo("Y", new LatLng(48.993258, 12.092723), "Schaupflanzung"));
     markerInfoArray
         .add(new MarkerInfo("Z", new LatLng(48.994650, 12.090150), "Zergstrauchtundra und Moor"));
