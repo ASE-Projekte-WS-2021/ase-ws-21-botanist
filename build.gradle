@@ -20,7 +20,7 @@ allprojects {
     ext {
         compatibility = JavaVersion.VERSION_1_8
     }
-    apply from: rootProject.file('checkstyle/checkStyle.gradle')
+    apply from: rootProject.file('checkStyle.gradle')
 }
 
 
