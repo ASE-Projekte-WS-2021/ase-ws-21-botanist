@@ -10,11 +10,13 @@
 
 
     <androidx.appcompat.widget.SearchView
+        android:contentDescription="searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/search_bar"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:iconifiedByDefault="false"
         android:background="@color/grey"
         android:elevation="@dimen/cardview_default_elevation"/>
 

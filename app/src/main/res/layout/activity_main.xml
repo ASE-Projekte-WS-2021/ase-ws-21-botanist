@@ -54,8 +54,6 @@
             app:layout_constraintRight_toRightOf="@id/map_button"
             app:tint="@color/green" />
 
-        />
-
         <Button
             android:id="@+id/search_button"
             android:contentDescription="searchButton"
@@ -82,6 +80,7 @@
             app:tint="@color/green" />
 
         <Button
+            android:contentDescription="infoButton"
             android:id="@+id/bar_icon_background"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -90,7 +89,6 @@
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintWidth_percent="0.40"
-
             />
 
         <ImageView
