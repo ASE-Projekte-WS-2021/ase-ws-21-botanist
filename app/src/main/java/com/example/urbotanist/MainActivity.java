@@ -21,6 +21,8 @@ import io.realm.Realm;
 import io.realm.Sort;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import pl.droidsonroids.gif.GifImageView;
 
 
@@ -156,12 +158,10 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void execute(@NonNull Realm realm) {
         // .freeze() is used to create an own object that doesn't reference the query
-        result.addAll(
-            realm.where(Plant.class).beginsWith("fullName", searchTerm, Case.INSENSITIVE).findAll()
+        result.addAll(realm.where(Plant.class).beginsWith("fullName", searchTerm, Case.INSENSITIVE).findAll()
                 .sort("fullName", Sort.ASCENDING).freeze());
 
-        result
-            .addAll(realm.where(Plant.class).beginsWith("familyName", searchTerm, Case.INSENSITIVE)
+        result.addAll(realm.where(Plant.class).beginsWith("familyName", searchTerm, Case.INSENSITIVE)
                 .or().beginsWith("commonName", searchTerm, Case.INSENSITIVE).findAll()
                 .sort("fullName", Sort.ASCENDING).freeze());
 
@@ -178,15 +178,34 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       Log.e("Exception", "Time couldn't wait, it waits for noone. searchPlant, MainActivity" + e);
     }
 
-    /*ArrayList<Plant> distinctRes = new ArrayList<>();
-
-    for (Plant p : result) {
-        if(!distinctRes.contains(p)){
-            distinctRes.add(p);
-        }
+    /*try {
+      betterResult.addAll(result);
+      betterResult.stream().distinct().collect(Collectors.toList());
+    } catch (Exception e) {
+      Log.e("Exception", "Could not make results distinct " + e.toString());
     }*/
 
-    //result.stream().distinct().collect(Collectors.toList());
+    return result;
+  }
+
+  public List<Plant> getPlantsInArea(String areaName) {
+    ArrayList<Plant> result = new ArrayList<>();
+    Realm realm = Realm.getDefaultInstance();
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(@NonNull Realm realm) {
+        // .freeze() is used to create an own object that doesn't reference the query
+        result.addAll(
+                realm.where(Plant.class).contains("location", areaName, Case.INSENSITIVE).findAll()
+                        .sort("fullName", Sort.ASCENDING).freeze());
+      }
+    });
+
+    try {
+      Thread.sleep(100);
+    } catch (Exception e) {
+      Log.e("Exception", "Time couldn't wait, it waits for noone. getPlantsInArea, MainActivity" + e);
+    }
 
     return result;
   }
