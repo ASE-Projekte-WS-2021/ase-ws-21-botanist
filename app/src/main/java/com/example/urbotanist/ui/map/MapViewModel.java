@@ -22,7 +22,7 @@ public class MapViewModel extends ViewModel {
   private IconGenerator iconGen;
   ArrayList<Marker> markerList = new ArrayList<Marker>();
 
-  private static final int currentAreaColorCode = 0x80FDAD02;
+  private static final int currentAreaColorCode = 0x90FDAD02;
   /*
   private static final int COLOR_AREA_B = 0x80FFFFBF;
   private static final int COLOR_AREA_E = 0x80CDAA66;
@@ -35,6 +35,7 @@ public class MapViewModel extends ViewModel {
 
   private final HashMap<String, ArrayList<PolygonOptions>> polyOpList;
   private static final int POLY_STROKE_WIDTH = 6;
+  private static final int POLY_STROKE_WIDTH_PLANT_SELECTED = 18;
 
 
   public MapViewModel(IconGenerator iconGen) {
@@ -90,7 +91,7 @@ public class MapViewModel extends ViewModel {
   public void setPlantLocation(String location) {
     if (polyOpList.get(location) != null) {
       for (PolygonOptions polygonOptions : Objects.requireNonNull(polyOpList.get(location))) {
-        map.addPolygon(polygonOptions.fillColor(currentAreaColorCode));
+        map.addPolygon(polygonOptions.fillColor(currentAreaColorCode).strokeWidth(POLY_STROKE_WIDTH_PLANT_SELECTED));
       }
     }
   }
