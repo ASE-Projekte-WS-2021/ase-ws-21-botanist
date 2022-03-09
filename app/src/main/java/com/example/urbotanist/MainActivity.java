@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -16,6 +17,8 @@ import com.example.urbotanist.ui.plant.PlantFragment;
 import com.example.urbotanist.ui.plant.PlantSelectedListener;
 import com.example.urbotanist.ui.search.SearchFragment;
 import com.example.urbotanist.ui.search.SearchListener;
+import com.sileria.android.Kit;
+import com.sileria.android.view.SlidingTray;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.Sort;
@@ -38,16 +41,21 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   private Button searchButton;
   private Button infoButton;
   private GifImageView splashscreen;
+  private SlidingTray slidingTrayDrawer;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTheme(R.style.noTransition);
+    getSupportFragmentManager().beginTransaction().replace(R.id.content, plantFragment)
+        .commit();
+    Kit.init(this);
     setContentView(R.layout.activity_main);
     setupSplashscreen();
     initDatabase();
     preloadViews();
     executeDelayedActions(4000);
+
   }
 
   private void preloadViews() {
@@ -55,8 +63,12 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     showMapButton = findViewById(R.id.map_button);
     searchButton = findViewById(R.id.search_button);
     infoButton = findViewById(R.id.bar_icon_background);
-    loadCurrentScreenFragment(searchFragment);
+    slidingTrayDrawer = findViewById(R.id.drawer);
     loadCurrentScreenFragment(mapFragment);
+    ImageView handle =  findViewById(R.id.handle);
+    handle.setX(handle.getX() + 200f); //TODO  Calculate right position for handle
+
+
   }
 
   private void setupSplashscreen() {
@@ -82,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
   private void showMapWithArea(String location) {
     MapFragment locationFragment = new MapFragment(location);
-    plantFragment.closeWindow();
     loadCurrentScreenFragment(locationFragment);
   }
 
@@ -115,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
         showMapWithArea(location);
       }
     });
+
+
+
+
   }
 
   private void focusButton(Button focusButton) {
@@ -130,13 +145,20 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     String fragmentName = fragment.getClass().getSimpleName();
     if (infoFragment.getClass().getSimpleName().equals(fragmentName)) {
       focusButton(infoButton);
+
     } else if (searchFragment.getClass().getSimpleName().equals(fragmentName)) {
       focusButton(searchButton);
+
     } else if (mapFragment.getClass().getSimpleName().equals(fragmentName)) {
       focusButton(showMapButton);
+
     }
     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
         .commit();
+
+
+
+
   }
 
   public void setCurrentPlant(Plant plant) {
@@ -147,6 +169,9 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     return this.currentPlant;
   }
 
+  public void openDrawer() {
+    slidingTrayDrawer.animateOpen();
+  }
 
   @Override
   public List<Plant> searchPlant(String searchTerm) {

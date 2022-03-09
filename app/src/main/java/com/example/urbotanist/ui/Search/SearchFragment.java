@@ -103,9 +103,11 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     MainActivity mainActivity = (MainActivity) getActivity();
     if (mainActivity != null) {
       mainActivity.setCurrentPlant(plant);
-      mainActivity.plantFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
-      mainActivity.plantFragment.show(mainActivity.getSupportFragmentManager(), "Info");
+      //mainActivity.plantFragment.show(mainActivity.getSupportFragmentManager(), "Info");
       //mainActivity.loadCurrentScreenFragment(mainActivity.plantFragment);
+      mainActivity.plantFragment.setupUi();
+      mainActivity.openDrawer();
+
 
     } else {
       Log.e("TAG", "Failed to open Fragment; MainActivity not found");
