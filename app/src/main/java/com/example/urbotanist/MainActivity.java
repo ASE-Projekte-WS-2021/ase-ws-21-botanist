@@ -1,5 +1,7 @@
 package com.example.urbotanist;
 
+import android.annotation.SuppressLint;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -17,6 +19,11 @@ import com.example.urbotanist.ui.plant.PlantFragment;
 import com.example.urbotanist.ui.plant.PlantSelectedListener;
 import com.example.urbotanist.ui.search.SearchFragment;
 import com.example.urbotanist.ui.search.SearchListener;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.LocationSource;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.sileria.android.Kit;
 import com.sileria.android.view.SlidingTray;
 import io.realm.Case;
@@ -28,7 +35,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 
 public class MainActivity extends AppCompatActivity implements SearchListener,
-    PlantSelectedListener {
+    PlantSelectedListener, LocationSource.OnLocationChangedListener {
 
   DatabaseAdapterActivity dbHelper;
 
@@ -37,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   public InfoFragment infoFragment = new InfoFragment();
   public PlantFragment plantFragment = new PlantFragment();
   Plant currentPlant;
+  private LatLng currentLocation;
+  private FusedLocationProviderClient fusedLocationClient;
   private Button showMapButton;
   private Button searchButton;
   private Button infoButton;
@@ -54,8 +63,24 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     setupSplashscreen();
     initDatabase();
     preloadViews();
+    getLastUserLocation();
     executeDelayedActions(4000);
 
+  }
+
+  @SuppressLint("MissingPermission")
+  private void getLastUserLocation() {
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    fusedLocationClient.getLastLocation()
+            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+              @Override
+              public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                  currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                }
+              }
+            });
   }
 
   private void preloadViews() {
@@ -236,6 +261,10 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     return result;
   }
 
+  @Override
+  public void onLocationChanged(@NonNull Location location) {
+    currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+  }
 
   @Override
   public void onAreaSelected(String location) {

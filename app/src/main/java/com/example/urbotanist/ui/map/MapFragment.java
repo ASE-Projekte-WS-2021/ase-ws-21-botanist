@@ -41,12 +41,12 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   //private ImageViewTouch map;
   private GoogleMap map;
   private MapView mapView;
-  private String location;
+  private String plantLocation;
   private Button showUserPositionButton;
   private Button toggleMarkerButton;
 
-  public MapFragment(String location) {
-    this.location = location;
+  public MapFragment(String plantLocation) {
+    this.plantLocation = plantLocation;
   }
 
   @Override
@@ -112,7 +112,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
     //setup polygons
     mapViewModel.initData(map);
-    if (location != "") {
+    if (plantLocation != "") {
       setPlantLocation();
     }
 
@@ -187,7 +187,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   }
 
   private void setPlantLocation() {
-    String areaType = location.substring(0, 1);
+    String areaType = plantLocation.substring(0, 1);
     mapViewModel.setPlantLocation(areaType);
   }
 
