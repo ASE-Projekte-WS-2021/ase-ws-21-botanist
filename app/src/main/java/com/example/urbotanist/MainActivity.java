@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   public InfoFragment infoFragment = new InfoFragment();
   public PlantFragment plantFragment = new PlantFragment();
   Plant currentPlant;
-  private LatLng currentLocation;
+  private LatLng currentUserLocation;
   private FusedLocationProviderClient fusedLocationClient;
   private Button showMapButton;
   private Button searchButton;
@@ -77,7 +77,10 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
               public void onSuccess(Location location) {
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
-                  currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                  currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                  //TODO LatLng location to MapViewModel, search for right Polygon and get Location String.
+                  mapFragment.getPlantsInArea(currentUserLocation);
+                  //getPlantsInArea();
                 }
               }
             });
@@ -263,7 +266,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
   @Override
   public void onLocationChanged(@NonNull Location location) {
-    currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+    currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
+    //getPlantsInArea();
   }
 
   @Override

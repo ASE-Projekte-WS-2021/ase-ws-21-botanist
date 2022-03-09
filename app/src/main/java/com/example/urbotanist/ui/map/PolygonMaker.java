@@ -36,11 +36,45 @@ public class PolygonMaker {
   private PolygonOptions polyOpZ;
 
   private final HashMap<String, ArrayList<PolygonOptions>> polyOpList = new HashMap<>();
+  private ArrayList<PolygonInfo> polyInfoList = new ArrayList<>();
 
   public PolygonMaker() {
     initPolygonOptions();
-    fillList();
+    fillArrayList();
+    //fillList();
   }
+
+  private void fillArrayList() {
+    polyInfoList.add(new PolygonInfo("A", new ArrayList<>(Arrays.asList(polyOpA))));
+    polyInfoList.add(new PolygonInfo("B", new ArrayList(Arrays.asList(polyOpB))));
+    polyInfoList.add(new PolygonInfo("C", new ArrayList(Arrays.asList(polyOpC))));
+    polyInfoList.add(new PolygonInfo("D", new ArrayList(Arrays.asList(polyOpD))));
+    polyInfoList.add(new PolygonInfo("E", new ArrayList(Arrays.asList(polyOpE))));
+    polyInfoList.add(new PolygonInfo("F", new ArrayList(Arrays.asList(polyOpF))));
+    polyInfoList.add(new PolygonInfo("G", new ArrayList(Arrays.asList(polyOpG))));
+    polyInfoList.add(new PolygonInfo("H", new ArrayList(Arrays.asList(polyOpH))));
+    polyInfoList.add(new PolygonInfo("I", new ArrayList(Arrays.asList(polyOpI))));
+    polyInfoList.add(new PolygonInfo("J", new ArrayList(Arrays.asList(polyOpJ))));
+    polyInfoList.add(new PolygonInfo("K", new ArrayList(Arrays.asList(polyOpK))));
+    polyInfoList.add(new PolygonInfo("L", new ArrayList(Arrays.asList(polyOpL))));
+    polyInfoList.add(new PolygonInfo("M", new ArrayList(Arrays.asList(polyOpM))));
+    polyInfoList.add(new PolygonInfo("N", new ArrayList(Arrays.asList(polyOpN))));
+    polyInfoList.add(new PolygonInfo("P", new ArrayList(Arrays.asList(polyOpP))));
+    polyInfoList.add(new PolygonInfo("R", new ArrayList(Arrays.asList(polyOpR))));
+    polyInfoList.add(new PolygonInfo("S", new ArrayList(Arrays.asList(polyOpS))));
+    polyInfoList.add(new PolygonInfo("T", new ArrayList(Arrays.asList(polyOpT1, polyOpT2))));
+    polyInfoList.add(new PolygonInfo("U", new ArrayList(Arrays.asList(polyOpU1, polyOpU2, polyOpU3))));
+    polyInfoList.add(new PolygonInfo("V", new ArrayList(Arrays.asList(polyOpV))));
+    polyInfoList.add(new PolygonInfo("X", new ArrayList(Arrays.asList(polyOpX))));
+    polyInfoList.add(new PolygonInfo("Y", new ArrayList(Arrays.asList(polyOpY))));
+    polyInfoList.add(new PolygonInfo("Z", new ArrayList(Arrays.asList(polyOpZ))));
+  }
+
+  public ArrayList<PolygonInfo> getPolyInfoList() {
+    return polyInfoList;
+  }
+
+  //ArrayList mit Objekten, die Location und polyOp als ArrayList haben
 
   private void fillList() {
     polyOpList.put("A", new ArrayList(Arrays.asList(polyOpA)));
@@ -68,9 +102,9 @@ public class PolygonMaker {
     polyOpList.put("Z", new ArrayList(Arrays.asList(polyOpZ)));
   }
 
-  public HashMap<String, ArrayList<PolygonOptions>> getPolyOptions() {
-    return polyOpList;
-  }
+  //public HashMap<String, ArrayList<PolygonOptions>> getPolyOptions() {
+   // return polyOpList;
+  //}
 
   private void initPolygonOptions() {
     polyOpA = new PolygonOptions()
