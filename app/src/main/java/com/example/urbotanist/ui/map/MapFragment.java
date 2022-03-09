@@ -38,12 +38,12 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
       northEastMapBorder);
 
   private MapViewModel mapViewModel;
-  private MapMaker mapMaker;
   //private ImageViewTouch map;
   private GoogleMap map;
   private MapView mapView;
   private String location;
   private Button showUserPositionButton;
+  private Button toggleMarkerButton;
 
   public MapFragment(String location) {
     this.location = location;
@@ -63,8 +63,15 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         requestLocationPermissions();
       }
     });
-    mapViewModel = new MapViewModel();
-    mapMaker = new MapMaker();
+    toggleMarkerButton = v.findViewById(R.id.toggle_marker_button);
+    toggleMarkerButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mapViewModel.toggleMarker();
+      }
+    });
+    IconGenerator iconGen = new IconGenerator(getActivity());
+    mapViewModel = new MapViewModel(iconGen);
 
     //create Map, TODO check permission
     mapView.getMapAsync(this);
@@ -78,7 +85,9 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     super.onStart();
     mapView.onStart();
     initGui();
-    mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
+    //TODO error
+    //"Cannot create an instance of class com.example.urbotanist.ui.map.MapViewModel"
+    //mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
   }
 
   public void initGui() {
@@ -107,21 +116,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
       setPlantLocation();
     }
 
-    addInfoMarker();
-  }
-
-  private void addInfoMarker() {
-    ArrayList<MarkerInfo> markerInfos = mapMaker.getMarkerInfoArray();
-    IconGenerator iconGen = new IconGenerator(getActivity());
-
-    for (MarkerInfo info : markerInfos) {
-      MarkerOptions markerOptions = new MarkerOptions()
-          .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getLocationName())))
-          .title(info.getAreaName())
-          .position(info.getLocation())
-          .flat(true);
-      map.addMarker(markerOptions);
-    }
+    mapViewModel.initInfoMarker();
   }
 
 

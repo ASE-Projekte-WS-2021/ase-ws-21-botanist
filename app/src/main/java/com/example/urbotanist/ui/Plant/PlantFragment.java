@@ -60,11 +60,6 @@ public class PlantFragment extends Fragment {
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-    try {
-      searchListener = (SearchListener) context;
-    } catch (ClassCastException e) {
-      Log.e("CastException", "Activity must extend searchListener: " + e.getLocalizedMessage());
-    }
   }
 
 
@@ -86,24 +81,13 @@ public class PlantFragment extends Fragment {
       plantGenusNameView.setText(plantViewModel.selectedPlant.genusName);
       plantFamilyNameView.setText(plantViewModel.selectedPlant.familyName);
       plantTypeNameView.setText(plantViewModel.selectedPlant.typeName);
+      setupPlantCommonNames();
 
       plantInfoScrollViewContainer.setVisibility(View.VISIBLE);
       plantFullNameView.setVisibility(View.VISIBLE);
       noPlantSelectedView.setVisibility(View.GONE);
 
-
-      // plantCommonNameView.setText(mViewModel.selectedPlant.commonName);
       setupAlternativeLocations();
-      //the window overlap setup:
-      /*Window window = getDialog().getWindow();
-      window.setGravity(Gravity.TOP | Gravity.RIGHT);
-      int width = (int) (getResources().getDisplayMetrics().widthPixels * 0.95);
-      int height = (int) (getResources().getDisplayMetrics().heightPixels * 0.90);
-      window.setLayout(width, height);
-      WindowManager.LayoutParams p = getDialog().getWindow().getAttributes();
-      p.y = (int) (getResources().getDisplayMetrics().heightPixels * 0.04);
-      getDialog().getWindow().setAttributes(p);
-      getDialog().setCanceledOnTouchOutside(true);*/
     } else {
       plantInfoScrollViewContainer.setVisibility(View.GONE);
       plantFullNameView.setVisibility(View.GONE);
@@ -112,6 +96,17 @@ public class PlantFragment extends Fragment {
     }
 
 
+  private void setupPlantCommonNames() {
+    String allNames = "";
+    if(!plantViewModel.selectedPlant.commonName.isEmpty()) {
+      for (String name : plantViewModel.selectedPlant.commonName) {
+        allNames += name + ", ";
+      }
+      allNames = allNames.substring(0, allNames.length() - 2);
+      plantCommonNameView.setText(allNames);
+    } else {
+      plantCommonNameView.setText("Nicht vorhanden");
+    }
   }
 
 
@@ -135,10 +130,7 @@ public class PlantFragment extends Fragment {
     }
   }
 
-
   public void setAreaSelectListener(PlantSelectedListener listener) {
     this.listener = listener;
   }
-
-
 }

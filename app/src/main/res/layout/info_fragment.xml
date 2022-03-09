@@ -105,14 +105,12 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:gravity="left">
                         <TextView
                             android:layout_marginHorizontal="10dp"
                             android:padding="5dip"
                             android:textStyle="bold"
                             android:text="@string/infoOpeningHoursR3C1" />
-                        <TextView
-                            android:layout_column="2" />
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent"
@@ -142,14 +140,12 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:gravity="left">
                         <TextView
                             android:layout_marginHorizontal="10dp"
                             android:padding="5dip"
                             android:textStyle="bold"
                             android:text="@string/infoOpeningHoursR4C1" />
-                        <TextView
-                            android:layout_column="2"/>
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent"
@@ -178,14 +174,12 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:gravity="left">
                         <TextView
                             android:layout_marginHorizontal="10dp"
                             android:padding="5dip"
                             android:textStyle="bold"
                             android:text="@string/infoOpeningHoursR5C1" />
-                        <TextView
-                            android:layout_column="2"/>
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent"
@@ -215,14 +209,12 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:gravity="center">
+                        android:gravity="left">
                         <TextView
                             android:layout_marginHorizontal="10dp"
                             android:padding="5dip"
                             android:textStyle="bold"
                             android:text="@string/infoOpeningHoursR6C1" />
-                        <TextView
-                            android:layout_column="2"/>
                     </TableRow>
                     <TableRow
                         android:layout_width="match_parent"
