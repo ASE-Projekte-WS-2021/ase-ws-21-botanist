@@ -10,7 +10,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.ui.IconGenerator;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;

@@ -24,8 +24,6 @@ import io.realm.Realm;
 import io.realm.Sort;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import pl.droidsonroids.gif.GifImageView;
 
 
@@ -183,12 +181,14 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void execute(@NonNull Realm realm) {
         // .freeze() is used to create an own object that doesn't reference the query
-        result.addAll(realm.where(Plant.class).beginsWith("fullName", searchTerm, Case.INSENSITIVE).findAll()
-                .sort("fullName", Sort.ASCENDING).freeze());
+        result.addAll(realm.where(Plant.class)
+            .beginsWith("fullName", searchTerm, Case.INSENSITIVE).findAll()
+            .sort("fullName", Sort.ASCENDING).freeze());
 
-        result.addAll(realm.where(Plant.class).beginsWith("familyName", searchTerm, Case.INSENSITIVE)
-                .or().beginsWith("commonName", searchTerm, Case.INSENSITIVE).findAll()
-                .sort("fullName", Sort.ASCENDING).freeze());
+        result.addAll(realm.where(Plant.class)
+            .beginsWith("familyName", searchTerm, Case.INSENSITIVE)
+            .or().beginsWith("commonName", searchTerm, Case.INSENSITIVE).findAll()
+            .sort("fullName", Sort.ASCENDING).freeze());
 
         result.addAll(realm.where(Plant.class).contains("fullName", searchTerm, Case.INSENSITIVE)
             .or().contains("familyName", searchTerm, Case.INSENSITIVE)
@@ -229,7 +229,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     try {
       Thread.sleep(100);
     } catch (Exception e) {
-      Log.e("Exception", "Time couldn't wait, it waits for noone. getPlantsInArea, MainActivity" + e);
+      Log.e("Exception", "Time couldn't wait,"
+          + " it waits for noone. getPlantsInArea, MainActivity" + e);
     }
 
     return result;

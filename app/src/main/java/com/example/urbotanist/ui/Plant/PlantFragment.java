@@ -95,10 +95,11 @@ public class PlantFragment extends Fragment {
       noPlantSelectedView.setVisibility(View.VISIBLE);
     }
 
+  }
 
   private void setupPlantCommonNames() {
     String allNames = "";
-    if(!plantViewModel.selectedPlant.commonName.isEmpty()) {
+    if (!plantViewModel.selectedPlant.commonName.isEmpty()) {
       for (String name : plantViewModel.selectedPlant.commonName) {
         allNames += name + ", ";
       }
