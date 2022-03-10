@@ -43,5 +43,7 @@
     <string name="no_search_results_found">Keine Ergebnisse gefunden</string>
     <string name="user_position_button_text">Meine Position zeigen</string>
   <string name="no_plant_selected_text">No Plant Selected</string>
+  <string name="LOCATION_FULL_NAME">LOCATION_FULL_NAME</string>
+    <string name="no_location_selected">No Location Selected</string>
 
 </resources>
