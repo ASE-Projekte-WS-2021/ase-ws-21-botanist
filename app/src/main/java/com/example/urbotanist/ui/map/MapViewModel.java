@@ -57,7 +57,7 @@ public class MapViewModel extends ViewModel {
 
     addPolygonsToMap();
     LatLng botanicGarden = new LatLng(48.993161, 12.090753);
-    map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanicGarden, 18));
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanicGarden, 17));
 
 
   }
