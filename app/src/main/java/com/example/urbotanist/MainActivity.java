@@ -4,13 +4,17 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.example.urbotanist.database.DatabaseAdapterActivity;
 import com.example.urbotanist.ui.info.InfoFragment;
+import com.example.urbotanist.ui.location.Location;
+import com.example.urbotanist.ui.location.LocationFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.plant.PlantFragment;
@@ -35,20 +39,22 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   public MapFragment mapFragment = new MapFragment("");
   public SearchFragment searchFragment = new SearchFragment();
   public InfoFragment infoFragment = new InfoFragment();
-  public PlantFragment plantFragment = new PlantFragment();
-  Plant currentPlant;
+  public PlantFragment plantDrawerFragment = new PlantFragment();
+  public LocationFragment locationDrawerFragment = new LocationFragment();
+  private Plant currentPlant;
+  private Location currentLocation;
   private Button showMapButton;
   private Button searchButton;
   private Button infoButton;
   private GifImageView splashscreen;
   private SlidingTray slidingTrayDrawer;
+  private ImageView drawerPlantButton;
+  private ImageView drawerLocationButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTheme(R.style.noTransition);
-    getSupportFragmentManager().beginTransaction().replace(R.id.content, plantFragment)
-        .commit();
     Kit.init(this);
     setContentView(R.layout.activity_main);
     setupSplashscreen();
@@ -64,9 +70,18 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     searchButton = findViewById(R.id.search_button);
     infoButton = findViewById(R.id.bar_icon_background);
     slidingTrayDrawer = findViewById(R.id.drawer);
+    drawerPlantButton = findViewById(R.id.drawer_plants_button);
+    drawerLocationButton = findViewById(R.id.drawer_locations_button);
+
+    loadCurrentScreenFragment(searchFragment);
     loadCurrentScreenFragment(mapFragment);
+
+    // need to load the plant fragment for a short time to  set it up correctly
+    loadCurrentDrawerFragment(plantDrawerFragment);
+    loadCurrentDrawerFragment(locationDrawerFragment);
+
     ImageView handle =  findViewById(R.id.handle);
-    handle.setX(handle.getX() + 200f); //TODO  Calculate right position for handle
+    handle.setX(handle.getX() + 300f); //TODO  Calculate right position for handle
 
 
   }
@@ -120,15 +135,34 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
       }
     });
-    plantFragment.setAreaSelectListener(new PlantSelectedListener() {
+
+    drawerPlantButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        loadCurrentDrawerFragment(plantDrawerFragment);
+        drawerPlantButton.setBackground(null);
+        drawerLocationButton.setBackground(ContextCompat.getDrawable(view.getContext(),
+            R.drawable.inside_shadow_background));
+      }
+    });
+
+    drawerLocationButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        loadCurrentDrawerFragment(locationDrawerFragment);
+        drawerLocationButton.setBackground(null);
+        drawerPlantButton.setBackground(ContextCompat.getDrawable(view.getContext(),
+            R.drawable.inside_shadow_background));
+      }
+    });
+
+
+    plantDrawerFragment.setAreaSelectListener(new PlantSelectedListener() {
       @Override
       public void onAreaSelected(String location) {
         showMapWithArea(location);
       }
     });
-
-
-
 
   }
 
@@ -138,6 +172,11 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     searchButton.getBackground().setAlpha(128);
     showMapButton.getBackground().setAlpha(128);
     focusButton.getBackground().setAlpha(255);
+  }
+
+  public void loadCurrentDrawerFragment(Fragment fragment) {
+    getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
+        .commit();
   }
 
 
@@ -156,13 +195,18 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
         .commit();
 
-
-
-
   }
 
   public void setCurrentPlant(Plant plant) {
     this.currentPlant = plant;
+  }
+
+  public Location getCurrentLocation() {
+    return this.currentLocation;
+  }
+
+  public void setCurrentLocation(Location location) {
+    this.currentLocation = location;
   }
 
   public Plant getCurrentPlant() {
@@ -241,6 +285,16 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   public void onAreaSelected(String location) {
     showMapWithArea(location);
 
+  }
+
+  // Override back button to close drawer instead of closing app if drawer is open
+  @Override
+  public void onBackPressed() {
+    if (slidingTrayDrawer.isOpened()) {
+      slidingTrayDrawer.animateClose();
+    } else {
+      super.onBackPressed();
+    }
   }
 
 

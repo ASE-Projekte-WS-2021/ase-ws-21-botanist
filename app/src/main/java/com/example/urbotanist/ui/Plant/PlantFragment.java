@@ -1,6 +1,7 @@
 package com.example.urbotanist.ui.plant;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,10 +20,11 @@ import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.search.SearchListener;
 import io.realm.RealmList;
+import java.util.Objects;
 
 public class PlantFragment extends Fragment {
 
-  private PlantViewModel plantViewModel;
+  public PlantViewModel plantViewModel;
   private TextView plantFullNameView;
   private TextView plantFamilyNameView;
   private TextView plantTypeNameView;
@@ -60,21 +62,25 @@ public class PlantFragment extends Fragment {
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
+    plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
+
   }
 
 
   @Override
   public void onStart() {
     super.onStart();
+    setupUi(((MainActivity) requireActivity()).getCurrentPlant());
     //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
-    plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
 
-    setupUi();
   }
 
 
-  public void setupUi() {
-    plantViewModel.setSelectedPlant(((MainActivity) getActivity()).getCurrentPlant());
+  public void setupUi(Plant plant) {
+    if  (plantViewModel == null) {
+      plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
+    }
+    plantViewModel.setSelectedPlant(plant);
     if (plantViewModel.selectedPlant != null) {
 
       plantFullNameView.setText(plantViewModel.selectedPlant.fullName);
@@ -117,7 +123,7 @@ public class PlantFragment extends Fragment {
         plantViewModel.selectedPlant.location;
 
     for (String location : alternativeLocations) {
-      Button locationButton = new Button(getContext());
+      Button locationButton = new Button(plantCommonNameView.getContext());
       locationButton.setText(location);
       locationButton.setOnClickListener(new View.OnClickListener() {
             @Override

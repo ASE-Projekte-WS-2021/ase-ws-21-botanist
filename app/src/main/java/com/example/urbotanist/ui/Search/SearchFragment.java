@@ -1,17 +1,19 @@
 package com.example.urbotanist.ui.search;
 
 
+import static com.sileria.android.Kit.getSystemService;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -98,10 +100,16 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     MainActivity mainActivity = (MainActivity) getActivity();
     if (mainActivity != null) {
       mainActivity.setCurrentPlant(plant);
-      //mainActivity.plantFragment.show(mainActivity.getSupportFragmentManager(), "Info");
-      //mainActivity.loadCurrentScreenFragment(mainActivity.plantFragment);
-      mainActivity.plantFragment.setupUi();
+      mainActivity.loadCurrentDrawerFragment(mainActivity.plantDrawerFragment);
       mainActivity.openDrawer();
+      mainActivity.plantDrawerFragment.setupUi(plant);
+
+      //Close The keyboard
+      View view = mainActivity.getCurrentFocus();
+      if (view != null) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+      }
 
 
     } else {
