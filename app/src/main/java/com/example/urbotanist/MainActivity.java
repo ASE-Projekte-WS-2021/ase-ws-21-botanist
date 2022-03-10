@@ -1,6 +1,8 @@
 package com.example.urbotanist;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -205,12 +207,12 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     String fragmentName = fragment.getClass().getSimpleName();
     if (plantDrawerFragment.getClass().getSimpleName().equals(fragmentName)) {
       drawerAreaButton.setBackground(null);
-      drawerPlantButton.setBackground(ContextCompat.getDrawable(this,
-          R.drawable.inside_shadow_background));
+      //drawerPlantButton.setBackground(getDrawable(R.color.white));
+      drawerPlantButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
     } else if (areaDrawerFragment.getClass().getSimpleName().equals(fragmentName)) {
       drawerPlantButton.setBackground(null);
-      drawerAreaButton.setBackground(ContextCompat.getDrawable(this,
-          R.drawable.inside_shadow_background));
+      //drawerPlantButton.setBackground(getDrawable(R.color.white));
+      drawerAreaButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
 
     }
 

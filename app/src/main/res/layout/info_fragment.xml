@@ -303,7 +303,6 @@
             android:id="@+id/impressumButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:rippleColor="#33AAAAAA"
             app:strokeColor="@color/green"
             app:strokeWidth="2dp"
             app:layout_constraintBottom_toBottomOf="parent"

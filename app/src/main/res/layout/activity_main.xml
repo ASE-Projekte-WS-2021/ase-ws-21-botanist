@@ -130,7 +130,7 @@
       android:id="@+id/content"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@drawable/ic_itemcardview">
+      android:background="@drawable/ic_drawerview2">
 
       <androidx.fragment.app.FragmentContainerView
         android:id="@+id/drawer_fragment_container"
@@ -154,14 +154,15 @@
           android:layout_width="100dp"
           android:layout_height="match_parent"
           android:background="@drawable/inside_shadow_background"
-          android:src="@drawable/locations_icon"
+            android:layout_marginBottom="7dp"
+          android:src="@drawable/ic_mapicon_kl"
 
           />
         <ImageView
           android:id="@+id/drawer_plants_button"
           android:layout_width="100dp"
           android:layout_height="match_parent"
-          android:src="@drawable/plant_icon"
+          android:src="@drawable/ic_item"
 
           />
 
