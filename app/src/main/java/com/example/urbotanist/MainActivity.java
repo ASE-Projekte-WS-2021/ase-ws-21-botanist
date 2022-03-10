@@ -166,9 +166,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void onClick(View view) {
         loadCurrentDrawerFragment(plantDrawerFragment);
-        drawerAreaButton.setBackground(null);
-        drawerPlantButton.setBackground(ContextCompat.getDrawable(view.getContext(),
-            R.drawable.inside_shadow_background));
       }
     });
 
@@ -176,9 +173,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void onClick(View view) {
         loadCurrentDrawerFragment(areaDrawerFragment);
-        drawerPlantButton.setBackground(null);
-        drawerAreaButton.setBackground(ContextCompat.getDrawable(view.getContext(),
-            R.drawable.inside_shadow_background));
       }
     });
 
@@ -208,6 +202,18 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   }
 
   public void loadCurrentDrawerFragment(Fragment fragment) {
+    String fragmentName = fragment.getClass().getSimpleName();
+    if (plantDrawerFragment.getClass().getSimpleName().equals(fragmentName)) {
+      drawerAreaButton.setBackground(null);
+      drawerPlantButton.setBackground(ContextCompat.getDrawable(this,
+          R.drawable.inside_shadow_background));
+    } else if (areaDrawerFragment.getClass().getSimpleName().equals(fragmentName)) {
+      drawerPlantButton.setBackground(null);
+      drawerAreaButton.setBackground(ContextCompat.getDrawable(this,
+          R.drawable.inside_shadow_background));
+
+    }
+
     getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
         .commit();
   }
