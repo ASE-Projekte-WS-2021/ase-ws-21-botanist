@@ -76,12 +76,12 @@ public class MapViewModel extends ViewModel {
     }
   }
 
-  public void toggleMarker() {
+  public void setShowMarker(boolean show) {
     for (Marker marker : markerList) {
-      if (marker.isVisible()) {
-        marker.setVisible(false);
-      } else {
+      if (show) {
         marker.setVisible(true);
+      } else {
+        marker.setVisible(false);
       }
     }
   }
