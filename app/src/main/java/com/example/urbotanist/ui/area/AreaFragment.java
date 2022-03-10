@@ -33,6 +33,7 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   private AreaViewModel areaViewModel;
   private TextView areaFullNameView;
   private Button areaShortNameView;
+  private TextView plantsInAreaHeader;
   private TextView noAreaSelectedView;
   private RecyclerView areaPlantListRecycler;
   private PlantSearchAdapter plantListAdapter;
@@ -55,6 +56,7 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
     areaShortNameView = v.findViewById(R.id.area_short_name);
     noAreaSelectedView = v.findViewById(R.id.no_area_selected);
     showAreaButton = v.findViewById(R.id.show_area_button);
+    plantsInAreaHeader = v.findViewById(R.id.area_plant_list_header);
     plantListAdapter = new PlantSearchAdapter(Collections.emptyList(), this);
     areaPlantListRecycler = v.findViewById(R.id.area_plant_list_recycler);
     areaPlantListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
@@ -112,6 +114,8 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
       areaPlantListRecycler.setVisibility(View.VISIBLE);
       areaFullNameView.setVisibility(View.VISIBLE);
       areaShortNameView.setVisibility(View.VISIBLE);
+      showAreaButton.setVisibility(View.VISIBLE);
+      plantsInAreaHeader.setVisibility(View.VISIBLE);
       noAreaSelectedView.setVisibility(View.GONE);
       showAreaButton.setOnClickListener(view -> {
         areaSelectListener.onAreaSelected(areaViewModel.selectedArea.areaName);
@@ -122,6 +126,8 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
       areaPlantListRecycler.setVisibility(View.GONE);
       areaFullNameView.setVisibility(View.GONE);
       areaShortNameView.setVisibility(View.GONE);
+      showAreaButton.setVisibility(View.GONE);
+      plantsInAreaHeader.setVisibility(View.GONE);
 
       noAreaSelectedView.setVisibility(View.VISIBLE);
     }
