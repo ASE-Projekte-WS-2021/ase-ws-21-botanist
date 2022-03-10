@@ -179,9 +179,12 @@
   <pl.droidsonroids.gif.GifImageView
       android:id="@+id/splashscreen"
       tools:visibility="invisible"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_width="0dp"
+      app:layout_constraintWidth_percent="1.03"
+      android:layout_height="0dp"
       android:scaleType="centerCrop"
+      android:adjustViewBounds="true"
+      app:layout_constraintDimensionRatio="H,9:16"
       android:background="@drawable/botanist_splashscreen_p2"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent" />
