@@ -61,7 +61,8 @@ public class PolygonMaker {
     polyInfoList.add(new PolygonInfo("R", new ArrayList(Arrays.asList(polyOpR))));
     polyInfoList.add(new PolygonInfo("S", new ArrayList(Arrays.asList(polyOpS))));
     polyInfoList.add(new PolygonInfo("T", new ArrayList(Arrays.asList(polyOpT1, polyOpT2))));
-    polyInfoList.add(new PolygonInfo("U", new ArrayList(Arrays.asList(polyOpU1, polyOpU2, polyOpU3))));
+    polyInfoList.add(new PolygonInfo("U", new ArrayList(Arrays.asList(polyOpU1,
+        polyOpU2, polyOpU3))));
     polyInfoList.add(new PolygonInfo("V", new ArrayList(Arrays.asList(polyOpV))));
     polyInfoList.add(new PolygonInfo("X", new ArrayList(Arrays.asList(polyOpX))));
     polyInfoList.add(new PolygonInfo("Y", new ArrayList(Arrays.asList(polyOpY))));

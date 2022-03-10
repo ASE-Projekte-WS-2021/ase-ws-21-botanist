@@ -1,11 +1,9 @@
-package com.example.urbotanist.ui.location;
+package com.example.urbotanist.ui.area;
 
 
 import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
-public class Location {
+public class Area {
 
   public int id;
   public String fullName;
@@ -18,13 +16,13 @@ public class Location {
   public RealmList<String> commonName;
   public String lifeForm;
 
-  public Location() {
+  public Area() {
 
   }
 
   ;
 
-  public Location(int id, String genus, String type, String family, RealmList<String> locationShort,
+  public Area(int id, String genus, String type, String family, RealmList<String> locationShort,
       RealmList<String> locationLong, String plantNative, RealmList<String> nameCommon,
       String lifeForm) {
     this.id = id;

@@ -14,9 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.example.urbotanist.database.DatabaseAdapterActivity;
+import com.example.urbotanist.ui.area.Area;
+import com.example.urbotanist.ui.area.AreaFragment;
 import com.example.urbotanist.ui.info.InfoFragment;
-import com.example.urbotanist.ui.location.Location;
-import com.example.urbotanist.ui.location.LocationFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.plant.PlantFragment;
@@ -47,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   public SearchFragment searchFragment = new SearchFragment();
   public InfoFragment infoFragment = new InfoFragment();
   public PlantFragment plantDrawerFragment = new PlantFragment();
-  public LocationFragment locationDrawerFragment = new LocationFragment();
+  public AreaFragment areaDrawerFragment = new AreaFragment();
   private Plant currentPlant;
-  private Location currentLocation;
+  private Area currentSelectedArea;
   private LatLng currentUserLocation;
   private FusedLocationProviderClient fusedLocationClient;
   private Button showMapButton;
@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   private GifImageView splashscreen;
   private SlidingTray slidingTrayDrawer;
   private ImageView drawerPlantButton;
-  private ImageView drawerLocationButton;
+  private ImageView drawerAreaButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
                   currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                  //TODO LatLng location to MapViewModel, search for right Polygon and get Location String.
+                  //TODO LatLng location to MapViewModel,
+                  // search for right Polygon and get Location String.
                   mapFragment.getPlantsInUserArea(currentUserLocation);
                 }
               }
@@ -97,14 +98,14 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     infoButton = findViewById(R.id.bar_icon_background);
     slidingTrayDrawer = findViewById(R.id.drawer);
     drawerPlantButton = findViewById(R.id.drawer_plants_button);
-    drawerLocationButton = findViewById(R.id.drawer_locations_button);
+    drawerAreaButton = findViewById(R.id.drawer_areas_button);
 
     loadCurrentScreenFragment(searchFragment);
     loadCurrentScreenFragment(mapFragment);
 
     // need to load the plant fragment for a short time to  set it up correctly
     loadCurrentDrawerFragment(plantDrawerFragment);
-    loadCurrentDrawerFragment(locationDrawerFragment);
+    loadCurrentDrawerFragment(areaDrawerFragment);
 
     ImageView handle =  findViewById(R.id.handle);
     handle.setX(handle.getX() + 300f); //TODO  Calculate right position for handle
@@ -133,9 +134,9 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     }, delay);
   }
 
-  private void showMapWithArea(String location) {
-    MapFragment locationFragment = new MapFragment(location);
-    loadCurrentScreenFragment(locationFragment);
+  private void showMapWithArea(String area) {
+    mapFragment = new MapFragment(area);
+    loadCurrentScreenFragment(mapFragment);
   }
 
   private void initDatabase() {
@@ -166,16 +167,16 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       public void onClick(View view) {
         loadCurrentDrawerFragment(plantDrawerFragment);
         drawerPlantButton.setBackground(null);
-        drawerLocationButton.setBackground(ContextCompat.getDrawable(view.getContext(),
+        drawerAreaButton.setBackground(ContextCompat.getDrawable(view.getContext(),
             R.drawable.inside_shadow_background));
       }
     });
 
-    drawerLocationButton.setOnClickListener(new OnClickListener() {
+    drawerAreaButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
-        loadCurrentDrawerFragment(locationDrawerFragment);
-        drawerLocationButton.setBackground(null);
+        loadCurrentDrawerFragment(areaDrawerFragment);
+        drawerAreaButton.setBackground(null);
         drawerPlantButton.setBackground(ContextCompat.getDrawable(view.getContext(),
             R.drawable.inside_shadow_background));
       }
@@ -184,8 +185,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
     plantDrawerFragment.setAreaSelectListener(new PlantSelectedListener() {
       @Override
-      public void onAreaSelected(String location) {
-        showMapWithArea(location);
+      public void onAreaSelected(String area) {
+        showMapWithArea(area);
       }
     });
 
@@ -222,12 +223,12 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     this.currentPlant = plant;
   }
 
-  public Location getCurrentLocation() {
-    return this.currentLocation;
+  public Area getCurrentSelectedArea() {
+    return this.currentSelectedArea;
   }
 
-  public void setCurrentLocation(Location location) {
-    this.currentLocation = location;
+  public void setCurrentSelectedArea(Area area) {
+    this.currentSelectedArea = area;
   }
 
   public Plant getCurrentPlant() {

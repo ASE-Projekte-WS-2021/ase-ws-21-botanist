@@ -150,7 +150,7 @@
         app:layout_constraintRight_toRightOf="parent"
         >
         <ImageView
-          android:id="@+id/drawer_locations_button"
+          android:id="@+id/drawer_areas_button"
           android:layout_width="100dp"
           android:layout_height="match_parent"
           android:background="@drawable/inside_shadow_background"

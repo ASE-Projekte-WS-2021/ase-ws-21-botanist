@@ -1,4 +1,4 @@
-package com.example.urbotanist.ui.location;
+package com.example.urbotanist.ui.area;
 
 
 import android.content.Context;
@@ -15,25 +15,25 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 
-public class LocationFragment extends Fragment {
+public class AreaFragment extends Fragment {
 
-  private LocationViewModel locationViewModel;
+  private AreaViewModel areaViewModel;
   private TextView locationFullNameView;
   private TextView noLocationSelectedView;
   private ScrollView locationInfoScrollViewContainer;
 
 
-  private LocationSelectedListener listener;
+  private AreaSelectedListener listener;
 
-  public static LocationFragment newInstance() {
-    return new LocationFragment();
+  public static AreaFragment newInstance() {
+    return new AreaFragment();
   }
 
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
-    View v = inflater.inflate(R.layout.location_fragment, container, false);
+    View v = inflater.inflate(R.layout.area_fragment, container, false);
     locationFullNameView = v.findViewById(R.id.location_header);
     noLocationSelectedView = v.findViewById(R.id.no_location_selected);
     locationInfoScrollViewContainer = v.findViewById(R.id.location_info_scroll_view_container);
@@ -52,17 +52,17 @@ public class LocationFragment extends Fragment {
   public void onStart() {
     super.onStart();
     //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
-    locationViewModel = new ViewModelProvider(this).get(LocationViewModel.class);
+    areaViewModel = new ViewModelProvider(this).get(AreaViewModel.class);
 
     setupUi();
   }
 
 
   public void setupUi() {
-    locationViewModel.setSelectedPlant(((MainActivity) getActivity()).getCurrentLocation());
-    if (locationViewModel.selectedLocation != null) {
+    areaViewModel.setSelectedPlant(((MainActivity) getActivity()).getCurrentSelectedArea());
+    if (areaViewModel.selectedArea != null) {
 
-      locationFullNameView.setText(locationViewModel.selectedLocation.fullName);
+      locationFullNameView.setText(areaViewModel.selectedArea.fullName);
 
       locationInfoScrollViewContainer.setVisibility(View.VISIBLE);
       locationFullNameView.setVisibility(View.VISIBLE);
@@ -78,7 +78,7 @@ public class LocationFragment extends Fragment {
   }
 
 
-  public void setAreaSelectListener(LocationSelectedListener listener) {
+  public void setAreaSelectListener(AreaSelectedListener listener) {
     this.listener = listener;
   }
 }
