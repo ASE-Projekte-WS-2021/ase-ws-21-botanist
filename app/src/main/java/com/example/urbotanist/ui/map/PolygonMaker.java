@@ -35,13 +35,11 @@ public class PolygonMaker {
   private PolygonOptions polyOpY;
   private PolygonOptions polyOpZ;
 
-  private final HashMap<String, ArrayList<PolygonOptions>> polyOpList = new HashMap<>();
   private ArrayList<PolygonInfo> polyInfoList = new ArrayList<>();
 
   public PolygonMaker() {
     initPolygonOptions();
     fillArrayList();
-    //fillList();
   }
 
   private void fillArrayList() {
@@ -73,38 +71,6 @@ public class PolygonMaker {
   public ArrayList<PolygonInfo> getPolyInfoList() {
     return polyInfoList;
   }
-
-  //ArrayList mit Objekten, die Location und polyOp als ArrayList haben
-
-  private void fillList() {
-    polyOpList.put("A", new ArrayList(Arrays.asList(polyOpA)));
-    polyOpList.put("B", new ArrayList(Arrays.asList(polyOpB)));
-    polyOpList.put("C", new ArrayList(Arrays.asList(polyOpC)));
-    polyOpList.put("D", new ArrayList(Arrays.asList(polyOpD)));
-    polyOpList.put("E", new ArrayList(Arrays.asList(polyOpE)));
-    polyOpList.put("F", new ArrayList(Arrays.asList(polyOpF)));
-    polyOpList.put("G", new ArrayList(Arrays.asList(polyOpG)));
-    polyOpList.put("H", new ArrayList(Arrays.asList(polyOpH)));
-    polyOpList.put("I", new ArrayList(Arrays.asList(polyOpI)));
-    polyOpList.put("J", new ArrayList(Arrays.asList(polyOpJ)));
-    polyOpList.put("K", new ArrayList(Arrays.asList(polyOpK)));
-    polyOpList.put("L", new ArrayList(Arrays.asList(polyOpL)));
-    polyOpList.put("M", new ArrayList(Arrays.asList(polyOpM)));
-    polyOpList.put("N", new ArrayList(Arrays.asList(polyOpN)));
-    polyOpList.put("P", new ArrayList(Arrays.asList(polyOpP)));
-    polyOpList.put("R", new ArrayList(Arrays.asList(polyOpR)));
-    polyOpList.put("S", new ArrayList(Arrays.asList(polyOpS)));
-    polyOpList.put("T", new ArrayList(Arrays.asList(polyOpT1, polyOpT2)));
-    polyOpList.put("U", new ArrayList(Arrays.asList(polyOpU1, polyOpU2, polyOpU3)));
-    polyOpList.put("V", new ArrayList(Arrays.asList(polyOpV)));
-    polyOpList.put("X", new ArrayList(Arrays.asList(polyOpX)));
-    polyOpList.put("Y", new ArrayList(Arrays.asList(polyOpY)));
-    polyOpList.put("Z", new ArrayList(Arrays.asList(polyOpZ)));
-  }
-
-  //public HashMap<String, ArrayList<PolygonOptions>> getPolyOptions() {
-   // return polyOpList;
-  //}
 
   private void initPolygonOptions() {
     polyOpA = new PolygonOptions()

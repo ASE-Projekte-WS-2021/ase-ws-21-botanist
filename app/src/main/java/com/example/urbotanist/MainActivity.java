@@ -79,8 +79,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
                 if (location != null) {
                   currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
                   //TODO LatLng location to MapViewModel, search for right Polygon and get Location String.
-                  mapFragment.getPlantsInArea(currentUserLocation);
-                  //getPlantsInArea();
+                  mapFragment.getPlantsInUserArea(currentUserLocation);
                 }
               }
             });
@@ -267,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   @Override
   public void onLocationChanged(@NonNull Location location) {
     currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
-    //getPlantsInArea();
+    mapFragment.getPlantsInUserArea(currentUserLocation);
   }
 
   @Override

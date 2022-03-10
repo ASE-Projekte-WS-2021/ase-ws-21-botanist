@@ -149,7 +149,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     }
   }
 
-  public String getPlantsInArea(LatLng currentUserLocation) {
+  public String getPlantsInUserArea(LatLng currentUserLocation) {
     return mapViewModel.currentUserArea(currentUserLocation);
   }
 

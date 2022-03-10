@@ -1,6 +1,5 @@
 package com.example.urbotanist.ui.map;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 
 import java.util.ArrayList;
