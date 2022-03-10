@@ -44,6 +44,9 @@
     <string name="user_position_button_text">Meine Position zeigen</string>
   <string name="no_plant_selected_text">Keine Pflanze ausgewählt</string>
   <string name="LOCATION_FULL_NAME">LOCATION_FULL_NAME</string>
-    <string name="no_area_selected">Kein Bereich Ausgewählt</string>
+    <string name="no_area_selected">Kein Bereich ausgewählt</string>
+  <string name="LOCATION_SHORT_NAME">LOCATION_SHORT_NAME</string>
+    <string name="plants_in_area_header">Pflanzen in diesem Gebiet</string>
+    <string name="show_are_button_text">Auf Karte anzeigen</string>
 
 </resources>

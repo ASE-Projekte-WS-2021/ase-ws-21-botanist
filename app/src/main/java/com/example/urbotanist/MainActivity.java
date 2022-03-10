@@ -16,11 +16,11 @@ import androidx.fragment.app.Fragment;
 import com.example.urbotanist.database.DatabaseAdapterActivity;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaFragment;
+import com.example.urbotanist.ui.area.AreaSelectListener;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.plant.PlantFragment;
-import com.example.urbotanist.ui.plant.PlantSelectedListener;
 import com.example.urbotanist.ui.search.SearchFragment;
 import com.example.urbotanist.ui.search.SearchListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -39,7 +39,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 
 public class MainActivity extends AppCompatActivity implements SearchListener,
-    PlantSelectedListener, LocationSource.OnLocationChangedListener {
+    AreaSelectListener, LocationSource.OnLocationChangedListener {
 
   DatabaseAdapterActivity dbHelper;
 
@@ -166,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void onClick(View view) {
         loadCurrentDrawerFragment(plantDrawerFragment);
-        drawerPlantButton.setBackground(null);
-        drawerAreaButton.setBackground(ContextCompat.getDrawable(view.getContext(),
+        drawerAreaButton.setBackground(null);
+        drawerPlantButton.setBackground(ContextCompat.getDrawable(view.getContext(),
             R.drawable.inside_shadow_background));
       }
     });
@@ -176,14 +176,21 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void onClick(View view) {
         loadCurrentDrawerFragment(areaDrawerFragment);
-        drawerAreaButton.setBackground(null);
-        drawerPlantButton.setBackground(ContextCompat.getDrawable(view.getContext(),
+        drawerPlantButton.setBackground(null);
+        drawerAreaButton.setBackground(ContextCompat.getDrawable(view.getContext(),
             R.drawable.inside_shadow_background));
       }
     });
 
 
-    plantDrawerFragment.setAreaSelectListener(new PlantSelectedListener() {
+    plantDrawerFragment.setAreaSelectListener(new AreaSelectListener() {
+      @Override
+      public void onAreaSelected(String area) {
+        showMapWithArea(area);
+      }
+    });
+
+    areaDrawerFragment.setAreaSelectListener(new AreaSelectListener() {
       @Override
       public void onAreaSelected(String area) {
         showMapWithArea(area);
@@ -279,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     return result;
   }
 
-  public List<Plant> getPlantsInArea(String areaName) {
+  public List<Plant> searchPlantsInArea(String areaName) {
     ArrayList<Plant> result = new ArrayList<>();
     Realm realm = Realm.getDefaultInstance();
     realm.executeTransactionAsync(new Realm.Transaction() {
@@ -302,6 +309,10 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     return result;
   }
 
+  public void closeDrawer() {
+    slidingTrayDrawer.animateClose();
+  }
+
   @Override
   public void onLocationChanged(@NonNull Location location) {
     currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
@@ -317,7 +328,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   @Override
   public void onBackPressed() {
     if (slidingTrayDrawer.isOpened()) {
-      slidingTrayDrawer.animateClose();
+      closeDrawer();
     } else {
       super.onBackPressed();
     }

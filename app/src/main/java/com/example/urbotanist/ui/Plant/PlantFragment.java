@@ -1,10 +1,8 @@
 package com.example.urbotanist.ui.plant;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +16,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
+import com.example.urbotanist.ui.area.Area;
+import com.example.urbotanist.ui.area.AreaSelectListener;
 import com.example.urbotanist.ui.search.SearchListener;
 import io.realm.RealmList;
-import java.util.Objects;
 
 public class PlantFragment extends Fragment {
 
@@ -34,9 +33,7 @@ public class PlantFragment extends Fragment {
   private GridLayout alternativeLocationContainer;
   private SearchListener searchListener;
   private ScrollView plantInfoScrollViewContainer;
-
-
-  private PlantSelectedListener listener;
+  private AreaSelectListener areaSelectlistener;
 
   public static PlantFragment newInstance() {
     return new PlantFragment();
@@ -118,25 +115,31 @@ public class PlantFragment extends Fragment {
   
   private void setupAlternativeLocations() {
     alternativeLocationContainer.setColumnCount(3);
-    RealmList<String> alternativeLocations =
-        plantViewModel.selectedPlant.location;
+    RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;
+    RealmList<String> areasForPlantLong = plantViewModel.selectedPlant.locationLong;
     alternativeLocationContainer.removeAllViews();
-    for (String location : alternativeLocations) {
-      Button locationButton = new Button(plantCommonNameView.getContext());
-      locationButton.setText(location);
-      locationButton.setOnClickListener(new View.OnClickListener() {
+    for (int i = 0; i < areasForPlant.size();i++) {
+      Button areaButton = new Button(plantCommonNameView.getContext());
+      String  areaShortName = areasForPlant.get(i);
+      String areaLongName = areasForPlantLong.get(i);
+      areaButton.setText(areasForPlant.get(i));
+      areaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              if (listener != null) {
-                listener.onAreaSelected(location);
+              if (areaSelectlistener != null) {
+                Area areaObject = new Area(areaShortName, areaLongName);
+                areaSelectlistener.onAreaSelected(areaShortName);
+                ((MainActivity)requireActivity()).setCurrentSelectedArea(areaObject);
+                ((MainActivity)requireActivity()).loadCurrentDrawerFragment(
+                    ((MainActivity)requireActivity()).areaDrawerFragment);
               }
             }
         });
-      alternativeLocationContainer.addView(locationButton);
+      alternativeLocationContainer.addView(areaButton);
     }
   }
 
-  public void setAreaSelectListener(PlantSelectedListener listener) {
-    this.listener = listener;
+  public void setAreaSelectListener(AreaSelectListener listener) {
+    this.areaSelectlistener = listener;
   }
 }

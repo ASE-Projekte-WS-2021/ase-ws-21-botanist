@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/location_header"
+        android:id="@+id/area_header"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:gravity="center"
@@ -22,18 +22,61 @@
         android:layout_margin="30dp"
         />
 
-    <ScrollView
-        android:id="@+id/location_info_scroll_view_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_header">
+    <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/area_short_name"
+      app:layout_constraintTop_toBottomOf="@+id/area_header"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      android:gravity="center"
+      android:text="@string/LOCATION_SHORT_NAME"
+      android:textSize="25sp"
+      android:textStyle="bold"
+      android:layout_margin="30dp"
+      />
 
-    </ScrollView>
+    <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/show_area_button"
+      app:layout_constraintTop_toBottomOf="@+id/area_short_name"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      android:gravity="center"
+      android:text="@string/show_are_button_text"
+      android:textSize="20sp"
+      android:textStyle="bold"
+      android:layout_margin="30dp"
+      />
 
     <TextView
-      android:id="@+id/no_location_selected"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/area_plant_list_header"
+      app:layout_constraintTop_toBottomOf="@+id/show_area_button"
+      app:layout_constraintLeft_toLeftOf="parent"
+      android:text="@string/plants_in_area_header"
+      android:textSize="25sp"
+      android:textStyle="bold"
+      android:layout_margin="30dp"
+      />
+
+
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/area_plant_list_recycler"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_marginStart="20dp"
+      android:layout_marginEnd="20dp"
+      android:layout_marginTop="20dp"
+      android:layout_marginBottom="70dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/area_plant_list_header"
+      />
+
+    <TextView
+      android:id="@+id/no_area_selected"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@color/white"
