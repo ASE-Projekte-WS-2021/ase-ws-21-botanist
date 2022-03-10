@@ -57,7 +57,7 @@ public class MapViewModel extends ViewModel {
 
     addPolygonsToMap();
     LatLng botanicGarden = new LatLng(48.993161, 12.090753);
-    map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanicGarden, 18));
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanicGarden, 17));
 
 
   }
@@ -76,12 +76,12 @@ public class MapViewModel extends ViewModel {
     }
   }
 
-  public void toggleMarker() {
+  public void setShowMarker(boolean show) {
     for (Marker marker : markerList) {
-      if (marker.isVisible()) {
-        marker.setVisible(false);
-      } else {
+      if (show) {
         marker.setVisible(true);
+      } else {
+        marker.setVisible(false);
       }
     }
   }
