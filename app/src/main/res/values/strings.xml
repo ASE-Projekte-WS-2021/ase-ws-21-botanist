@@ -48,5 +48,6 @@
   <string name="LOCATION_SHORT_NAME">LOCATION_SHORT_NAME</string>
     <string name="plants_in_area_header">Pflanzen in diesem Gebiet</string>
     <string name="show_are_button_text">Auf Karte anzeigen</string>
+    <string name="area_drawer_map_icon_content_description">map icon</string>
 
 </resources>
