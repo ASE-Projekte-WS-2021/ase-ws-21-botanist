@@ -14,19 +14,15 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.maps.android.ui.IconGenerator;
-import java.util.ArrayList;
 
 
 public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback,
@@ -41,12 +37,11 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   //private ImageViewTouch map;
   private GoogleMap map;
   private MapView mapView;
-  private String location;
+  private String plantLocation;
   private Button showUserPositionButton;
-  private Button toggleMarkerButton;
 
-  public MapFragment(String location) {
-    this.location = location;
+  public MapFragment(String plantLocation) {
+    this.plantLocation = plantLocation;
   }
 
   @Override
@@ -63,13 +58,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         requestLocationPermissions();
       }
     });
-    toggleMarkerButton = v.findViewById(R.id.toggle_marker_button);
-    toggleMarkerButton.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        mapViewModel.toggleMarker();
-      }
-    });
+
     IconGenerator iconGen = new IconGenerator(getActivity());
     mapViewModel = new MapViewModel(iconGen);
 
@@ -112,11 +101,13 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
     //setup polygons
     mapViewModel.initData(map);
-    if (location != "") {
+    if (plantLocation != "") {
       setPlantLocation();
     }
 
     mapViewModel.initInfoMarker();
+    mapViewModel.setShowMarker(true);
+
   }
 
 
@@ -147,6 +138,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
       }
 
     }
+  }
+
+  public String getPlantsInUserArea(LatLng currentUserLocation) {
+    return mapViewModel.currentUserArea(currentUserLocation);
   }
 
 
@@ -187,7 +182,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   }
 
   private void setPlantLocation() {
-    String areaType = location.substring(0, 1);
+    String areaType = plantLocation.substring(0, 1);
     mapViewModel.setPlantLocation(areaType);
   }
 

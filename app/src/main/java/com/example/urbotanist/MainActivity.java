@@ -1,21 +1,37 @@
 package com.example.urbotanist;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.example.urbotanist.database.DatabaseAdapterActivity;
+import com.example.urbotanist.ui.area.Area;
+import com.example.urbotanist.ui.area.AreaFragment;
+import com.example.urbotanist.ui.area.AreaSelectListener;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.plant.PlantFragment;
-import com.example.urbotanist.ui.plant.PlantSelectedListener;
 import com.example.urbotanist.ui.search.SearchFragment;
 import com.example.urbotanist.ui.search.SearchListener;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.LocationSource;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.sileria.android.Kit;
+import com.sileria.android.view.SlidingTray;
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.Sort;
@@ -25,29 +41,56 @@ import pl.droidsonroids.gif.GifImageView;
 
 
 public class MainActivity extends AppCompatActivity implements SearchListener,
-    PlantSelectedListener {
+    AreaSelectListener, LocationSource.OnLocationChangedListener {
 
   DatabaseAdapterActivity dbHelper;
 
   public MapFragment mapFragment = new MapFragment("");
   public SearchFragment searchFragment = new SearchFragment();
   public InfoFragment infoFragment = new InfoFragment();
-  public PlantFragment plantFragment = new PlantFragment();
-  Plant currentPlant;
+  public PlantFragment plantDrawerFragment = new PlantFragment();
+  public AreaFragment areaDrawerFragment = new AreaFragment();
+  private Plant currentPlant;
+  private Area currentSelectedArea;
+  private LatLng currentUserLocation;
+  private FusedLocationProviderClient fusedLocationClient;
   private Button showMapButton;
   private Button searchButton;
   private Button infoButton;
   private GifImageView splashscreen;
+  private SlidingTray slidingTrayDrawer;
+  private ImageView drawerPlantButton;
+  private ImageView drawerAreaButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTheme(R.style.noTransition);
+    Kit.init(this);
     setContentView(R.layout.activity_main);
     setupSplashscreen();
     initDatabase();
     preloadViews();
+    getLastUserLocation();
     executeDelayedActions(4000);
+  }
+
+  @SuppressLint("MissingPermission")
+  private void getLastUserLocation() {
+    fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    fusedLocationClient.getLastLocation()
+            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+              @Override
+              public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                  currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                  //TODO LatLng location to MapViewModel,
+                  // search for right Polygon and get Location String.
+                  mapFragment.getPlantsInUserArea(currentUserLocation);
+                }
+              }
+            });
   }
 
   private void preloadViews() {
@@ -55,8 +98,21 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     showMapButton = findViewById(R.id.map_button);
     searchButton = findViewById(R.id.search_button);
     infoButton = findViewById(R.id.bar_icon_background);
+    slidingTrayDrawer = findViewById(R.id.drawer);
+    drawerPlantButton = findViewById(R.id.drawer_plants_button);
+    drawerAreaButton = findViewById(R.id.drawer_areas_button);
+
     loadCurrentScreenFragment(searchFragment);
     loadCurrentScreenFragment(mapFragment);
+
+    // need to load the plant fragment for a short time to  set it up correctly
+    loadCurrentDrawerFragment(plantDrawerFragment);
+    loadCurrentDrawerFragment(areaDrawerFragment);
+
+    ImageView handle =  findViewById(R.id.handle);
+    handle.setX(handle.getX() + 300f); //TODO  Calculate right position for handle
+
+
   }
 
   private void setupSplashscreen() {
@@ -80,17 +136,15 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     }, delay);
   }
 
-  private void showMapWithArea(String location) {
-    MapFragment locationFragment = new MapFragment(location);
-    plantFragment.closeWindow();
-    loadCurrentScreenFragment(locationFragment);
+  private void showMapWithArea(String area) {
+    mapFragment = new MapFragment(area);
+    loadCurrentScreenFragment(mapFragment);
   }
 
   private void initDatabase() {
     dbHelper = new DatabaseAdapterActivity(this);
     dbHelper.createDatabase();
   }
-
 
   private void setupListeners() {
     showMapButton.setOnClickListener(new View.OnClickListener() {
@@ -109,12 +163,36 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
       }
     });
-    plantFragment.setAreaSelectListener(new PlantSelectedListener() {
+
+    drawerPlantButton.setOnClickListener(new OnClickListener() {
       @Override
-      public void onAreaSelected(String location) {
-        showMapWithArea(location);
+      public void onClick(View view) {
+        loadCurrentDrawerFragment(plantDrawerFragment);
       }
     });
+
+    drawerAreaButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        loadCurrentDrawerFragment(areaDrawerFragment);
+      }
+    });
+
+
+    plantDrawerFragment.setAreaSelectListener(new AreaSelectListener() {
+      @Override
+      public void onAreaSelected(String area) {
+        showMapWithArea(area);
+      }
+    });
+
+    areaDrawerFragment.setAreaSelectListener(new AreaSelectListener() {
+      @Override
+      public void onAreaSelected(String area) {
+        showMapWithArea(area);
+      }
+    });
+
   }
 
   private void focusButton(Button focusButton) {
@@ -123,6 +201,23 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     searchButton.getBackground().setAlpha(128);
     showMapButton.getBackground().setAlpha(128);
     focusButton.getBackground().setAlpha(255);
+  }
+
+  public void loadCurrentDrawerFragment(Fragment fragment) {
+    String fragmentName = fragment.getClass().getSimpleName();
+    if (plantDrawerFragment.getClass().getSimpleName().equals(fragmentName)) {
+      drawerAreaButton.setBackground(null);
+      //drawerPlantButton.setBackground(getDrawable(R.color.white));
+      drawerPlantButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
+    } else if (areaDrawerFragment.getClass().getSimpleName().equals(fragmentName)) {
+      drawerPlantButton.setBackground(null);
+      //drawerPlantButton.setBackground(getDrawable(R.color.white));
+      drawerAreaButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
+
+    }
+
+    getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
+        .commit();
   }
 
 
@@ -143,10 +238,21 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     this.currentPlant = plant;
   }
 
+  public Area getCurrentSelectedArea() {
+    return this.currentSelectedArea;
+  }
+
+  public void setCurrentSelectedArea(Area area) {
+    this.currentSelectedArea = area;
+  }
+
   public Plant getCurrentPlant() {
     return this.currentPlant;
   }
 
+  public void openDrawer() {
+    slidingTrayDrawer.animateOpen();
+  }
 
   @Override
   public List<Plant> searchPlant(String searchTerm) {
@@ -156,14 +262,14 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void execute(@NonNull Realm realm) {
         // .freeze() is used to create an own object that doesn't reference the query
-        result.addAll(
-            realm.where(Plant.class).beginsWith("fullName", searchTerm, Case.INSENSITIVE).findAll()
-                .sort("fullName", Sort.ASCENDING).freeze());
+        result.addAll(realm.where(Plant.class)
+            .beginsWith("fullName", searchTerm, Case.INSENSITIVE).findAll()
+            .sort("fullName", Sort.ASCENDING).freeze());
 
-        result
-            .addAll(realm.where(Plant.class).beginsWith("familyName", searchTerm, Case.INSENSITIVE)
-                .or().beginsWith("commonName", searchTerm, Case.INSENSITIVE).findAll()
-                .sort("fullName", Sort.ASCENDING).freeze());
+        result.addAll(realm.where(Plant.class)
+            .beginsWith("familyName", searchTerm, Case.INSENSITIVE)
+            .or().beginsWith("commonName", searchTerm, Case.INSENSITIVE).findAll()
+            .sort("fullName", Sort.ASCENDING).freeze());
 
         result.addAll(realm.where(Plant.class).contains("fullName", searchTerm, Case.INSENSITIVE)
             .or().contains("familyName", searchTerm, Case.INSENSITIVE)
@@ -178,24 +284,62 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       Log.e("Exception", "Time couldn't wait, it waits for noone. searchPlant, MainActivity" + e);
     }
 
-    /*ArrayList<Plant> distinctRes = new ArrayList<>();
-
-    for (Plant p : result) {
-        if(!distinctRes.contains(p)){
-            distinctRes.add(p);
-        }
+    /*try {
+      betterResult.addAll(result);
+      betterResult.stream().distinct().collect(Collectors.toList());
+    } catch (Exception e) {
+      Log.e("Exception", "Could not make results distinct " + e.toString());
     }*/
-
-    //result.stream().distinct().collect(Collectors.toList());
 
     return result;
   }
 
+  public List<Plant> searchPlantsInArea(String areaName) {
+    ArrayList<Plant> result = new ArrayList<>();
+    Realm realm = Realm.getDefaultInstance();
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(@NonNull Realm realm) {
+        // .freeze() is used to create an own object that doesn't reference the query
+        result.addAll(
+                realm.where(Plant.class).contains("location", areaName, Case.INSENSITIVE).findAll()
+                        .sort("fullName", Sort.ASCENDING).freeze());
+      }
+    });
+
+    try {
+      Thread.sleep(100);
+    } catch (Exception e) {
+      Log.e("Exception", "Time couldn't wait,"
+          + " it waits for noone. getPlantsInArea, MainActivity" + e);
+    }
+
+    return result;
+  }
+
+  public void closeDrawer() {
+    slidingTrayDrawer.animateClose();
+  }
+
+  @Override
+  public void onLocationChanged(@NonNull Location location) {
+    currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
+    mapFragment.getPlantsInUserArea(currentUserLocation);
+  }
 
   @Override
   public void onAreaSelected(String location) {
     showMapWithArea(location);
+  }
 
+  // Override back button to close drawer instead of closing app if drawer is open
+  @Override
+  public void onBackPressed() {
+    if (slidingTrayDrawer.isOpened()) {
+      closeDrawer();
+    } else {
+      super.onBackPressed();
+    }
   }
 
 

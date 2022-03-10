@@ -19,12 +19,7 @@
         android:layout_height="wrap_content"
         android:text="@string/user_position_button_text"
         android:visibility="gone"/>
-
-    <Button
-        android:id="@+id/toggle_marker_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="marker" />
+    
 
     <!--it.sephiroth.android.library.imagezoom.ImageViewTouch
         android:id="@+id/map"

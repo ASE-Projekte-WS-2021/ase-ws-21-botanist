@@ -1,17 +1,19 @@
 package com.example.urbotanist.ui.search;
 
 
+import static com.sileria.android.Kit.getSystemService;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,6 +59,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     searchListRecycler.addItemDecoration(
         new DividerItemDecoration(searchListRecycler.getContext(), DividerItemDecoration.VERTICAL));
     initSearch();
+    updatePlantWithQuery("");
 
     return v;
   }
@@ -71,31 +74,30 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
       public boolean onQueryTextSubmit(String query) {
-        List<Plant> foundPlants = searchListener.searchPlant(query);
-        searchListAdapter.localDataSet = foundPlants;
-        if (foundPlants.size() > 0) {
-          noSearchResultsText.setVisibility(View.GONE);
-        } else {
-          noSearchResultsText.setVisibility(View.VISIBLE);
-        }
-        searchListAdapter.notifyDataSetChanged();
-        return false;
+        return handleSearch(query);
       }
-
 
       @Override
       public boolean onQueryTextChange(String query) {
-        List<Plant> foundPlants = searchListener.searchPlant(query);
-        searchListAdapter.localDataSet = foundPlants;
-        if (foundPlants.size() > 0) {
-          noSearchResultsText.setVisibility(View.GONE);
-        } else {
-          noSearchResultsText.setVisibility(View.VISIBLE);
-        }
-        searchListAdapter.notifyDataSetChanged();
+        return handleSearch(query);
+      }
+
+      public boolean handleSearch(String query) {
+        updatePlantWithQuery(query);
         return false;
       }
     });
+  }
+
+  private void updatePlantWithQuery(String query) {
+    List<Plant> foundPlants = searchListener.searchPlant(query);
+    searchListAdapter.localDataSet = foundPlants;
+    if (foundPlants.size() > 0) {
+      noSearchResultsText.setVisibility(View.GONE);
+    } else {
+      noSearchResultsText.setVisibility(View.VISIBLE);
+    }
+    searchListAdapter.notifyDataSetChanged();
   }
 
   @Override
@@ -103,9 +105,17 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     MainActivity mainActivity = (MainActivity) getActivity();
     if (mainActivity != null) {
       mainActivity.setCurrentPlant(plant);
-      mainActivity.plantFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog);
-      mainActivity.plantFragment.show(mainActivity.getSupportFragmentManager(), "Info");
-      //mainActivity.loadCurrentScreenFragment(mainActivity.plantFragment);
+      mainActivity.loadCurrentDrawerFragment(mainActivity.plantDrawerFragment);
+      mainActivity.openDrawer();
+      mainActivity.plantDrawerFragment.setupUi(plant);
+
+      //Close The keyboard
+      View view = mainActivity.getCurrentFocus();
+      if (view != null) {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+      }
+
 
     } else {
       Log.e("TAG", "Failed to open Fragment; MainActivity not found");

@@ -11,7 +11,7 @@ import java.util.List;
 
 public class PlantSearchAdapter extends RecyclerView.Adapter<PlantSearchAdapter.ViewHolder> {
 
-  List<Plant> localDataSet;
+  public List<Plant> localDataSet;
   SearchResultClickListener searchResultClickListener;
 
   public static class ViewHolder extends RecyclerView.ViewHolder {

@@ -35,41 +35,42 @@ public class PolygonMaker {
   private PolygonOptions polyOpY;
   private PolygonOptions polyOpZ;
 
-  private final HashMap<String, ArrayList<PolygonOptions>> polyOpList = new HashMap<>();
+  private ArrayList<PolygonInfo> polyInfoList = new ArrayList<>();
 
   public PolygonMaker() {
     initPolygonOptions();
-    fillList();
+    fillArrayList();
   }
 
-  private void fillList() {
-    polyOpList.put("A", new ArrayList(Arrays.asList(polyOpA)));
-    polyOpList.put("B", new ArrayList(Arrays.asList(polyOpB)));
-    polyOpList.put("C", new ArrayList(Arrays.asList(polyOpC)));
-    polyOpList.put("D", new ArrayList(Arrays.asList(polyOpD)));
-    polyOpList.put("E", new ArrayList(Arrays.asList(polyOpE)));
-    polyOpList.put("F", new ArrayList(Arrays.asList(polyOpF)));
-    polyOpList.put("G", new ArrayList(Arrays.asList(polyOpG)));
-    polyOpList.put("H", new ArrayList(Arrays.asList(polyOpH)));
-    polyOpList.put("I", new ArrayList(Arrays.asList(polyOpI)));
-    polyOpList.put("J", new ArrayList(Arrays.asList(polyOpJ)));
-    polyOpList.put("K", new ArrayList(Arrays.asList(polyOpK)));
-    polyOpList.put("L", new ArrayList(Arrays.asList(polyOpL)));
-    polyOpList.put("M", new ArrayList(Arrays.asList(polyOpM)));
-    polyOpList.put("N", new ArrayList(Arrays.asList(polyOpN)));
-    polyOpList.put("P", new ArrayList(Arrays.asList(polyOpP)));
-    polyOpList.put("R", new ArrayList(Arrays.asList(polyOpR)));
-    polyOpList.put("S", new ArrayList(Arrays.asList(polyOpS)));
-    polyOpList.put("T", new ArrayList(Arrays.asList(polyOpT1, polyOpT2)));
-    polyOpList.put("U", new ArrayList(Arrays.asList(polyOpU1, polyOpU2, polyOpU3)));
-    polyOpList.put("V", new ArrayList(Arrays.asList(polyOpV)));
-    polyOpList.put("X", new ArrayList(Arrays.asList(polyOpX)));
-    polyOpList.put("Y", new ArrayList(Arrays.asList(polyOpY)));
-    polyOpList.put("Z", new ArrayList(Arrays.asList(polyOpZ)));
+  private void fillArrayList() {
+    polyInfoList.add(new PolygonInfo("A", new ArrayList<>(Arrays.asList(polyOpA))));
+    polyInfoList.add(new PolygonInfo("B", new ArrayList(Arrays.asList(polyOpB))));
+    polyInfoList.add(new PolygonInfo("C", new ArrayList(Arrays.asList(polyOpC))));
+    polyInfoList.add(new PolygonInfo("D", new ArrayList(Arrays.asList(polyOpD))));
+    polyInfoList.add(new PolygonInfo("E", new ArrayList(Arrays.asList(polyOpE))));
+    polyInfoList.add(new PolygonInfo("F", new ArrayList(Arrays.asList(polyOpF))));
+    polyInfoList.add(new PolygonInfo("G", new ArrayList(Arrays.asList(polyOpG))));
+    polyInfoList.add(new PolygonInfo("H", new ArrayList(Arrays.asList(polyOpH))));
+    polyInfoList.add(new PolygonInfo("I", new ArrayList(Arrays.asList(polyOpI))));
+    polyInfoList.add(new PolygonInfo("J", new ArrayList(Arrays.asList(polyOpJ))));
+    polyInfoList.add(new PolygonInfo("K", new ArrayList(Arrays.asList(polyOpK))));
+    polyInfoList.add(new PolygonInfo("L", new ArrayList(Arrays.asList(polyOpL))));
+    polyInfoList.add(new PolygonInfo("M", new ArrayList(Arrays.asList(polyOpM))));
+    polyInfoList.add(new PolygonInfo("N", new ArrayList(Arrays.asList(polyOpN))));
+    polyInfoList.add(new PolygonInfo("P", new ArrayList(Arrays.asList(polyOpP))));
+    polyInfoList.add(new PolygonInfo("R", new ArrayList(Arrays.asList(polyOpR))));
+    polyInfoList.add(new PolygonInfo("S", new ArrayList(Arrays.asList(polyOpS))));
+    polyInfoList.add(new PolygonInfo("T", new ArrayList(Arrays.asList(polyOpT1, polyOpT2))));
+    polyInfoList.add(new PolygonInfo("U", new ArrayList(Arrays.asList(polyOpU1,
+        polyOpU2, polyOpU3))));
+    polyInfoList.add(new PolygonInfo("V", new ArrayList(Arrays.asList(polyOpV))));
+    polyInfoList.add(new PolygonInfo("X", new ArrayList(Arrays.asList(polyOpX))));
+    polyInfoList.add(new PolygonInfo("Y", new ArrayList(Arrays.asList(polyOpY))));
+    polyInfoList.add(new PolygonInfo("Z", new ArrayList(Arrays.asList(polyOpZ))));
   }
 
-  public HashMap<String, ArrayList<PolygonOptions>> getPolyOptions() {
-    return polyOpList;
+  public ArrayList<PolygonInfo> getPolyInfoList() {
+    return polyInfoList;
   }
 
   private void initPolygonOptions() {

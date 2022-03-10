@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ public class InfoFragment extends CurrentScreenFragment {
   private TextView infoText;
   private Button impButton;
   private TableLayout infoTable;
+  private ImageView impArrow;
 
   public static InfoFragment newInstance() {
     return new InfoFragment();
@@ -32,6 +34,7 @@ public class InfoFragment extends CurrentScreenFragment {
     infoTable = (TableLayout) v.findViewById(R.id.infoTableOpeningHours);
     infoText = (TextView) v.findViewById(R.id.infoText);
     impButton = (Button) v.findViewById(R.id.impressumButton);
+    impArrow = (ImageView) v.findViewById(R.id.impressumArrow);
     return v;
   }
 
@@ -44,13 +47,13 @@ public class InfoFragment extends CurrentScreenFragment {
         if (!(getResources().getString(R.string.impressum) == infoTitle.getText())) {
           infoTitle.setText(getResources().getString(R.string.impressum));
           infoText.setText(getResources().getString(R.string.impressumContent));
-          impButton.setText(getResources().getString(R.string.info));
           infoTable.setVisibility(View.GONE);
+          impArrow.setRotationY(180);
         } else {
           infoTitle.setText(getResources().getString(R.string.info));
           infoTable.setVisibility(View.VISIBLE);
           infoText.setText(getResources().getString(R.string.infoContent));
-          impButton.setText(getResources().getString(R.string.impressum));
+          impArrow.setRotationY(0);
         }
       }
     });
