@@ -6,7 +6,7 @@ public class AreaViewModel extends ViewModel {
 
   Area selectedArea;
 
-  public void setSelectedPlant(Area selectedArea) {
+  public void setSelectedArea(Area selectedArea) {
     this.selectedArea = selectedArea;
   }
 
