@@ -130,12 +130,14 @@
       android:id="@+id/content"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      android:background="@drawable/ic_drawerview2">
+      android:background="@drawable/ic_drawerview3">
 
       <androidx.fragment.app.FragmentContainerView
         android:id="@+id/drawer_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="11dp"
+        android:layout_marginBottom="11dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
