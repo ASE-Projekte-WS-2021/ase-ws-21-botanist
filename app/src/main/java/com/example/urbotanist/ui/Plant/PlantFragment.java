@@ -109,13 +109,12 @@ public class PlantFragment extends Fragment {
       plantCommonNameView.setText("Nicht vorhanden");
     }
   }
-
-
+  
   private void setupAlternativeLocations() {
     alternativeLocationContainer.setColumnCount(3);
     RealmList<String> alternativeLocations =
         plantViewModel.selectedPlant.location;
-
+    alternativeLocationContainer.removeAllViews();
     for (String location : alternativeLocations) {
       Button locationButton = new Button(getContext());
       locationButton.setText(location);

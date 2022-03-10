@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     preloadViews();
     getLastUserLocation();
     executeDelayedActions(4000);
-
   }
 
   @SuppressLint("MissingPermission")
@@ -94,8 +93,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     loadCurrentScreenFragment(mapFragment);
     ImageView handle =  findViewById(R.id.handle);
     handle.setX(handle.getX() + 200f); //TODO  Calculate right position for handle
-
-
   }
 
   private void setupSplashscreen() {
@@ -129,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     dbHelper.createDatabase();
   }
 
-
   private void setupListeners() {
     showMapButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
@@ -153,10 +149,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
         showMapWithArea(location);
       }
     });
-
-
-
-
   }
 
   private void focusButton(Button focusButton) {
@@ -167,25 +159,17 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     focusButton.getBackground().setAlpha(255);
   }
 
-
   public void loadCurrentScreenFragment(Fragment fragment) {
     String fragmentName = fragment.getClass().getSimpleName();
     if (infoFragment.getClass().getSimpleName().equals(fragmentName)) {
       focusButton(infoButton);
-
     } else if (searchFragment.getClass().getSimpleName().equals(fragmentName)) {
       focusButton(searchButton);
-
     } else if (mapFragment.getClass().getSimpleName().equals(fragmentName)) {
       focusButton(showMapButton);
-
     }
     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
         .commit();
-
-
-
-
   }
 
   public void setCurrentPlant(Plant plant) {
@@ -272,8 +256,6 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   @Override
   public void onAreaSelected(String location) {
     showMapWithArea(location);
-
   }
-
 
 }
