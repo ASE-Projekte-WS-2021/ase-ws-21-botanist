@@ -59,6 +59,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     searchListRecycler.addItemDecoration(
         new DividerItemDecoration(searchListRecycler.getContext(), DividerItemDecoration.VERTICAL));
     initSearch();
+    updatePlantWithQuery("");
 
     return v;
   }
@@ -82,17 +83,21 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
       }
 
       public boolean handleSearch(String query) {
-        List<Plant> foundPlants = searchListener.searchPlant(query);
-        searchListAdapter.localDataSet = foundPlants;
-        if (foundPlants.size() > 0) {
-          noSearchResultsText.setVisibility(View.GONE);
-        } else {
-          noSearchResultsText.setVisibility(View.VISIBLE);
-        }
-        searchListAdapter.notifyDataSetChanged();
+        updatePlantWithQuery(query);
         return false;
       }
     });
+  }
+
+  private void updatePlantWithQuery(String query) {
+    List<Plant> foundPlants = searchListener.searchPlant(query);
+    searchListAdapter.localDataSet = foundPlants;
+    if (foundPlants.size() > 0) {
+      noSearchResultsText.setVisibility(View.GONE);
+    } else {
+      noSearchResultsText.setVisibility(View.VISIBLE);
+    }
+    searchListAdapter.notifyDataSetChanged();
   }
 
   @Override
