@@ -34,7 +34,7 @@ public abstract class CurrentScreenFragment extends Fragment {
     // Animation.RELATIVE_TO_SELF,1f,Animation.RELATIVE_TO_SELF,0);
     AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
     alphaAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
-    alphaAnimation.setDuration(500);
+    alphaAnimation.setDuration(200);
     getView().startAnimation(alphaAnimation);
   }
 }
