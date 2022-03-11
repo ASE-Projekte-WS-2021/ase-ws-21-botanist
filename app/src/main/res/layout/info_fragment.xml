@@ -49,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="30dp"
-                    android:stretchColumns="1">
+                    android:stretchColumns="0">
 
                     <TextView
                         android:padding="20dip"
@@ -61,12 +61,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center">
-
-                        <TextView
-                            android:layout_marginHorizontal="10dp"
-                            android:padding="5dip"
-                            android:text="@string/infoOpeningHoursR2C1"
-                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_gravity="bottom"
@@ -86,6 +80,18 @@
                     <TableRow
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="left">
+
+                        <TextView
+                            android:layout_marginHorizontal="10dp"
+                            android:paddingTop="5dip"
+                            android:text="@string/infoOpeningHoursR2C1"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:background="@color/black"
                         android:padding="0.1dip" />
 
@@ -95,7 +101,6 @@
                         android:gravity="center">
 
                         <TextView
-                            android:layout_column="1"
                             android:layout_gravity="top"
                             android:layout_marginHorizontal="10dp"
                             android:gravity="right"
@@ -119,7 +124,7 @@
 
                         <TextView
                             android:layout_marginHorizontal="10dp"
-                            android:padding="5dip"
+                            android:paddingTop="5dip"
                             android:text="@string/infoOpeningHoursR3C1"
                             android:textStyle="bold" />
                     </TableRow>
@@ -136,7 +141,6 @@
                         android:gravity="center">
 
                         <TextView
-                            android:layout_column="1"
                             android:layout_gravity="top"
                             android:layout_marginHorizontal="10dp"
                             android:gravity="right"
@@ -160,7 +164,7 @@
 
                         <TextView
                             android:layout_marginHorizontal="10dp"
-                            android:padding="5dip"
+                            android:paddingTop="5dip"
                             android:text="@string/infoOpeningHoursR4C1"
                             android:textStyle="bold" />
                     </TableRow>
@@ -177,7 +181,6 @@
                         android:gravity="center">
 
                         <TextView
-                            android:layout_column="1"
                             android:layout_gravity="top"
                             android:layout_marginHorizontal="10dp"
                             android:gravity="right"
@@ -201,7 +204,7 @@
 
                         <TextView
                             android:layout_marginHorizontal="10dp"
-                            android:padding="5dip"
+                            android:paddingTop="5dip"
                             android:text="@string/infoOpeningHoursR5C1"
                             android:textStyle="bold" />
                     </TableRow>
@@ -218,7 +221,6 @@
                         android:gravity="center">
 
                         <TextView
-                            android:layout_column="1"
                             android:layout_gravity="top"
                             android:layout_marginHorizontal="10dp"
                             android:gravity="right"
@@ -240,7 +242,7 @@
 
                         <TextView
                             android:layout_marginHorizontal="10dp"
-                            android:padding="5dip"
+                            android:paddingTop="5dip"
                             android:text="@string/infoOpeningHoursR6C1"
                             android:textStyle="bold" />
                     </TableRow>
@@ -257,7 +259,6 @@
                         android:gravity="center">
 
                         <TextView
-                            android:layout_column="1"
                             android:layout_gravity="top"
                             android:layout_marginHorizontal="10dp"
                             android:gravity="right"

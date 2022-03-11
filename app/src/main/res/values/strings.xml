@@ -39,7 +39,7 @@
     <string name="PLANT_COMMON_NAME">PLANT_COMMON_NAME</string>
     <string name="PLANT_LOCATION">XY</string>
     <string name="PLANT_AVAILABILTY">  ️  ✓  ️</string>
-    <string name="plant_locations_header">Standorte:</string>
+    <string name="plant_locations_header">Standort(e)</string>
     <string name="no_search_results_found">Keine Ergebnisse gefunden</string>
     <string name="user_position_button_text">Meine Position zeigen</string>
   <string name="no_plant_selected_text">Keine Pflanze ausgewählt</string>

@@ -7,9 +7,12 @@
     tools:context=".StartupActivity">
     <pl.droidsonroids.gif.GifTextView
         android:id="@+id/splashscreen1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="1.03"
+        android:layout_height="0dp"
         android:scaleType="centerCrop"
+        android:adjustViewBounds="true"
+        app:layout_constraintDimensionRatio="H,9:16"
         android:background="@drawable/botanist_splashscreen_p1_super_short"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
