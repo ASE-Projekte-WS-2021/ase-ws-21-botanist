@@ -112,7 +112,7 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        app:layout_constraintDimensionRatio="H,9:16"
+        app:layout_constraintDimensionRatio="H,9:17"
         android:background="@drawable/paper_texture_overlay_60"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -210,7 +210,7 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        app:layout_constraintDimensionRatio="H,9:16"
+        app:layout_constraintDimensionRatio="H,9:17"
         android:background="@drawable/botanist_splashscreen_p2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
