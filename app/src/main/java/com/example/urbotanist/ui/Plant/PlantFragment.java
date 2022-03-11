@@ -33,7 +33,6 @@ public class PlantFragment extends Fragment {
   private TextView noPlantSelectedView;
   private GridLayout alternativeLocationGrid;
   private ConstraintLayout locationContainer;
-  private SearchListener searchListener;
   private ScrollView plantInfoScrollViewContainer;
   private AreaSelectListener areaSelectlistener;
 
@@ -63,7 +62,6 @@ public class PlantFragment extends Fragment {
   public void onAttach(Context context) {
     super.onAttach(context);
     plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
-
   }
 
 
