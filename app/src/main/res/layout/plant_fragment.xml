@@ -19,7 +19,8 @@
         android:text="@string/PLANT_FULL_NAME"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_margin="30dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
         />
 
     <ScrollView
@@ -27,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/plant_footer"
         app:layout_constraintTop_toBottomOf="@+id/plant_header">
         <LinearLayout
             android:layout_width="match_parent"
@@ -131,31 +132,43 @@
                 </LinearLayout>
 
             </LinearLayout>
-            <TextView
-                android:id="@+id/alternative_locations_header"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="@string/plant_locations_header"
-                android:layout_gravity="center"
-                app:layout_constraintTop_toBottomOf="@+id/plant_info_scroll_view_container"
-                app:layout_constraintLeft_toLeftOf="parent"/>
 
-            <GridLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/alternative_locations_container"
-                app:layout_constraintTop_toBottomOf="@+id/alternative_locations_header"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_gravity="center"
-                android:orientation="horizontal"
-
-                />
         </LinearLayout>
     </ScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/plant_footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent">
+
+        <TextView
+            android:id="@+id/alternative_locations_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:gravity="center"
+            android:text="@string/plant_locations_header"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent" />
+
+        <GridLayout
+            android:id="@+id/alternative_locations_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/alternative_locations_header"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
       android:id="@+id/no_plant_selected"

@@ -12,6 +12,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
@@ -30,7 +31,8 @@ public class PlantFragment extends Fragment {
   private TextView plantCommonNameView;
   private TextView plantGenusNameView;
   private TextView noPlantSelectedView;
-  private GridLayout alternativeLocationContainer;
+  private GridLayout alternativeLocationGrid;
+  private ConstraintLayout locationContainer;
   private SearchListener searchListener;
   private ScrollView plantInfoScrollViewContainer;
   private AreaSelectListener areaSelectlistener;
@@ -51,7 +53,8 @@ public class PlantFragment extends Fragment {
     plantCommonNameView = v.findViewById(R.id.plant_common_name);
     noPlantSelectedView = v.findViewById(R.id.no_plant_selected);
     plantInfoScrollViewContainer = v.findViewById(R.id.plant_info_scroll_view_container);
-    alternativeLocationContainer = v.findViewById(R.id.alternative_locations_container);
+    locationContainer = v.findViewById(R.id.plant_footer);
+    alternativeLocationGrid = v.findViewById(R.id.alternative_locations_container);
 
     return v;
   }
@@ -87,12 +90,14 @@ public class PlantFragment extends Fragment {
       setupPlantCommonNames();
 
       plantInfoScrollViewContainer.setVisibility(View.VISIBLE);
+      locationContainer.setVisibility(View.VISIBLE);
       plantFullNameView.setVisibility(View.VISIBLE);
       noPlantSelectedView.setVisibility(View.GONE);
 
       setupAlternativeLocations();
     } else {
       plantInfoScrollViewContainer.setVisibility(View.GONE);
+      locationContainer.setVisibility(View.GONE);
       plantFullNameView.setVisibility(View.GONE);
 
       noPlantSelectedView.setVisibility(View.VISIBLE);
@@ -114,10 +119,10 @@ public class PlantFragment extends Fragment {
   }
   
   private void setupAlternativeLocations() {
-    alternativeLocationContainer.setColumnCount(3);
+    alternativeLocationGrid.setColumnCount(3);
     RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;
     RealmList<String> areasForPlantLong = plantViewModel.selectedPlant.locationLong;
-    alternativeLocationContainer.removeAllViews();
+    alternativeLocationGrid.removeAllViews();
     for (int i = 0; i < areasForPlant.size();i++) {
       Button areaButton = new Button(plantCommonNameView.getContext());
       String  areaShortName = areasForPlant.get(i);
@@ -135,7 +140,7 @@ public class PlantFragment extends Fragment {
               }
             }
         });
-      alternativeLocationContainer.addView(areaButton);
+      alternativeLocationGrid.addView(areaButton);
     }
   }
 

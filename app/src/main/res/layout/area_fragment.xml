@@ -19,7 +19,8 @@
         android:text="@string/LOCATION_FULL_NAME"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_margin="20dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginVertical="10dp"
         />
 
     <Button
@@ -84,7 +85,7 @@
       android:layout_marginStart="20dp"
       android:layout_marginEnd="20dp"
       android:layout_marginTop="20dp"
-      android:layout_marginBottom="80dp"
+      android:layout_marginBottom="20dp"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintTop_toBottomOf="@+id/area_plant_list_header"
       />
