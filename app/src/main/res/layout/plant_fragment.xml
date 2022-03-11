@@ -35,103 +35,121 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:background="@drawable/layout_border">
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="H,1:1"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/ic_item_bg"
+                    android:backgroundTint="@color/green"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintLeft_toLeftOf="@id/plant_info_border"
+                    app:layout_constraintRight_toRightOf="@id/plant_info_border"
+                    app:layout_constraintTop_toTopOf="@id/plant_info_border"
+                    app:layout_constraintBottom_toBottomOf="@id/plant_info_border"/>
 
                 <LinearLayout
-                    android:id="@+id/plant_info_prefix_container"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/plant_info_border"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:orientation="vertical">
+                    android:background="@drawable/layout_border"
+                    android:gravity="center">
 
-                    <TextView
-                        android:id="@+id/plant_family_name_prefix"
+                    <LinearLayout
+                        android:id="@+id/plant_info_prefix_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:text="@string/plant_family_name_prefix"
-                        android:textSize="15sp" />
+                        android:gravity="right"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/plant_genus_name_prefix"
+                        <TextView
+                            android:id="@+id/plant_family_name_prefix"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:gravity="center"
+                            android:text="@string/plant_family_name_prefix"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/plant_genus_name_prefix"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:gravity="center"
+                            android:text="@string/plant_genus_name_prefix"
+                            android:textSize="15sp"
+                            app:layout_constraintLeft_toLeftOf="parent" />
+
+                        <TextView
+                            android:id="@+id/plant_type_name_prefix"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:gravity="center"
+                            android:text="@string/plant_type_name_prefix"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/plant_common_name_prefix"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:gravity="center"
+                            android:text="@string/plant_common_name_prefix"
+                            android:textSize="15sp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/plant_info_name_container"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:text="@string/plant_genus_name_prefix"
-                        android:textSize="15sp"
-                        app:layout_constraintLeft_toLeftOf="parent" />
+                        android:layout_marginLeft="30dp"
+                        android:gravity="start"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/plant_type_name_prefix"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:text="@string/plant_type_name_prefix"
-                        android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/plant_family_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:gravity="center"
+                            android:textSize="15sp" />
 
-                    <TextView
-                        android:id="@+id/plant_common_name_prefix"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:text="@string/plant_common_name_prefix"
-                        android:textSize="15sp" />
+                        <TextView
+                            android:id="@+id/plant_genus_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:gravity="center"
+                            android:textSize="15sp" />
 
+                        <TextView
+                            android:id="@+id/plant_type_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:gravity="center"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/plant_common_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="20dp"
+                            android:gravity="center"
+                            android:textSize="15sp" />
+
+                    </LinearLayout>
 
                 </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/plant_info_name_container"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:gravity="start"
-                    android:orientation="vertical"
-                    >
-
-                    <TextView
-                        android:id="@+id/plant_family_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/plant_genus_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/plant_type_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/plant_common_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
-                        android:gravity="center"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
     </ScrollView>
