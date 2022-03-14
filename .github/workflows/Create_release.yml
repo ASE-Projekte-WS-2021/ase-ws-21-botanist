@@ -4,11 +4,10 @@ name: CI Create Signed Release
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  workflow_run:
+    workflows: ["CI Build"]
+    types:
+      - completed
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -18,28 +17,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Decode Keystore
-        id: decode_keystore
-        uses: timheuer/base64-to-file@v1
+      - name: Sign artifact
+        id: signArtifact
+        uses: r0adkll/sign-android-release@v1.0.1
         with:
-          fileName: 'keystore/your_signing_keystore.jks'
-          encodedString: ${{ secrets.KEYSTORE }}
-      - uses: actions/checkout@v2
-      - name: Set up JDK environment
-        uses: actions/setup-java@v2.5.0
+          releaseDirectory: app/build/outputs/apk/ourbuildtype/release
+          alias: ${{ secrets.KEYALIAS }}
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Upload our APK
+        uses: actions/upload-artifact@v2.2.0
         with:
-          distribution: 'zulu' # See 'Supported distributions' for available options
-          java-version: '11'
-      - name: Make gradlew executable
-        run: chmod +x ./gradlew
-      - name: build prod
-        run: ./gradlew app:bundleRelease
-        env:
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with:
-          name: Build Artifacts
-          path: app/build/outputs/
+          name: Release artifact
+          path: app/build/outputs/apk/ourbuildtype/release/app-artifact-*.apk
