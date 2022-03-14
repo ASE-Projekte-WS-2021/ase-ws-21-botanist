@@ -1,24 +1,5 @@
 package com.example.urbotanist.ui.plant;
 
-
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.util.Log;
-
-import com.example.urbotanist.MainActivity;
-import com.google.android.gms.common.util.IOUtils;
-
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -57,7 +38,7 @@ public class Plant extends RealmObject {
     this.lifeForm = lifeForm;
     this.isFavored = isFavored;
     fullName = genus + " " + type;
-    link = getPlantLink( fullName );
+    link = getPlantLink(fullName);
 
 
   }
@@ -134,9 +115,13 @@ public class Plant extends RealmObject {
     return lifeForm;
   }
 
-  public boolean isFavored() { return isFavored; }
+  public boolean isFavored() {
+    return isFavored;
+  }
 
-  public void setFavored(boolean favored) { isFavored = favored; }
+  public void setFavored(boolean favored) {
+    isFavored = favored;
+  }
 
   public String getPlantLink(String fullName) {
     String name =  fullName.replaceAll(" ", "_");

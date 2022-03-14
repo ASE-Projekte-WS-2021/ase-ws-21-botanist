@@ -73,7 +73,9 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   public void initSearch() {
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
-      public boolean onQueryTextSubmit(String query) { return handleSearch(query); }
+      public boolean onQueryTextSubmit(String query) {
+        return handleSearch(query);
+      }
 
       @Override
       public boolean onQueryTextChange(String query) {

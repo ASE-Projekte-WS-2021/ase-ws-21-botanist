@@ -287,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     }
 
     //remove duplicates without affecting the waiting duration
-    if (result.size() <= 500){
+    if (result.size() <= 500) {
       Set<Plant> betterResult = new LinkedHashSet<>();
       betterResult.addAll(result);
       result.clear();
