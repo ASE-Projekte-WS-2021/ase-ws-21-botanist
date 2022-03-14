@@ -4,6 +4,8 @@ name: Code Checkstyle
 on:
   push:
     branches: [develop,main]
+    tags:
+      - 'v*'
   pull_request:
     branches: [develop,main]
 
