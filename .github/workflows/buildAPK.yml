@@ -1,12 +1,12 @@
-name: CI Build
+name: CI Build and Release
 on:
   workflow_run:
     workflows: ["Code Checkstyle"]
     types:
       - completed
 jobs:
-  APK:
-      name: Generate APK
+  Build:
+      name: Generate Debug APK
       runs-on: ubuntu-latest
       steps:
         # https://github.com/actions/checkout
@@ -19,11 +19,40 @@ jobs:
             java-version: '11'
         - name: Set execution flag for gradlew
           run: chmod +x gradlew
-        - name: Build APK
+        - name: Build Debug APK
           run: bash ./gradlew assembleDebug --stacktrace
         - name: Upload APK
           uses: actions/upload-artifact@v1
           with:
             name: apk
             path: app/build/outputs/apk/debug/app-debug.apk
+
+        - name: Build Release APK
+          if: startsWith(github.ref, 'refs/tags/v')
+          run: bash ./gradlew assembleRelease --stacktrace
+        - name: Upload APK
+          uses: actions/upload-artifact@v1
+          with:
+            name: apk
+            path: app/build/outputs/apk/release/app-release.apk
+
+  Sign:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sign artifact
+        id: signArtifact
+        uses: r0adkll/sign-android-release@v1.0.1
+        with:
+          releaseDirectory: app/build/outputs/apk/release
+          alias: ${{ secrets.KEYALIAS }}
+          signingKeyBase64: ${{ secrets.KEYSTORE }}
+          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+          keyPassword: ${{ secrets.KEY_PASSWORD }}
+
+      - name: Upload our APK
+        uses: actions/upload-artifact@v2.2.0
+        with:
+          name: Release artifact
+          path: app/build/outputs/apk/release/app-release.apk
        
