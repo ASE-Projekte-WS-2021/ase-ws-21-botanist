@@ -36,7 +36,9 @@ import io.realm.Case;
 import io.realm.Realm;
 import io.realm.Sort;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import pl.droidsonroids.gif.GifImageView;
 
 
@@ -284,12 +286,13 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       Log.e("Exception", "Time couldn't wait, it waits for noone. searchPlant, MainActivity" + e);
     }
 
-    /*try {
+    //remove duplicates without affecting the waiting duration
+    if (result.size() <= 500){
+      Set<Plant> betterResult = new LinkedHashSet<>();
       betterResult.addAll(result);
-      betterResult.stream().distinct().collect(Collectors.toList());
-    } catch (Exception e) {
-      Log.e("Exception", "Could not make results distinct " + e.toString());
-    }*/
+      result.clear();
+      result.addAll(betterResult);
+    }
 
     return result;
   }
@@ -317,6 +320,28 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     return result;
   }
 
+  public List<Plant> getFavoritePlants() {
+    ArrayList<Plant> result = new ArrayList<>();
+    Realm realm = Realm.getDefaultInstance();
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(@NonNull Realm realm) {
+        // .freeze() is used to create an own object that doesn't reference the query
+        result.addAll(
+                realm.where(Plant.class).contains("isFavored", "true", Case.INSENSITIVE).findAll()
+                        .sort("fullName", Sort.ASCENDING).freeze());
+      }
+    });
+
+    try {
+      Thread.sleep(100);
+    } catch (Exception e) {
+      Log.e("Exception", "Time couldn't wait,"
+              + " it waits for noone. getPlantsInArea, MainActivity" + e);
+    }
+    return result;
+  }
+
   public void closeDrawer() {
     slidingTrayDrawer.animateClose();
   }
@@ -341,6 +366,5 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       super.onBackPressed();
     }
   }
-
 
 }

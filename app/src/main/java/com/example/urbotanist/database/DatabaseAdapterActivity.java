@@ -82,10 +82,11 @@ public class DatabaseAdapterActivity {
             RealmList<String> locationLong = getAllNativeNames(genus, type, 10);
             //String locationShort = cursor.getString(9);
             //String locationLong = cursor.getString(10);
+            boolean isFavored = false;
 
             results.add(
                 new Plant(id, genus, type, family, locationShort, locationLong, plantNative,
-                    nameCommon, lifeForm));
+                    nameCommon, lifeForm, isFavored));
             alreadySaved.add(genus + type);
           }
         }

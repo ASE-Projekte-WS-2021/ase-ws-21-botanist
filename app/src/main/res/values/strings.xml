@@ -37,6 +37,8 @@
     <string name="plant_type_name_prefix">Type:</string>
     <string name="plant_common_name_prefix">Volksmund:</string>
     <string name="PLANT_COMMON_NAME">PLANT_COMMON_NAME</string>
+    <string name="plant_link_prefix">Wikipedia:</string>
+    <string name="PLANT_LINK">PLANT_LINK</string>
     <string name="PLANT_LOCATION">XY</string>
     <string name="PLANT_AVAILABILTY">  ️  ✓  ️</string>
     <string name="plant_locations_header">Standort(e)</string>
