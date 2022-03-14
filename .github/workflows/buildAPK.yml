@@ -31,6 +31,7 @@ jobs:
           if: startsWith(github.ref, 'refs/tags/v')
           run: bash ./gradlew assembleRelease --stacktrace
         - name: Upload APK
+          if: startsWith(github.ref, 'refs/tags/v')
           uses: actions/upload-artifact@v1
           with:
             name: apk
