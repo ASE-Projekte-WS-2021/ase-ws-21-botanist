@@ -1,7 +1,9 @@
 name: CI Build
-on: 
-  push:
-    branches: [ main ]
+on:
+  workflow_run:
+    workflows: ["Code Checkstyle"]
+    types:
+      - completed
 jobs:
   APK:
       name: Generate APK
