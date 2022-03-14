@@ -3,6 +3,7 @@ package com.example.urbotanist.ui.plant;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +30,11 @@ public class PlantFragment extends Fragment {
   private TextView plantFamilyNameView;
   private TextView plantTypeNameView;
   private TextView plantCommonNameView;
+  private TextView plantLinkView;
   private TextView plantGenusNameView;
   private TextView noPlantSelectedView;
   private GridLayout alternativeLocationGrid;
   private ConstraintLayout locationContainer;
-  private SearchListener searchListener;
   private ScrollView plantInfoScrollViewContainer;
   private AreaSelectListener areaSelectlistener;
 
@@ -51,6 +52,7 @@ public class PlantFragment extends Fragment {
     plantFamilyNameView = v.findViewById(R.id.plant_family_name);
     plantTypeNameView = v.findViewById(R.id.plant_type_name);
     plantCommonNameView = v.findViewById(R.id.plant_common_name);
+    plantLinkView = v.findViewById(R.id.plant_link);
     noPlantSelectedView = v.findViewById(R.id.no_plant_selected);
     plantInfoScrollViewContainer = v.findViewById(R.id.plant_info_scroll_view_container);
     locationContainer = v.findViewById(R.id.plant_footer);
@@ -63,7 +65,6 @@ public class PlantFragment extends Fragment {
   public void onAttach(Context context) {
     super.onAttach(context);
     plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
-
   }
 
 
@@ -87,6 +88,9 @@ public class PlantFragment extends Fragment {
       plantGenusNameView.setText(plantViewModel.selectedPlant.genusName);
       plantFamilyNameView.setText(plantViewModel.selectedPlant.familyName);
       plantTypeNameView.setText(plantViewModel.selectedPlant.typeName);
+      plantLinkView.setText(plantViewModel.selectedPlant.link);
+      Linkify.addLinks(plantLinkView, Linkify.WEB_URLS);
+
       setupPlantCommonNames();
 
       plantInfoScrollViewContainer.setVisibility(View.VISIBLE);
