@@ -2,13 +2,17 @@ package com.example.urbotanist.ui.plant;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -37,6 +41,7 @@ public class PlantFragment extends Fragment {
   private ConstraintLayout locationContainer;
   private ScrollView plantInfoScrollViewContainer;
   private AreaSelectListener areaSelectlistener;
+  private ImageButton wikiButton;
 
   public static PlantFragment newInstance() {
     return new PlantFragment();
@@ -57,6 +62,7 @@ public class PlantFragment extends Fragment {
     plantInfoScrollViewContainer = v.findViewById(R.id.plant_info_scroll_view_container);
     locationContainer = v.findViewById(R.id.plant_footer);
     alternativeLocationGrid = v.findViewById(R.id.alternative_locations_container);
+    wikiButton = v.findViewById(R.id.wiki_button);
 
     return v;
   }
@@ -90,6 +96,14 @@ public class PlantFragment extends Fragment {
       plantTypeNameView.setText(plantViewModel.selectedPlant.typeName);
       plantLinkView.setText(plantViewModel.selectedPlant.link);
       Linkify.addLinks(plantLinkView, Linkify.WEB_URLS);
+      wikiButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          Uri uri = Uri.parse(plantViewModel.selectedPlant.link); // missing 'http://' will cause crashed
+          Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+          startActivity(intent);
+        }
+      });
 
       setupPlantCommonNames();
 
