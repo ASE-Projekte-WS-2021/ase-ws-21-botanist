@@ -210,9 +210,10 @@
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        app:layout_constraintDimensionRatio="H,9:16"
-        android:background="@drawable/botanist_splashscreen_p2"
+        app:layout_constraintDimensionRatio="H,319:699"
+        android:background="@drawable/botanist_splashscreen_bigger_p2"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 
