@@ -73,10 +73,13 @@ jobs:
           signingKeyBase64: ${{ secrets.KEYSTORE }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
-
+      - name: Rename APK for Release
+        run: if [ $(mv -i app-release-unsigned.apk app-release-signed.apk) ]; then echo "The file is renamed." fi
+        shell: bash
+        
       - name: Upload our APK
         uses: actions/upload-artifact@v2.2.0
         with:
           name: Release signed
-          path: app/build/outputs/apk/release/app-release.apk
+          path: ase-ws-21-botanist/ase-ws-21-botanist/app-release-signed.apk
        
