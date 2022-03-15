@@ -2,7 +2,6 @@ package com.example.urbotanist.ui.map;
 
 import android.graphics.Color;
 import android.util.Log;
-
 import androidx.lifecycle.ViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -103,7 +102,7 @@ public class MapViewModel extends ViewModel {
 
   public void setPlantLocation(String location) {
     for (String area : reversedPolyHashMap.values()) {
-      if(area.equals(location)) {
+      if (area.equals(location)) {
         ArrayList<Polygon> polygonList = polyHashMap.get(area);
         for (Polygon polygon : polygonList) {
           polygon.setFillColor(SELECTED_AREA_FILL_COLOR);
@@ -116,11 +115,13 @@ public class MapViewModel extends ViewModel {
     }
   }
 
-  private void findPolygoncenter (Polygon polygon) {
+  private void findPolygoncenter(Polygon polygon) {
     LatLng centerPoint;
     LatLngBounds.Builder builder = new LatLngBounds.Builder();
     // puts all LatLngs from polygon into boundsbuilder
-    for (LatLng point : polygon.getPoints()) builder.include(point);
+    for (LatLng point : polygon.getPoints()) {
+      builder.include(point);
+    }
     LatLngBounds bounds = builder.build();
     centerPoint = bounds.getCenter();
     //zoom to selected area
