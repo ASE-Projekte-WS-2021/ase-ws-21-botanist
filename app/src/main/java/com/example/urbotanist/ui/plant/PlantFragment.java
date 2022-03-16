@@ -3,9 +3,12 @@ package com.example.urbotanist.ui.plant;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.util.Linkify;
+import android.util.DisplayMetrics;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -137,12 +141,19 @@ public class PlantFragment extends Fragment {
   }
   
   private void setupAlternativeLocations() {
-    alternativeLocationGrid.setColumnCount(3);
+    int buttonColumnCount = 3;
+    int buttonMargin = 10;
+    alternativeLocationGrid.setColumnCount(buttonColumnCount);
     RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;
     RealmList<String> areasForPlantLong = plantViewModel.selectedPlant.locationLong;
     alternativeLocationGrid.removeAllViews();
     for (int i = 0; i < areasForPlant.size();i++) {
       Button areaButton = new Button(plantCommonNameView.getContext());
+      areaButton.setBackgroundResource(R.drawable.button);
+      ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(200, ConstraintLayout.LayoutParams.MATCH_PARENT);
+      params.setMargins(buttonMargin,buttonMargin,buttonMargin,buttonMargin);
+      areaButton.setLayoutParams(params);
+      areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.green));
       String  areaShortName = areasForPlant.get(i);
       String areaLongName = areasForPlantLong.get(i);
       areaButton.setText(areasForPlant.get(i));
