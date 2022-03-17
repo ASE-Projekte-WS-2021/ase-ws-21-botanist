@@ -65,8 +65,7 @@ jobs:
           # Artifact name
           name: Release Unsigned
       - name: Sign artifact
-        id: signArtifact
-        uses: r0adkll/sign-android-release@v1.0.1
+        uses: r0adkll/sign-android-release@v1
         with:
           alias: ${{ secrets.SIGNING_KEY_ALIAS }}
           signingKeyBase64: ${{ secrets.KEYSTORE }}
