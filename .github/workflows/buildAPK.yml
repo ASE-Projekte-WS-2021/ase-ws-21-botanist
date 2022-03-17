@@ -68,10 +68,10 @@ jobs:
         id: signArtifact
         uses: r0adkll/sign-android-release@v1.0.1
         with:
-          alias: ${{ secrets.KEYALIAS }}
+          alias: ${{ secrets.SIGNING_KEY_ALIAS }}
           signingKeyBase64: ${{ secrets.KEYSTORE }}
-          keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
+          keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
+          keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
           
       - name: Rename APK for Release
         run: ls
