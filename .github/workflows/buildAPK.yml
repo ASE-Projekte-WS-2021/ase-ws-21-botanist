@@ -75,7 +75,7 @@ jobs:
           keyPassword: ${{ secrets.KEY_PASSWORD }}
           
       - name: Rename APK for Release
-        run: echo "ls"
+        run: ls
         shell: bash
       - name: Rename APK for Release
         run: echo "mv app-release-unsigned.apk app-release-signed.apk"
