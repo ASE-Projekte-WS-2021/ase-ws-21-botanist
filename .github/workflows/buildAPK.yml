@@ -78,7 +78,7 @@ jobs:
         run: ls
         shell: bash
       - name: Rename APK for Release
-        run: echo "mv app-release-unsigned.apk app-release-signed.apk"
+        run: mv app-release-unsigned.apk app-release-signed.apk
         shell: bash
       - name: Rename APK for Release
         run: ls
