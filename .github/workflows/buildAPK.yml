@@ -80,10 +80,13 @@ jobs:
       - name: Rename APK for Release
         run: echo "mv app-release-unsigned.apk app-release-signed.apk"
         shell: bash
+      - name: Rename APK for Release
+        run: ls
+        shell: bash
         
       - name: Upload our APK
         uses: actions/upload-artifact@v2.2.0
         with:
           name: Release signed
-          path: ase-ws-21-botanist/ase-ws-21-botanist/app-release-signed.apk
+          path: app-release-signed.apk
        
