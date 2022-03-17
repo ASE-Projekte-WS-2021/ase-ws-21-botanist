@@ -112,16 +112,6 @@
                             android:text="@string/plant_common_name_prefix"
                             android:textSize="15sp" />
 
-                        <TextView
-                            android:id="@+id/plant_link_prefix"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="5dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
-                            android:text="@string/plant_link_prefix"
-                            android:textSize="15sp" />
-
                     </LinearLayout>
 
                     <LinearLayout
@@ -162,15 +152,6 @@
 
                         <TextView
                             android:id="@+id/plant_common_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="5dp"
-                            android:layout_marginBottom="10dp"
-                            android:layout_marginTop="10dp"
-                            android:textSize="15sp" />
-
-                        <TextView
-                            android:id="@+id/plant_link"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="5dp"

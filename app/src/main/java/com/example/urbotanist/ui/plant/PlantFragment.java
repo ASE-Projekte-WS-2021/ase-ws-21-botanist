@@ -61,7 +61,6 @@ public class PlantFragment extends Fragment {
     plantFamilyNameView = v.findViewById(R.id.plant_family_name);
     plantTypeNameView = v.findViewById(R.id.plant_type_name);
     plantCommonNameView = v.findViewById(R.id.plant_common_name);
-    plantLinkView = v.findViewById(R.id.plant_link);
     noPlantSelectedView = v.findViewById(R.id.no_plant_selected);
     plantInfoScrollViewContainer = v.findViewById(R.id.plant_info_scroll_view_container);
     locationContainer = v.findViewById(R.id.plant_footer);
@@ -98,8 +97,6 @@ public class PlantFragment extends Fragment {
       plantGenusNameView.setText(plantViewModel.selectedPlant.genusName);
       plantFamilyNameView.setText(plantViewModel.selectedPlant.familyName);
       plantTypeNameView.setText(plantViewModel.selectedPlant.typeName);
-      plantLinkView.setText(plantViewModel.selectedPlant.link);
-      Linkify.addLinks(plantLinkView, Linkify.WEB_URLS);
       wikiButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {

@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
     ImageView handle =  findViewById(R.id.handle);
     handle.setX(handle.getX() + 300f); //TODO  Calculate right position for handle
+    handle.setY(handle.getY() - 30f);
 
 
   }

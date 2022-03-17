@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,13 +33,13 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
   private AreaViewModel areaViewModel;
   private TextView areaFullNameView;
-  private Button areaShortNameView;
+  private TextView areaShortNameView;
   private TextView plantsInAreaHeader;
   private TextView noAreaSelectedView;
   private RecyclerView areaPlantListRecycler;
   private PlantSearchAdapter plantListAdapter;
   private SearchListener plantSearchListener;
-  private Button showAreaButton;
+  private ImageButton showAreaButton;
 
 
   private AreaSelectListener areaSelectListener;

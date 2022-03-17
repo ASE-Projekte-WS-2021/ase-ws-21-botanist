@@ -23,51 +23,54 @@
         android:layout_marginVertical="10dp"
         />
 
-    <Button
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/area_short_name"
-      app:layout_constraintTop_toBottomOf="@+id/area_header"
-      app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toLeftOf="@+id/show_area_button"
-      android:text="@string/LOCATION_SHORT_NAME"
-      android:textSize="15sp"
-      android:textStyle="bold"
-      android:textColor="@color/black"
-      android:layout_margin="10dp"
-      />
+
+    <ImageButton
+        android:id="@+id/show_area_button"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:backgroundTint="@color/green"
+        android:background="@drawable/ic_mapicon_wb"
+        android:orientation="vertical"
+        app:layout_constraintWidth_percent="0.18"
+        app:layout_constraintDimensionRatio="H,1:1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/area_header"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="10dp"/>
 
     <ImageView
-      android:layout_width="0dp"
-      android:layout_height="0dp"
-      app:layout_constraintTop_toTopOf="@+id/show_area_button"
-      app:layout_constraintBottom_toBottomOf="@+id/show_area_button"
-      app:layout_constraintLeft_toLeftOf="@+id/show_area_button"
-      app:layout_constraintRight_toRightOf="@+id/show_area_button"
-      android:src="@drawable/ic_mapicon"
-      android:elevation="30dp"
-      android:layout_margin="10dp"
-      android:contentDescription="@string/area_drawer_map_icon_content_description" />
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:src="@color/green"
+        android:layout_marginTop="5dp"
+        app:layout_constraintTop_toBottomOf="@+id/show_area_button"
+        app:layout_constraintLeft_toLeftOf="@+id/show_area_button"
+        app:layout_constraintRight_toRightOf="@+id/show_area_button"/>
 
-    <Button
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:id="@+id/show_area_button"
-      android:backgroundTint="@color/light_grey"
-      app:layout_constraintTop_toTopOf="@+id/area_short_name"
-      app:layout_constraintLeft_toRightOf="@+id/area_short_name"
-      app:layout_constraintRight_toRightOf="parent"
-            android:textSize="10sp"
-      android:textStyle="bold"
-
-      />
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintWidth_percent="0.15"
+        android:id="@+id/area_short_name"
+        app:layout_constraintTop_toBottomOf="@+id/show_area_button"
+        app:layout_constraintLeft_toLeftOf="@+id/show_area_button"
+        app:layout_constraintRight_toRightOf="@+id/show_area_button"
+        android:layout_marginTop="5dp"
+        android:text="@string/LOCATION_SHORT_NAME"
+        android:gravity="center"
+        app:strokeColor="@color/green"
+        android:background="@drawable/layout_border"
+        app:strokeWidth="2dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/green"/>
 
 
     <TextView
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:id="@+id/area_plant_list_header"
-      app:layout_constraintTop_toBottomOf="@+id/show_area_button"
+      app:layout_constraintTop_toBottomOf="@+id/area_short_name"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
       android:gravity="center"
