@@ -73,8 +73,12 @@ jobs:
           signingKeyBase64: ${{ secrets.KEYSTORE }}
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
+          
       - name: Rename APK for Release
-        run: echo mv app-release-unsigned.apk app-release-signed.apk
+        run: echo "ls"
+        shell: bash
+      - name: Rename APK for Release
+        run: echo "mv app-release-unsigned.apk app-release-signed.apk"
         shell: bash
         
       - name: Upload our APK
