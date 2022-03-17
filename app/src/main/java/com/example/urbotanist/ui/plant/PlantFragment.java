@@ -147,16 +147,30 @@ public class PlantFragment extends Fragment {
     for (int i = 0; i < areasForPlant.size();i++) {
       Button areaButton = new Button(plantCommonNameView.getContext());
       areaButton.setBackgroundResource(R.drawable.button);
-      ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(200, ConstraintLayout.LayoutParams.MATCH_PARENT);
+      ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(120, ConstraintLayout.LayoutParams.WRAP_CONTENT);
       params.setMargins(buttonMargin,buttonMargin,buttonMargin,buttonMargin);
       areaButton.setLayoutParams(params);
+      areaButton.setTextSize(20);
       areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.green));
       String  areaShortName = areasForPlant.get(i);
       String areaLongName = areasForPlantLong.get(i);
       areaButton.setText(areasForPlant.get(i));
+      areaButton.setOnTouchListener(new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+          if(event.getAction() == MotionEvent.ACTION_UP){
+            areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.green));
+          }
+          else if(event.getAction() == MotionEvent.ACTION_DOWN){
+            areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.white));
+          }
+          return false;
+        }
+      });
       areaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.white));
               if (areaSelectlistener != null) {
                 Area areaObject = new Area(areaShortName, areaLongName);
                 areaSelectlistener.onAreaSelected(areaShortName);
