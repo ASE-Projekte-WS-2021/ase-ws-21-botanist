@@ -74,7 +74,7 @@ jobs:
           keyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
           keyPassword: ${{ secrets.KEY_PASSWORD }}
       - name: Rename APK for Release
-        run: mv app-release-unsigned.apk app-release-signed.apk
+        run: echo mv app-release-unsigned.apk app-release-signed.apk
         shell: bash
         
       - name: Upload our APK
