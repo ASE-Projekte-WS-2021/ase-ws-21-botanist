@@ -55,7 +55,7 @@ public class InfoFragment extends CurrentScreenFragment {
         impArrow.getBackground().setTint(getColor(R.color.green));
 
       } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        impArrow.getBackground().setTint(getColor(R.color.light_grey));
+        impArrow.getBackground().setTint(getColor(R.color.white));
       }
       return false;
     });
