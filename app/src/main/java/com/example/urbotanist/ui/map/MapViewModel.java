@@ -61,11 +61,12 @@ public class MapViewModel extends ViewModel {
 
     for (MarkerInfo info : markerInfoList) {
       Marker infoMarker = map.addMarker(new MarkerOptions()
-          .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getLocationName())))
+          .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getAreaTag())))
           .title(info.getAreaName())
           .position(info.getLocation())
           .visible(false)
           .flat(true));
+      infoMarker.setTag(info.getAreaTag());
       markerList.add(infoMarker);
     }
   }

@@ -18,6 +18,8 @@ import androidx.core.content.ContextCompat;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
+import com.example.urbotanist.ui.area.Area;
+import com.example.urbotanist.ui.area.AreaSelectListener;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -42,6 +44,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   private MapView mapView;
   private String plantLocation;
   private Button showUserPositionButton;
+  private MarkerInfoClickListener markerInfoClickListener;
 
   public MapFragment(String plantLocation) {
     this.plantLocation = plantLocation;
@@ -99,7 +102,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
       @Override
       public void onInfoWindowClick(@NonNull Marker marker) {
-        //TODO open drawer with area
+        if (markerInfoClickListener != null) {
+          Area area = new Area(marker.getTag().toString().substring(0,1), marker.getTitle());
+          markerInfoClickListener.onMarkerInfoClicked(area);
+        }
       }
     });
   }
@@ -130,6 +136,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
       }
 
     }
+  }
+
+  public void setMarkerInfoClickListener(MarkerInfoClickListener listener) {
+    this.markerInfoClickListener = listener;
   }
 
   public String getPlantsInUserArea(LatLng currentUserLocation) {

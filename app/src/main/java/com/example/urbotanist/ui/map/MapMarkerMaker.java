@@ -73,7 +73,6 @@ public class MapMarkerMaker {
     markerInfoArray.add(new MarkerInfo("S6", new LatLng(48.992876, 12.090904), "Cayrophylidae"));
     markerInfoArray
         .add(new MarkerInfo("S7", new LatLng(48.993322, 12.090174), "Lamiidae, Asteridae"));
-
   }
 
   public ArrayList<MarkerInfo> getMarkerInfoArray() {
