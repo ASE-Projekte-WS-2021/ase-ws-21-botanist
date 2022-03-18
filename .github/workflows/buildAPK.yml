@@ -62,7 +62,6 @@ jobs:
       - name: Download Artifact
         uses: actions/download-artifact@v3.0.0
         with:
-          # Artifact name
           name: Release Unsigned
       - name: Sign artifact
         uses: r0adkll/sign-android-release@v1.0.4
@@ -74,18 +73,39 @@ jobs:
           keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
           
       - name: Rename APK for Release
-        run: ls
+        run: mv app-release-unsigned-signed.apk ur_botanist-${{ github.ref }}.apk
         shell: bash
-      - name: Rename APK for Release
-        run: mv app-release-unsigned.apk app-release-signed.apk
-        shell: bash
-      - name: Rename APK for Release
-        run: ls
-        shell: bash
-        
+            
       - name: Upload our APK
         uses: actions/upload-artifact@v2.2.0
         with:
           name: Release signed
-          path: app-release-signed.apk
+          path: ur_botanist-${{ github.ref }}.apk
+          
+  ReleaseApk:
+    needs: SignReleaseApk
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Signed APK
+        uses: actions/download-artifact@v1
+        with:
+          name: Release signed  
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }} 
+      - name: Upload Release APK
+        id: upload_release_asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: .
+          asset_name: MensaApp.apk
+          asset_content_type: application/zip
        
