@@ -33,7 +33,7 @@ public class MapViewModel extends ViewModel {
   private static final int POLY_STROKE_WIDTH = 6;
   private static final int POLY_STROKE_WIDTH_PLANT_SELECTED = 18;
   private static final int DEFAULT_ZOOM = 17;
-  private static final int SELECTED_AREA_ZOOM = 19;
+  private static final int SELECTED_AREA_ZOOM = 18;
 
   private ArrayList<Polygon> polygonList = new ArrayList<>();
   private final HashMap<String, ArrayList<Polygon>> polyHashMap = new HashMap<>();
