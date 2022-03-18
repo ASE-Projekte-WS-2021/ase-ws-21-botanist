@@ -34,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:scrollbarThumbVertical="@color/green"
             android:background="@color/lighter_grey"
             app:layout_constraintBottom_toTopOf="@id/impressumButton"
             app:layout_constraintTop_toBottomOf="@id/infoTitle"

@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.search.SearchFragment"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:layout_marginBottom="8dp">
 
 
 
@@ -40,6 +41,7 @@
         android:scrollbars="vertical"
         app:layout_constraintTop_toBottomOf="@id/search_bar"
         app:layout_constraintLeft_toLeftOf="parent"
+        android:scrollbarThumbVertical="@color/green"
         android:layout_marginHorizontal="8dp"
         android:layout_marginTop="8dp"
         android:id="@+id/search_list_recycler"
