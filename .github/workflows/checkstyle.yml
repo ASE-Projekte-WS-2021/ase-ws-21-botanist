@@ -22,4 +22,4 @@ jobs:
           java-version: '11'
 
       - name: Run gradle checkstyle tasks
-        run: ./gradlew checkstyle --stacktrace
+        run: ./gradlew checkstyle
