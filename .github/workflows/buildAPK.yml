@@ -89,7 +89,7 @@ jobs:
     steps:
     
       - name: Save Version To Environment
-        run: echo "VERSION=$(echo '${{ github.ref }}' | awk -F 'refs.tags.v' '{print $2}')" >> $GITHUB_ENV; echo $VERSION
+        run: echo "VERSION=$(echo '${{ github.ref }}' | awk -F 'refs.tags.' '{print $2}')" >> $GITHUB_ENV; echo $VERSION
         shell: bash
         
       - name: Download Release App Artifact
