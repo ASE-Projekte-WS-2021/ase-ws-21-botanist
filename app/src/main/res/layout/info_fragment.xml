@@ -319,14 +319,17 @@
         <ImageView
             android:id="@+id/impressumArrow"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:background="@drawable/ic_arrow"
             app:layout_constraintBottom_toBottomOf="@+id/impressumButton"
             app:layout_constraintLeft_toLeftOf="@id/impressumButton"
             app:layout_constraintRight_toRightOf="@id/impressumButton"
             app:layout_constraintTop_toTopOf="@+id/impressumButton"
             app:tint="@color/green"
-            app:layout_constraintWidth_percent="0.5" />
+            app:layout_constraintWidth_percent="0.5"
+            app:layout_constraintHeight_percent="0.022"
+
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
