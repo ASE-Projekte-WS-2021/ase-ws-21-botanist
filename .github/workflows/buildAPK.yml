@@ -89,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v2.2.0
         with:
           name: Release signed
-          path: ur_botanist-${GITHUB_REF#refs/tags/}.apk
+          path: ur_botanist-${{GITHUB_REF#refs/tags/}}.apk
           
   ReleaseApk:
     needs: SignReleaseApk
@@ -115,6 +115,6 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: .
-          asset_name: ur_botanist-${GITHUB_REF#refs/tags/}.apk
+          asset_name: ur_botanist-${{GITHUB_REF#refs/tags/}}.apk
           asset_content_type: application/zip
        
