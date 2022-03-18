@@ -75,6 +75,15 @@
       app:layout_constraintTop_toBottomOf="@+id/area_plant_list_header"
       />
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/inside_box_shadow"
+        app:layout_constraintTop_toTopOf="@id/area_plant_list_recycler"
+        app:layout_constraintBottom_toBottomOf="@id/area_plant_list_recycler"
+        app:layout_constraintLeft_toLeftOf="@id/area_plant_list_recycler"
+        app:layout_constraintRight_toRightOf="@id/area_plant_list_recycler"/>
+
     <ImageButton
         android:id="@+id/show_area_button"
         android:layout_width="0dp"

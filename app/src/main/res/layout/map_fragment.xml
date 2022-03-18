@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:xmls="http://schemas.android.com/apk/res-auto"
+    android:foreground="@drawable/inside_box_shadow"
+    android:layout_marginHorizontal="8dp"
     tools:context=".ui.map.MapFragment"
     android:backgroundTint="@color/black">
 
