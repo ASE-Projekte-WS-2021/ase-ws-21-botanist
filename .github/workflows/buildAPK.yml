@@ -9,7 +9,7 @@ on:
       - completed
 jobs:
   BuildDebugApk:
-      name: Generate Debug APK
+      name: Build Debug APK
       runs-on: ubuntu-latest
       steps:
         # https://github.com/actions/checkout
@@ -18,7 +18,7 @@ jobs:
         - name: Set up JDK environment
           uses: actions/setup-java@v2.5.0
           with:
-            distribution: 'zulu' # See 'Supported distributions' for available options
+            distribution: 'zulu' 
             java-version: '11'
         - name: Set execution flag for gradlew
           run: chmod +x gradlew
@@ -72,19 +72,10 @@ jobs:
           keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
           keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
           
-      - name: list dir
-        run: ls
-        shell: bash  
-          
-      - name: Rename APK for Release
+      - name: Rename APK to signed
         run: mv app-release-unsigned-signed.apk app-release-signed.apk
         shell: bash
         
-      - name: list dir
-        run: ls
-        shell: bash  
-          
-            
       - name: Upload our APK
         uses: actions/upload-artifact@v2.2.0
         with:
@@ -92,6 +83,7 @@ jobs:
           path: app-release-signed.apk
           
   ReleaseApk:
+    name: Create Release with Apk
     needs: SignReleaseApk
     runs-on: ubuntu-latest
     steps:
@@ -100,16 +92,12 @@ jobs:
         run: echo "VERSION=$(echo '${{ github.ref }}' | awk -F 'refs.tags.v' '{print $2}')" >> $GITHUB_ENV; echo $VERSION
         shell: bash
         
-      - name: Download Artifact
+      - name: Download Release App Artifact
         uses: actions/download-artifact@v3.0.0
         with:
           name: Release signed
-      
-      - name: list dir
-        run: ls
-        shell: bash  
-          
-      - name: Rename APK for Release
+         
+      - name: Rename APK With App And Version Names
         run: mv app-release-signed.apk ur_botanist-${{ env.VERSION }}.apk
         shell: bash
         
@@ -121,14 +109,15 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ env.VERSION }}
-      - name: Upload Release APK
+          
+      - name: Upload App Apk To Release
         id: upload_release_asset
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: .
+          asset_path: ur_botanist-${{ env.VERSION }}.apk
           asset_name: ur_botanist-${{ env.VERSION }}.apk
           asset_content_type: application/zip
        
