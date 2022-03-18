@@ -73,14 +73,18 @@ jobs:
           keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
           
       - name: Rename APK for Release
-        run: mv app-release-unsigned-signed.apk ur_botanist-${{ github.ref }}.apk
+        run: ls
+        shell: bash  
+          
+      - name: Rename APK for Release
+        run: mv app-release-unsigned-signed.apk ur_botanist-${GITHUB_REF#refs/tags/}.apk
         shell: bash
             
       - name: Upload our APK
         uses: actions/upload-artifact@v2.2.0
         with:
           name: Release signed
-          path: ur_botanist-${{ github.ref }}.apk
+          path: ur_botanist-${GITHUB_REF#refs/tags/}.apk
           
   ReleaseApk:
     needs: SignReleaseApk
@@ -106,6 +110,6 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: .
-          asset_name: MensaApp.apk
+          asset_name: ur_botanist-${GITHUB_REF#refs/tags/}.apk
           asset_content_type: application/zip
        
