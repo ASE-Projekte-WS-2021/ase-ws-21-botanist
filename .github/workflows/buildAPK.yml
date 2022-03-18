@@ -100,10 +100,14 @@ jobs:
         run: echo "VERSION=$(echo '${{ github.ref }}' | awk -F 'refs.tags.v' '{print $2}')" >> $GITHUB_ENV; echo $VERSION
         shell: bash
         
-      - name: Download Signed APK
-        uses: actions/download-artifact@v1
+      - name: Download Artifact
+        uses: actions/download-artifact@v3.0.0
         with:
-          name: Release signed  
+          name: Release signed
+      
+      - name: list dir
+        run: ls
+        shell: bash  
           
       - name: Rename APK for Release
         run: mv app-release-signed.apk ur_botanist-${{ env.VERSION }}.apk
