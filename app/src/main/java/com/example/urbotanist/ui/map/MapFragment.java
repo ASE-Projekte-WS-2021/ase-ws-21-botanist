@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.ui.IconGenerator;
 
 
@@ -59,7 +61,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         requestLocationPermissions();
       }
     });
-
     IconGenerator iconGen = new IconGenerator(getActivity());
     mapViewModel = new MapViewModel(iconGen);
 
@@ -95,6 +96,12 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     mapViewModel.initInfoMarker();
     mapViewModel.setShowMarker(true);
 
+    map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+      @Override
+      public void onInfoWindowClick(@NonNull Marker marker) {
+        //TODO open drawer with area
+      }
+    });
   }
 
 
