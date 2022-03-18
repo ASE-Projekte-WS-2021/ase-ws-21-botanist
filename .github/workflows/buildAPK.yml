@@ -72,7 +72,7 @@ jobs:
           keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
           keyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
           
-      - name: Rename APK for Release
+      - name: list dir
         run: ls
         shell: bash  
           
