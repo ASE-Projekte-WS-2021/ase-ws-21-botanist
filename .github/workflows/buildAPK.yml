@@ -77,7 +77,7 @@ jobs:
         shell: bash  
           
       - name: Rename APK for Release
-        run: mv app-release-unsigned-signed.apk ur_botanist-${{GITHUB_REF#refs/tags/}}.apk
+        run: mv app-release-unsigned-signed.apk ur_botanist-${GITHUB_REF#refs/tags/}.apk
         shell: bash
         
       - name: list dir
