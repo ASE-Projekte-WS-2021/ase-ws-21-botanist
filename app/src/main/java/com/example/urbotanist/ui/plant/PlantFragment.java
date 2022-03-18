@@ -42,7 +42,6 @@ public class PlantFragment extends Fragment {
   private TextView plantFamilyNameView;
   private TextView plantTypeNameView;
   private TextView plantCommonNameView;
-  private TextView plantLinkView;
   private TextView plantGenusNameView;
   private TextView noPlantSelectedView;
   private GridLayout alternativeLocationGrid;
