@@ -1,9 +1,13 @@
 package com.example.urbotanist.ui.plant;
 
 
+import static com.sileria.android.Resource.getColor;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.util.Linkify;
@@ -137,6 +141,8 @@ public class PlantFragment extends Fragment {
     }
   }
   
+  @SuppressWarnings({"checkstyle:WhitespaceAround", "checkstyle:RightCurly"})
+  @SuppressLint("ClickableViewAccessibility")
   private void setupAlternativeLocations() {
     int buttonColumnCount = 3;
     int buttonMargin = 10;
@@ -151,21 +157,17 @@ public class PlantFragment extends Fragment {
       params.setMargins(buttonMargin,buttonMargin,buttonMargin,buttonMargin);
       areaButton.setLayoutParams(params);
       areaButton.setTextSize(20);
-      areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.green));
+      areaButton.setTextColor(getColor(R.color.green));
       String  areaShortName = areasForPlant.get(i);
       String areaLongName = areasForPlantLong.get(i);
       areaButton.setText(areasForPlant.get(i));
-      areaButton.setOnTouchListener(new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-          if(event.getAction() == MotionEvent.ACTION_UP){
-            areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.green));
-          }
-          else if(event.getAction() == MotionEvent.ACTION_DOWN){
-            areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.white));
-          }
-          return false;
+      areaButton.setOnTouchListener((v, event) -> {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+          areaButton.setTextColor(getColor(R.color.green));
+        } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+          areaButton.setTextColor(getColor(R.color.white));
         }
+        return false;
       });
       areaButton.setOnClickListener(new View.OnClickListener() {
             @Override

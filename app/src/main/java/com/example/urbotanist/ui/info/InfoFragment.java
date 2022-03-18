@@ -1,5 +1,8 @@
 package com.example.urbotanist.ui.info;
 
+import static com.sileria.android.Resource.getColor;
+
+import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,21 +45,19 @@ public class InfoFragment extends CurrentScreenFragment {
   }
 
 
+  @SuppressWarnings("checkstyle:Indentation")
+  @SuppressLint("ClickableViewAccessibility")
   @Override
   public void onStart() {
     super.onStart();
-    impButton.setOnTouchListener(new View.OnTouchListener() {
-      @Override
-      public boolean onTouch(View v, MotionEvent event) {
-        if(event.getAction() == MotionEvent.ACTION_UP){
-          impArrow.getBackground().setTint(getContext().getColor(R.color.green));
+    impButton.setOnTouchListener((v, event) -> {
+      if (event.getAction() == MotionEvent.ACTION_UP) {
+        impArrow.getBackground().setTint(getColor(R.color.green));
 
+      } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        impArrow.getBackground().setTint(getColor(R.color.light_grey));
       }
-      else if(event.getAction() == MotionEvent.ACTION_DOWN){
-          impArrow.getBackground().setTint(getContext().getColor(R.color.light_grey));
-      }
-        return false;
-      }
+      return false;
     });
     impButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
