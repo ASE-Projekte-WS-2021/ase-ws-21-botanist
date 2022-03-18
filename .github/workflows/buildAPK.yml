@@ -67,7 +67,7 @@ jobs:
       - name: Sign artifact
         uses: r0adkll/sign-android-release@v1.0.4
         with:
-          releaseDirectory: app-release-unsigned.apk
+          releaseDirectory: .
           alias: ${{ secrets.SIGNING_KEY_ALIAS }}
           signingKeyBase64: ${{ secrets.KEYSTORE }}
           keyStorePassword: ${{ secrets.SIGNING_STORE_PASSWORD }}
