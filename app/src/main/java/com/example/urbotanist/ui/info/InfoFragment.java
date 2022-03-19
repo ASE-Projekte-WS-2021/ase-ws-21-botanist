@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -34,8 +33,8 @@ public class InfoFragment extends CurrentScreenFragment {
   private ImageButton impButton;
   private TableLayout infoTable;
   private ImageView impArrow;
-  private ScrollView scrollidoli;
-  private ScrollView scrollidoli2;
+  private ScrollView infoScroll;
+  private ScrollView impScroll;
   private ConstraintLayout titleConstraint;
   private int fragmentWidth;
 
@@ -52,8 +51,8 @@ public class InfoFragment extends CurrentScreenFragment {
     infoText = (TextView) v.findViewById(R.id.infoText);
     impButton = (ImageButton) v.findViewById(R.id.impressumButton);
     impArrow = (ImageView) v.findViewById(R.id.impressumArrow);
-    scrollidoli = (ScrollView) v.findViewById(R.id.scrollView2);
-    scrollidoli2 = (ScrollView) v.findViewById(R.id.scrollView3);
+    infoScroll = (ScrollView) v.findViewById(R.id.scrollView2);
+    impScroll = (ScrollView) v.findViewById(R.id.scrollView3);
     titleConstraint = (ConstraintLayout) v.findViewById(R.id.titleConstraint);
     v.post(new Runnable() {
       @Override
@@ -86,23 +85,23 @@ public class InfoFragment extends CurrentScreenFragment {
         Handler handler = new Handler();
         titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_out));
         impButton.setClickable(false);
-        if (!(getResources().getString(R.string.impressum) == infoTitle.getText())) {
-          handler.postDelayed(() -> {
-            infoTitle.setText(getResources().getString(R.string.impressum));
-            titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_in));
-          }, getInteger(android.R.integer.config_shortAnimTime));
+        String currentTitle = infoTitle.getText().toString();
+        if (!getResources().getString(R.string.impressum).equals(currentTitle)) {
+          currentTitle = getResources().getString(R.string.impressum);
           impArrow.setRotationY(180);
-          slideIn(scrollidoli);
-          slideIn(scrollidoli2);
+          slideRight(infoScroll);
+          slideRight(impScroll);
         } else {
-          handler.postDelayed(() -> {
-            infoTitle.setText(getResources().getString(R.string.info));
-            titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_in));
-          }, getInteger(android.R.integer.config_shortAnimTime));
+          currentTitle = getResources().getString(R.string.info);
           impArrow.setRotationY(0);
-          slideOut(scrollidoli);
-          slideOut(scrollidoli2);
+          slideLeft(infoScroll);
+          slideLeft(impScroll);
         }
+        String finalCurrentTitle = currentTitle;
+        handler.postDelayed(() -> {
+          infoTitle.setText(finalCurrentTitle);
+          titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_in));
+        }, getInteger(android.R.integer.config_shortAnimTime));
         handler.postDelayed(() -> {
           impButton.setClickable(true);
         }, getInteger(android.R.integer.config_mediumAnimTime));
@@ -110,14 +109,14 @@ public class InfoFragment extends CurrentScreenFragment {
     });
   }
 
-  private void slideIn(View fadeView) {
-    fadeView.setX(fadeView.getX() - fragmentWidth);
-    fadeView.startAnimation(loadAnimation(getApplicationContext(),R.anim.animifnforight));
+  private void slideRight(View slideView) {
+    slideView.setX(slideView.getX() - fragmentWidth);
+    slideView.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_info_to_right));
   }
 
-  private void slideOut(View fadeView) {
-    fadeView.setX(fadeView.getX() + fragmentWidth);
-    fadeView.startAnimation(loadAnimation(getApplicationContext(),R.anim.animifnfoleft));
+  private void slideLeft(View slideView) {
+    slideView.setX(slideView.getX() + fragmentWidth);
+    slideView.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_info_to_left));
   }
 
 
