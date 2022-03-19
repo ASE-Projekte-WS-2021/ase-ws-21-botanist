@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,13 +33,12 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
   private AreaViewModel areaViewModel;
   private TextView areaFullNameView;
-  private Button areaShortNameView;
-  private TextView plantsInAreaHeader;
+  private TextView areaShortNameView;
   private TextView noAreaSelectedView;
   private RecyclerView areaPlantListRecycler;
   private PlantSearchAdapter plantListAdapter;
   private SearchListener plantSearchListener;
-  private Button showAreaButton;
+  private ImageButton showAreaButton;
 
 
   private AreaSelectListener areaSelectListener;
@@ -56,7 +56,6 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
     areaShortNameView = v.findViewById(R.id.area_short_name);
     noAreaSelectedView = v.findViewById(R.id.no_area_selected);
     showAreaButton = v.findViewById(R.id.show_area_button);
-    plantsInAreaHeader = v.findViewById(R.id.area_plant_list_header);
     plantListAdapter = new PlantSearchAdapter(Collections.emptyList(), this);
     areaPlantListRecycler = v.findViewById(R.id.area_plant_list_recycler);
     areaPlantListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
@@ -115,7 +114,6 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
       areaFullNameView.setVisibility(View.VISIBLE);
       areaShortNameView.setVisibility(View.VISIBLE);
       showAreaButton.setVisibility(View.VISIBLE);
-      plantsInAreaHeader.setVisibility(View.VISIBLE);
       noAreaSelectedView.setVisibility(View.GONE);
       showAreaButton.setOnClickListener(view -> {
         areaSelectListener.onAreaSelected(areaViewModel.selectedArea.areaName);
@@ -127,7 +125,6 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
       areaFullNameView.setVisibility(View.GONE);
       areaShortNameView.setVisibility(View.GONE);
       showAreaButton.setVisibility(View.GONE);
-      plantsInAreaHeader.setVisibility(View.GONE);
 
       noAreaSelectedView.setVisibility(View.VISIBLE);
     }

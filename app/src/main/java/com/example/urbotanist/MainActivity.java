@@ -20,6 +20,7 @@ import com.example.urbotanist.ui.area.AreaSelectListener;
 import com.example.urbotanist.ui.favorites.FavouritePlant;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
+import com.example.urbotanist.ui.map.MarkerInfoClickListener;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.plant.PlantFragment;
 import com.example.urbotanist.ui.search.SearchFragment;
@@ -42,7 +43,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 
 public class MainActivity extends AppCompatActivity implements SearchListener,
-    AreaSelectListener, LocationSource.OnLocationChangedListener {
+    AreaSelectListener, LocationSource.OnLocationChangedListener, MarkerInfoClickListener {
 
   DatabaseAdapterActivity dbHelper;
 
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
     ImageView handle =  findViewById(R.id.handle);
     handle.setX(handle.getX() + 300f); //TODO  Calculate right position for handle
+    handle.setY(handle.getY() - 30f);
 
 
   }
@@ -194,6 +196,13 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       }
     });
 
+    mapFragment.setMarkerInfoClickListener(new MarkerInfoClickListener() {
+      @Override
+      public void onMarkerInfoClicked(Area markerArea) {
+        openDrawerWithAreaTag(markerArea);
+      }
+    });
+
   }
 
   private void focusButton(Button focusButton) {
@@ -202,6 +211,13 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     searchButton.getBackground().setAlpha(128);
     showMapButton.getBackground().setAlpha(128);
     focusButton.getBackground().setAlpha(255);
+  }
+
+  private void openDrawerWithAreaTag(Area markerArea) {
+    //TODO
+    //area wird erst angezeigt, wenn man zur ausgewählten Pflanze und dann wieder zurück switcht
+    setCurrentSelectedArea(markerArea);
+    openDrawer();
   }
 
   public void loadCurrentDrawerFragment(Fragment fragment) {
@@ -384,4 +400,8 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     }
   }
 
+  @Override
+  public void onMarkerInfoClicked(Area markerArea) {
+    openDrawerWithAreaTag(markerArea);
+  }
 }

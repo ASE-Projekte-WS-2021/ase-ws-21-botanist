@@ -1,11 +1,13 @@
 package com.example.urbotanist.ui.map;
 
 import android.graphics.Color;
+import android.util.Log;
 import androidx.lifecycle.ViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
@@ -26,24 +28,17 @@ public class MapViewModel extends ViewModel {
 
   private static final int SELECTED_AREA_FILL_COLOR = 0x80FA6E6E;
   private static final int SELECTED_AREA_BORDER_COLOR = Color.parseColor("#FA6E6E");
-  /*
-  private static final int COLOR_AREA_A = 0x90FDAD02;
-  private static final int COLOR_AREA_B = 0x80FFFFBF;
-  private static final int COLOR_AREA_E = 0x80CDAA66;
-  private static final int COLOR_AREA_M = 0x8038A700;
-  private static final int COLOR_AREA_N = 0x8C38A700;
-  private static final int COLOR_AREA_S = 0x80C8D79E;
-  private static final int COLOR_AREA_H = 0x9938A700;
-  private static final int COLOR_AREA_G = 0x80FF7F7E;
-   */
-
-  private ArrayList<Polygon> polygonList = new ArrayList<>();
-  private final HashMap<String, Polygon> polyHashMap = new HashMap<>();
-  private final HashMap<Polygon, String> reversedPolyHashMap = new HashMap<>();
-  private final ArrayList<PolygonInfo> polyInfoList;
+  private static final int DEFAULT_POLYGON_Z_INDEX = 1;
+  private static final int SELECTED_AREA_Z_INDEX = 2;
   private static final int POLY_STROKE_WIDTH = 6;
   private static final int POLY_STROKE_WIDTH_PLANT_SELECTED = 18;
+  private static final int DEFAULT_ZOOM = 17;
+  private static final int SELECTED_AREA_ZOOM = 18;
 
+  private ArrayList<Polygon> polygonList = new ArrayList<>();
+  private final HashMap<String, ArrayList<Polygon>> polyHashMap = new HashMap<>();
+  private final HashMap<Polygon, String> reversedPolyHashMap = new HashMap<>();
+  private final ArrayList<PolygonInfo> polyInfoList;
 
   public MapViewModel(IconGenerator iconGen) {
     this.iconGen = iconGen;
@@ -56,9 +51,8 @@ public class MapViewModel extends ViewModel {
     map = googleMap;
 
     addPolygonsToMap();
-    LatLng botanicGarden = new LatLng(48.993161, 12.090753);
-    map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanicGarden, 17));
-
+    LatLng botanicGarden = new LatLng(48.993405, 12.091553);
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanicGarden, DEFAULT_ZOOM));
 
   }
 
@@ -67,11 +61,12 @@ public class MapViewModel extends ViewModel {
 
     for (MarkerInfo info : markerInfoList) {
       Marker infoMarker = map.addMarker(new MarkerOptions()
-          .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getLocationName())))
+          .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getAreaTag())))
           .title(info.getAreaName())
           .position(info.getLocation())
           .visible(false)
           .flat(true));
+      infoMarker.setTag(info.getAreaTag());
       markerList.add(infoMarker);
     }
   }
@@ -92,31 +87,55 @@ public class MapViewModel extends ViewModel {
       for (PolygonOptions polygonOption : polygonOptList) {
         Polygon polygon = map.addPolygon(polygonOption);
         polygon.setStrokeWidth(POLY_STROKE_WIDTH);
+        polygon.setZIndex(DEFAULT_POLYGON_Z_INDEX);
         polygonList.add(polygon);
-        polyHashMap.put(polygonInfo.getAreaName(), polygon);
+        //check if polyHashMap already has a entry with area, else extend list
+        if (polyHashMap.containsKey(polygonInfo.getAreaName())) {
+          polyHashMap.get(polygonInfo.getAreaName()).add(polygon);
+        } else {
+          polyHashMap.put(polygonInfo.getAreaName(), new ArrayList<Polygon>());
+          polyHashMap.get(polygonInfo.getAreaName()).add(polygon);
+        }
         reversedPolyHashMap.put(polygon, polygonInfo.getAreaName());
       }
     }
   }
 
   public void setPlantLocation(String location) {
-    for (PolygonInfo polyInfo : polyInfoList) {
-      if (polyInfo.getAreaName() != null) {
-        if (polyInfo.getAreaName().equals(location)) {
-          for (PolygonOptions polyOp : polyInfo.getPolyOpList()) {
-            map.addPolygon(polyOp.fillColor(SELECTED_AREA_FILL_COLOR)
-                .strokeWidth(POLY_STROKE_WIDTH_PLANT_SELECTED)
-                .strokeColor(SELECTED_AREA_BORDER_COLOR));
-          }
+    for (String area : reversedPolyHashMap.values()) {
+      if (area.equals(location)) {
+        ArrayList<Polygon> polygonList = polyHashMap.get(area);
+        for (Polygon polygon : polygonList) {
+          polygon.setFillColor(SELECTED_AREA_FILL_COLOR);
+          polygon.setStrokeWidth(POLY_STROKE_WIDTH_PLANT_SELECTED);
+          polygon.setStrokeColor(SELECTED_AREA_BORDER_COLOR);
+          findPolygoncenter(polygon);
+          polygon.setZIndex(SELECTED_AREA_Z_INDEX);
         }
       }
     }
   }
 
+  private void findPolygoncenter(Polygon polygon) {
+    LatLng centerPoint;
+    LatLngBounds.Builder builder = new LatLngBounds.Builder();
+    // puts all LatLngs from polygon into boundsbuilder
+    for (LatLng point : polygon.getPoints()) {
+      builder.include(point);
+    }
+    LatLngBounds bounds = builder.build();
+    centerPoint = bounds.getCenter();
+    //zoom to selected area
+    map.moveCamera(CameraUpdateFactory.newLatLngZoom(centerPoint, SELECTED_AREA_ZOOM));
+
+  }
+
   public String currentUserArea(LatLng currentUserLocation) {
-    for (Polygon polygon : polyHashMap.values()) {
-      if (PolyUtil.containsLocation(currentUserLocation, polygon.getPoints(), true)) {
-        return reversedPolyHashMap.get(polygon);
+    for (ArrayList<Polygon> polygonList : polyHashMap.values()) {
+      for (Polygon polygon : polygonList) {
+        if (PolyUtil.containsLocation(currentUserLocation, polygon.getPoints(), true)) {
+          return reversedPolyHashMap.get(polygon);
+        }
       }
     }
     //TODO what to return, when user is not in  / not in an area

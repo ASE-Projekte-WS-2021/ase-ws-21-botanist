@@ -1,15 +1,27 @@
 package com.example.urbotanist.ui.plant;
 
 
+import static com.sileria.android.Resource.getColor;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.util.Linkify;
+import android.util.DisplayMetrics;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -33,7 +45,6 @@ public class PlantFragment extends Fragment {
   private TextView plantFamilyNameView;
   private TextView plantTypeNameView;
   private TextView plantCommonNameView;
-  private TextView plantLinkView;
   private TextView plantGenusNameView;
   private TextView noPlantSelectedView;
   private GridLayout alternativeLocationGrid;
@@ -58,7 +69,6 @@ public class PlantFragment extends Fragment {
     plantFamilyNameView = v.findViewById(R.id.plant_family_name);
     plantTypeNameView = v.findViewById(R.id.plant_type_name);
     plantCommonNameView = v.findViewById(R.id.plant_common_name);
-    plantLinkView = v.findViewById(R.id.plant_link);
     noPlantSelectedView = v.findViewById(R.id.no_plant_selected);
     plantInfoScrollViewContainer = v.findViewById(R.id.plant_info_scroll_view_container);
     locationContainer = v.findViewById(R.id.plant_footer);
@@ -143,20 +153,37 @@ public class PlantFragment extends Fragment {
       plantCommonNameView.setText("Nicht vorhanden");
     }
   }
-
   private void setupAlternativeLocations() {
-    alternativeLocationGrid.setColumnCount(3);
+    int buttonColumnCount = 3;
+    int buttonMargin = 10;
+    alternativeLocationGrid.setColumnCount(buttonColumnCount);
     RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;
     RealmList<String> areasForPlantLong = plantViewModel.selectedPlant.locationLong;
     alternativeLocationGrid.removeAllViews();
     for (int i = 0; i < areasForPlant.size();i++) {
       Button areaButton = new Button(plantCommonNameView.getContext());
+      areaButton.setBackgroundResource(R.drawable.button);
+      ConstraintLayout.LayoutParams params =
+              new ConstraintLayout.LayoutParams(120, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+      params.setMargins(buttonMargin,buttonMargin,buttonMargin,buttonMargin);
+      areaButton.setLayoutParams(params);
+      areaButton.setTextSize(20);
+      areaButton.setTextColor(getColor(R.color.green));
       String  areaShortName = areasForPlant.get(i);
       String areaLongName = areasForPlantLong.get(i);
       areaButton.setText(areasForPlant.get(i));
+      areaButton.setOnTouchListener((v, event) -> {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+          areaButton.setTextColor(getColor(R.color.green));
+        } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+          areaButton.setTextColor(getColor(R.color.white));
+        }
+        return false;
+      });
       areaButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.white));
               if (areaSelectlistener != null) {
                 Area areaObject = new Area(areaShortName, areaLongName);
                 areaSelectlistener.onAreaSelected(areaShortName);

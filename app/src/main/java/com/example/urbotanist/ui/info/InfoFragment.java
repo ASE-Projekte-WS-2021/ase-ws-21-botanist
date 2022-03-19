@@ -1,10 +1,16 @@
 package com.example.urbotanist.ui.info;
 
+import static com.sileria.android.Resource.getColor;
+
+import android.annotation.SuppressLint;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -18,7 +24,7 @@ public class InfoFragment extends CurrentScreenFragment {
 
   private TextView infoTitle;
   private TextView infoText;
-  private Button impButton;
+  private ImageButton impButton;
   private TableLayout infoTable;
   private ImageView impArrow;
 
@@ -33,15 +39,26 @@ public class InfoFragment extends CurrentScreenFragment {
     infoTitle = (TextView) v.findViewById(R.id.infoTitle);
     infoTable = (TableLayout) v.findViewById(R.id.infoTableOpeningHours);
     infoText = (TextView) v.findViewById(R.id.infoText);
-    impButton = (Button) v.findViewById(R.id.impressumButton);
+    impButton = (ImageButton) v.findViewById(R.id.impressumButton);
     impArrow = (ImageView) v.findViewById(R.id.impressumArrow);
     return v;
   }
 
 
+  @SuppressWarnings("checkstyle:Indentation")
+  @SuppressLint("ClickableViewAccessibility")
   @Override
   public void onStart() {
     super.onStart();
+    impButton.setOnTouchListener((v, event) -> {
+      if (event.getAction() == MotionEvent.ACTION_UP) {
+        impArrow.getBackground().setTint(getColor(R.color.green));
+
+      } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+        impArrow.getBackground().setTint(getColor(R.color.white));
+      }
+      return false;
+    });
     impButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         if (!(getResources().getString(R.string.impressum) == infoTitle.getText())) {

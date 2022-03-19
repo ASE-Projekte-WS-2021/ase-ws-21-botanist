@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_grey"
+    android:background="@color/white"
     android:gravity="center"
     android:orientation="vertical"
     tools:context=".ui.info.InfoFragment">
@@ -34,6 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="8dp"
+            android:scrollbarThumbVertical="@color/green"
+            android:background="@color/lighter_grey"
             app:layout_constraintBottom_toTopOf="@id/impressumButton"
             app:layout_constraintTop_toBottomOf="@id/infoTitle"
             app:layout_constraintWidth_percent="0.95"
@@ -42,7 +44,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginHorizontal="4dp">
 
                 <TableLayout
                     android:id="@+id/infoTableOpeningHours"
@@ -275,42 +278,59 @@
                     </TableRow>
                 </TableLayout>
 
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:src="@color/green"/>
+
                 <TextView
                     android:id="@+id/infoText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/layout_border"
                     android:gravity="center"
-                    android:text="@string/infoContent" />
+                    android:text="@string/infoContent"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
 
             </LinearLayout>
         </ScrollView>
 
         <ImageView
-            android:id="@+id/impressumArrow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/inside_box_shadow"
+            app:layout_constraintTop_toTopOf="@id/scrollView2"
+            app:layout_constraintBottom_toBottomOf="@id/scrollView2"
+            app:layout_constraintLeft_toLeftOf="@id/scrollView2"
+            app:layout_constraintRight_toRightOf="@id/scrollView2"/>
+
+
+        <ImageButton
+            android:id="@+id/impressumButton"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="27dp"
-            android:elevation="8dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_arrow"
+            android:backgroundTint="@color/green"
+            android:src="@drawable/button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.8"/>
+
+        <ImageView
+            android:id="@+id/impressumArrow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_arrow"
             app:layout_constraintBottom_toBottomOf="@+id/impressumButton"
             app:layout_constraintLeft_toLeftOf="@id/impressumButton"
             app:layout_constraintRight_toRightOf="@id/impressumButton"
             app:layout_constraintTop_toTopOf="@+id/impressumButton"
-            app:tint="@color/green" />
-        <Button
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:id="@+id/impressumButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:strokeColor="@color/green"
-            app:strokeWidth="2dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:tint="@color/green"
             app:layout_constraintWidth_percent="0.5"
-            android:layout_marginHorizontal="30dp">
+            app:layout_constraintHeight_percent="0.022"
 
-        </Button>
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
