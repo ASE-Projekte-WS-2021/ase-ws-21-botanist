@@ -49,6 +49,7 @@ public class PlantFragment extends Fragment {
   private ScrollView plantInfoScrollViewContainer;
   private AreaSelectListener areaSelectlistener;
   private ImageButton wikiButton;
+  private int fragmentWidth;
 
   public static PlantFragment newInstance() {
     return new PlantFragment();
@@ -69,7 +70,12 @@ public class PlantFragment extends Fragment {
     locationContainer = v.findViewById(R.id.plant_footer);
     alternativeLocationGrid = v.findViewById(R.id.alternative_locations_container);
     wikiButton = v.findViewById(R.id.wiki_button);
-
+    v.post(new Runnable() {
+      @Override
+      public void run() {
+        fragmentWidth = v.getMeasuredWidth();
+      }
+    });
     return v;
   }
 
@@ -144,7 +150,7 @@ public class PlantFragment extends Fragment {
   @SuppressLint("ClickableViewAccessibility")
   private void setupAlternativeLocations() {
     int buttonColumnCount = 3;
-    int buttonMargin = 10;
+    int buttonMargin = (int) (fragmentWidth * 0.04) / buttonColumnCount;
     alternativeLocationGrid.setColumnCount(buttonColumnCount);
     RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;
     RealmList<String> areasForPlantLong = plantViewModel.selectedPlant.locationLong;
@@ -153,7 +159,7 @@ public class PlantFragment extends Fragment {
       Button areaButton = new Button(plantCommonNameView.getContext());
       areaButton.setBackgroundResource(R.drawable.button);
       ConstraintLayout.LayoutParams params =
-              new ConstraintLayout.LayoutParams(120, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+              new ConstraintLayout.LayoutParams((int)((fragmentWidth * 0.45) / buttonColumnCount), ConstraintLayout.LayoutParams.WRAP_CONTENT);
       params.setMargins(buttonMargin,buttonMargin,buttonMargin,buttonMargin);
       areaButton.setLayoutParams(params);
       areaButton.setTextSize(20);

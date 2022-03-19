@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.MotionEvent;
@@ -117,11 +118,22 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     loadCurrentScreenFragment(mapFragment);
 
     // need to load the plant fragment for a short time to  set it up correctly
-    loadCurrentDrawerFragment(plantDrawerFragment);
+    openDrawer();
     loadCurrentDrawerFragment(areaDrawerFragment);
+    loadCurrentDrawerFragment(plantDrawerFragment);
+    // needs short delay for correct getting display Metrics
+    Handler handler = new Handler();
+    handler.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        closeDrawer();
+      }
+    }, 60);
 
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
     ImageView handle =  findViewById(R.id.handle);
-    handle.setX(handle.getX() + 300f); //TODO  Calculate right position for handle
+    handle.setX(handle.getX() + (int) (displayMetrics.widthPixels * 0.28)); //TODO  Calculate right position for handle
     handle.setY(handle.getY() - 30f);
 
 
