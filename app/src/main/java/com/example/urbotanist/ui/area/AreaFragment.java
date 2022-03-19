@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -23,8 +22,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.plant.Plant;
+import com.example.urbotanist.ui.search.DatabaseListener;
 import com.example.urbotanist.ui.search.PlantSearchAdapter;
-import com.example.urbotanist.ui.search.SearchListener;
 import com.example.urbotanist.ui.search.SearchResultClickListener;
 import java.util.Collections;
 import java.util.List;
@@ -37,7 +36,7 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   private TextView noAreaSelectedView;
   private RecyclerView areaPlantListRecycler;
   private PlantSearchAdapter plantListAdapter;
-  private SearchListener plantSearchListener;
+  private DatabaseListener plantDatabaseListener;
   private ImageButton showAreaButton;
 
 
@@ -73,10 +72,10 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   public void onAttach(Context context) {
     super.onAttach(context);
     try {
-      plantSearchListener = (SearchListener) context;
+      plantDatabaseListener = (DatabaseListener) context;
     } catch (ClassCastException castException) {
       Log.e("castException",
-          "Activity must extend SearchListener:" + castException.getLocalizedMessage());
+          "Activity must extend DatabaseListener:" + castException.getLocalizedMessage());
     }
   }
 
@@ -92,9 +91,9 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
   public void searchPlantsInArea() {
 
-    List<Plant> plantsInArea = plantSearchListener
+    List<Plant> plantsInArea = plantDatabaseListener
         .searchPlantsInArea(areaViewModel.selectedArea.areaName);
-    plantListAdapter.localDataSet = plantsInArea;
+    plantListAdapter.foundPlantsList = plantsInArea;
     plantListAdapter.notifyDataSetChanged();
 
   }
@@ -104,8 +103,6 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
     areaViewModel.setSelectedArea(((MainActivity) requireActivity()).getCurrentSelectedArea());
     if (areaViewModel.selectedArea != null) {
       searchPlantsInArea();
-      Log.d("area", "longname: " + areaViewModel.selectedArea.areaNameLong);
-      Log.d("area", "shortname: " + areaViewModel.selectedArea.areaName);
 
       areaFullNameView.setText(areaViewModel.selectedArea.areaNameLong);
       areaShortNameView.setText(areaViewModel.selectedArea.areaName);

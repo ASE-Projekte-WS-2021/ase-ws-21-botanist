@@ -3,16 +3,11 @@ package com.example.urbotanist.ui.plant;
 
 import static com.sileria.android.Resource.getColor;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.util.Linkify;
-import android.util.DisplayMetrics;
-import android.view.ContextThemeWrapper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -29,14 +23,14 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaSelectListener;
-import com.example.urbotanist.ui.search.SearchListener;
+import com.example.urbotanist.ui.favorites.FavouritePlant;
+import com.example.urbotanist.ui.search.DatabaseListener;
 import io.realm.RealmList;
-import java.util.Objects;
+import java.util.List;
 
 public class PlantFragment extends Fragment {
 
@@ -53,6 +47,8 @@ public class PlantFragment extends Fragment {
   private AreaSelectListener areaSelectlistener;
   private ImageButton wikiButton;
   private ImageButton favButton;
+  private DatabaseListener databaseListener;
+  private boolean currentPlantIsFavourite = false;
 
 
   public static PlantFragment newInstance() {
@@ -83,6 +79,8 @@ public class PlantFragment extends Fragment {
   public void onAttach(Context context) {
     super.onAttach(context);
     plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
+    databaseListener = (MainActivity) requireActivity();
+
   }
 
 
@@ -90,24 +88,28 @@ public class PlantFragment extends Fragment {
   public void onStart() {
     super.onStart();
     setupUi(((MainActivity) requireActivity()).getCurrentPlant());
+
+
+
     //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
 
   }
 
 
   public void setupUi(Plant plant) {
+
     if  (plantViewModel == null) {
       plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     }
     plantViewModel.setSelectedPlant(plant);
+    checkIfPlantIsFavourite();
+    setFavouriteButtonState(currentPlantIsFavourite);
     if (plantViewModel.selectedPlant != null) {
 
       plantFullNameView.setText(plantViewModel.selectedPlant.fullName);
       plantGenusNameView.setText(plantViewModel.selectedPlant.genusName);
       plantFamilyNameView.setText(plantViewModel.selectedPlant.familyName);
       plantTypeNameView.setText(plantViewModel.selectedPlant.typeName);
-      plantLinkView.setText(plantViewModel.selectedPlant.link);
-      Linkify.addLinks(plantLinkView, Linkify.WEB_URLS);
       wikiButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -119,7 +121,16 @@ public class PlantFragment extends Fragment {
       favButton.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View view) {
-          ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
+          checkIfPlantIsFavourite();
+          if (currentPlantIsFavourite) {
+            ((MainActivity) requireActivity()).removeFavouritePlant(plantViewModel
+                                                                        .selectedPlant.id);
+            currentPlantIsFavourite = false;
+          } else {
+            ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
+            currentPlantIsFavourite = true;
+          }
+          setFavouriteButtonState(currentPlantIsFavourite);
         }
       });
 
@@ -141,6 +152,11 @@ public class PlantFragment extends Fragment {
 
   }
 
+  private void checkIfPlantIsFavourite() {
+    currentPlantIsFavourite =  databaseListener.checkIfPlantIsFavourite(plantViewModel
+                                                                                  .selectedPlant);
+  }
+
   private void setupPlantCommonNames() {
     String allNames = "";
     if (!plantViewModel.selectedPlant.commonName.isEmpty()) {
@@ -153,6 +169,7 @@ public class PlantFragment extends Fragment {
       plantCommonNameView.setText("Nicht vorhanden");
     }
   }
+
   private void setupAlternativeLocations() {
     int buttonColumnCount = 3;
     int buttonMargin = 10;
@@ -197,7 +214,16 @@ public class PlantFragment extends Fragment {
     }
   }
 
+  public void setFavouriteButtonState(boolean isFavourite) {
+    if (isFavourite) {
+      favButton.setAlpha(1f);
+    } else {
+      favButton.setAlpha(0.5f);
+    }
+  }
+
   public void setAreaSelectListener(AreaSelectListener listener) {
     this.areaSelectlistener = listener;
   }
+
 }

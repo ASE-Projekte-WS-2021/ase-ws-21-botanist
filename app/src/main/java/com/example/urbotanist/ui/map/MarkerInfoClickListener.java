@@ -4,5 +4,5 @@ import com.example.urbotanist.ui.area.Area;
 
 public interface MarkerInfoClickListener {
 
-    public void onMarkerInfoClicked(Area area);
+  public void onMarkerInfoClicked(Area area);
 }
