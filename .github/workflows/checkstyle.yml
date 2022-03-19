@@ -8,7 +8,7 @@ on:
     branches: [develop,main]
 
 jobs:
-  build:
+  checkStyleCheck:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,4 +22,4 @@ jobs:
           java-version: '11'
 
       - name: Run gradle checkstyle tasks
-        run: ./gradlew checkstyle --stacktrace
+        run: ./gradlew checkstyle

@@ -26,13 +26,15 @@ import com.example.urbotanist.database.DatabaseAdapterActivity;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaFragment;
 import com.example.urbotanist.ui.area.AreaSelectListener;
+import com.example.urbotanist.ui.favorites.FavoritesFragment;
+import com.example.urbotanist.ui.favorites.FavouritePlant;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 import com.example.urbotanist.ui.map.MarkerInfoClickListener;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.plant.PlantFragment;
+import com.example.urbotanist.ui.search.DatabaseListener;
 import com.example.urbotanist.ui.search.SearchFragment;
-import com.example.urbotanist.ui.search.SearchListener;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.LocationSource;
@@ -42,6 +44,7 @@ import com.sileria.android.Kit;
 import com.sileria.android.view.SlidingTray;
 import io.realm.Case;
 import io.realm.Realm;
+import io.realm.Realm.Transaction;
 import io.realm.Sort;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
@@ -50,7 +53,7 @@ import java.util.Set;
 import pl.droidsonroids.gif.GifImageView;
 
 
-public class MainActivity extends AppCompatActivity implements SearchListener,
+public class MainActivity extends AppCompatActivity implements DatabaseListener,
     AreaSelectListener, LocationSource.OnLocationChangedListener, MarkerInfoClickListener {
 
   DatabaseAdapterActivity dbHelper;
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   public InfoFragment infoFragment = new InfoFragment();
   public PlantFragment plantDrawerFragment = new PlantFragment();
   public AreaFragment areaDrawerFragment = new AreaFragment();
+  public FavoritesFragment favoritesDrawerFragment = new FavoritesFragment();
   private Plant currentPlant;
   private Area currentSelectedArea;
   private LatLng currentUserLocation;
@@ -72,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   private ImageView drawerPlantButton;
   private ImageView drawerAreaButton;
   private ImageView drawerBackground;
+  private ImageView drawerFavouritesButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +118,14 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     drawerPlantButton = findViewById(R.id.drawer_plants_button);
     drawerAreaButton = findViewById(R.id.drawer_areas_button);
     drawerBackground = findViewById(R.id.black_overlay);
+    drawerFavouritesButton = findViewById(R.id.drawer_favorite_button);
 
     loadCurrentScreenFragment(searchFragment);
     loadCurrentScreenFragment(mapFragment);
 
     // need to load the plant fragment for a short time to  set it up correctly
     openDrawer();
+    loadCurrentDrawerFragment(favoritesDrawerFragment);
     loadCurrentDrawerFragment(areaDrawerFragment);
     loadCurrentDrawerFragment(plantDrawerFragment);
     // needs short delay for correct getting display Metrics
@@ -132,8 +139,9 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
     DisplayMetrics displayMetrics = new DisplayMetrics();
     getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
     ImageView handle =  findViewById(R.id.handle);
-    handle.setX(handle.getX() + (int) (displayMetrics.widthPixels * 0.28)); //TODO  Calculate right position for handle
+    handle.setX(handle.getX() + (int) (displayMetrics.widthPixels * 0.28));
     handle.setY(handle.getY() - 30f);
 
 
@@ -199,6 +207,13 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void onClick(View view) {
         loadCurrentDrawerFragment(areaDrawerFragment);
+      }
+    });
+
+    drawerFavouritesButton.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        loadCurrentDrawerFragment(favoritesDrawerFragment);
       }
     });
 
@@ -294,16 +309,22 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
   public void loadCurrentDrawerFragment(Fragment fragment) {
     String fragmentName = fragment.getClass().getSimpleName();
-    if (plantDrawerFragment.getClass().getSimpleName().equals(fragmentName)) {
+    if (fragmentName.equals(plantDrawerFragment.getClass().getSimpleName())) {
       drawerAreaButton.setBackground(null);
+      drawerFavouritesButton.setBackground(null);
       //drawerPlantButton.setBackground(getDrawable(R.color.white));
       drawerPlantButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
-    } else if (areaDrawerFragment.getClass().getSimpleName().equals(fragmentName)) {
+    } else if (fragmentName.equals(areaDrawerFragment.getClass().getSimpleName())) {
       drawerPlantButton.setBackground(null);
-      //drawerPlantButton.setBackground(getDrawable(R.color.white));
+      drawerFavouritesButton.setBackground(null);
       drawerAreaButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
-
+    } else if (fragmentName.equals(favoritesDrawerFragment.getClass().getSimpleName())) {
+      drawerPlantButton.setBackground(null);
+      drawerAreaButton.setBackground(null);
+      drawerFavouritesButton.setBackground(ContextCompat
+          .getDrawable(this, R.drawable.ic_drawerbutton));
     }
+
 
     getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
         .commit();
@@ -341,6 +362,43 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
 
   public void openDrawer() {
     slidingTrayDrawer.animateOpen();
+  }
+
+
+  @Override
+  public boolean checkIfPlantIsFavourite(Plant plant) {
+    final boolean[] isFavourite = new boolean[1];
+    Realm realm = Realm.getDefaultInstance();
+    if (plant != null) {
+      realm.executeTransactionAsync(new Realm.Transaction() {
+        @Override
+        public void execute(@NonNull Realm realm) {
+          isFavourite[0] =
+              realm.where(FavouritePlant.class).equalTo("plantId", plant.id).count() > 0;
+        }
+      });
+
+      try {
+        Thread.sleep(100);
+      } catch (Exception e) {
+        Log.e("Exception", "Time couldn't wait,"
+            + " it waits for noone. getPlantsInArea, MainActivity" + e);
+      }
+    }
+    return isFavourite[0];
+  }
+
+  @Override
+  public void removeFavouritePlant(int plantId) {
+    Realm realm = Realm.getDefaultInstance();
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(@NonNull Realm realm) {
+        FavouritePlant favouriteToDelete = realm.where(FavouritePlant.class)
+            .equalTo("plantId",plantId).findFirst();
+        favouriteToDelete.deleteFromRealm();
+      }
+    });
   }
 
   @Override
@@ -407,26 +465,38 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     return result;
   }
 
-  public List<Plant> getFavoritePlants() {
-    ArrayList<Plant> result = new ArrayList<>();
+  @Override
+  public List<FavouritePlant> searchFavouritePlants() {
+    ArrayList<FavouritePlant> result = new ArrayList<>();
     Realm realm = Realm.getDefaultInstance();
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(@NonNull Realm realm) {
-        // .freeze() is used to create an own object that doesn't reference the query
-        result.addAll(
-                realm.where(Plant.class).contains("isFavored", "true", Case.INSENSITIVE).findAll()
-                        .sort("fullName", Sort.ASCENDING).freeze());
+        result.addAll(realm.where(FavouritePlant.class).findAll().freeze());
       }
     });
-
     try {
       Thread.sleep(100);
     } catch (Exception e) {
       Log.e("Exception", "Time couldn't wait,"
-              + " it waits for noone. getPlantsInArea, MainActivity" + e);
+          + " it waits for noone. searchFavouritePlants, MainActivity" + e);
     }
     return result;
+  }
+
+
+  public void addFavouritePlant(Plant plant) {
+    FavouritePlant newFavouritePlant = new FavouritePlant(plant);
+    Realm realm = Realm.getDefaultInstance();
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(@NonNull Realm realm) {
+        realm.copyToRealmOrUpdate(newFavouritePlant);
+      }
+    });
+
+
+
   }
 
   public void closeDrawer() {

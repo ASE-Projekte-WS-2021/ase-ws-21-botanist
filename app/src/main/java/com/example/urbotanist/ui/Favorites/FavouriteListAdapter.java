@@ -1,48 +1,48 @@
-package com.example.urbotanist.ui.search;
+package com.example.urbotanist.ui.favorites;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.plant.Plant;
+import com.example.urbotanist.ui.search.DatabaseListener;
+import com.example.urbotanist.ui.search.SearchResultClickListener;
 import java.util.List;
 
-public class PlantSearchAdapter extends RecyclerView.Adapter<PlantSearchAdapter.ViewHolder> {
+public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdapter.ViewHolder> {
 
-  public List<Plant> foundPlantsList;
+  List<FavouritePlant> favouritePlantsList;
   SearchResultClickListener searchResultClickListener;
 
 
-  public PlantSearchAdapter(List<Plant> foundPlantsList,
-      SearchResultClickListener searchResultClickListener) {
-    this.foundPlantsList = foundPlantsList;
+  public FavouriteListAdapter(List<FavouritePlant> favouritePlantsList,
+                                  SearchResultClickListener searchResultClickListener) {
+    this.favouritePlantsList = favouritePlantsList;
     this.searchResultClickListener = searchResultClickListener;
+
   }
 
-  // Create new views (invoked by the layout manager)
+
+  @NonNull
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-    // Create a new view, which defines the UI of the list item
+  public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
     View view = LayoutInflater.from(viewGroup.getContext())
-        .inflate(R.layout.search_result_item, viewGroup, false);
-    return new ViewHolder(view);
+        .inflate(R.layout.favourite_list_item, viewGroup, false);
+    return new FavouriteListAdapter.ViewHolder(view);
   }
 
-  // Replace the contents of a view (invoked by the layout manager)
   @Override
-  public void onBindViewHolder(ViewHolder viewHolder, final int position) {
-
+  public void onBindViewHolder(@NonNull ViewHolder viewHolder, int position) {
     // Get element from your dataset at this position and replace the
     // contents of the view with that element
-
-    //SpannableString fullName = new SpannableString(localDataSet.get(position).fullName);
-    //fullName.setSpan(new UnderlineSpan(), 0, fullName.length(), 0);
-    viewHolder.getAllViews()[0].setText(foundPlantsList.get(position).fullName);
-    if (!foundPlantsList.get(position).commonName.isEmpty()) {
+    Plant plant = favouritePlantsList.get(position).plant;
+    viewHolder.getAllViews()[0].setText(plant.fullName);
+    if (!plant.commonName.isEmpty()) {
       String allNames = "";
-      for (String name : foundPlantsList.get(position).commonName) {
+      for (String name : plant.commonName) {
         allNames += name + ", ";
       }
       allNames = allNames.substring(0, allNames.length() - 2);
@@ -52,7 +52,7 @@ public class PlantSearchAdapter extends RecyclerView.Adapter<PlantSearchAdapter.
       viewHolder.getAllViews()[1].setVisibility(View.GONE);
     }
     viewHolder.getAllViews()[2]
-        .setText("Familie der \"" + foundPlantsList.get(position).familyName + "\"");
+        .setText("Familie der \"" + plant.familyName + "\"");
 
     //for all textViews
     for (int i = 0; i < viewHolder.getAllViews().length; i++) {
@@ -60,16 +60,15 @@ public class PlantSearchAdapter extends RecyclerView.Adapter<PlantSearchAdapter.
         @Override
         public void onClick(View view) {
           searchResultClickListener
-              .onSearchResultClick(foundPlantsList.get(viewHolder.getAdapterPosition()));
+              .onSearchResultClick(plant);
         }
       });
     }
   }
 
-  // Return the size of your dataset (invoked by the layout manager)
   @Override
   public int getItemCount() {
-    return foundPlantsList.size();
+    return favouritePlantsList.size();
   }
 
   public static class ViewHolder extends RecyclerView.ViewHolder {
