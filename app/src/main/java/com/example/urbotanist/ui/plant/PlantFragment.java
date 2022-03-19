@@ -2,9 +2,11 @@ package com.example.urbotanist.ui.plant;
 
 
 import static com.sileria.android.Resource.getColor;
+import static com.sileria.android.Resource.getDrawableId;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -109,10 +111,7 @@ public class PlantFragment extends Fragment {
       plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     }
     plantViewModel.setSelectedPlant(plant);
-    checkIfPlantIsFavourite();
-    setFavouriteButtonState(currentPlantIsFavourite);
     if (plantViewModel.selectedPlant != null) {
-
       plantFullNameView.setText(plantViewModel.selectedPlant.fullName);
       plantGenusNameView.setText(plantViewModel.selectedPlant.genusName);
       plantFamilyNameView.setText(plantViewModel.selectedPlant.familyName);
@@ -125,18 +124,12 @@ public class PlantFragment extends Fragment {
           startActivity(intent);
         }
       });
+      checkIfPlantIsFavourite();
+      setFavouriteButtonState(currentPlantIsFavourite);
       favButton.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View view) {
           checkIfPlantIsFavourite();
-          if (currentPlantIsFavourite) {
-            ((MainActivity) requireActivity()).removeFavouritePlant(plantViewModel
-                                                                        .selectedPlant.id);
-            currentPlantIsFavourite = false;
-          } else {
-            ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
-            currentPlantIsFavourite = true;
-          }
           setFavouriteButtonState(currentPlantIsFavourite);
         }
       });
@@ -179,20 +172,24 @@ public class PlantFragment extends Fragment {
 
   private void setupAlternativeLocations() {
     int buttonColumnCount = 3;
-    int buttonMargin = (int) (fragmentWidth * 0.04) / buttonColumnCount;
+    int gridWidth = (int) (fragmentWidth * 0.45);
     alternativeLocationGrid.setColumnCount(buttonColumnCount);
     RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;
     RealmList<String> areasForPlantLong = plantViewModel.selectedPlant.locationLong;
     alternativeLocationGrid.removeAllViews();
+    int buttonWidth = (int) gridWidth / buttonColumnCount;
+    int buttonMargin = (int) (gridWidth * 0.09 / buttonColumnCount);
     for (int i = 0; i < areasForPlant.size();i++) {
       Button areaButton = new Button(plantCommonNameView.getContext());
       areaButton.setBackgroundResource(R.drawable.button);
       ConstraintLayout.LayoutParams params =
-              new ConstraintLayout.LayoutParams((int)((fragmentWidth * 0.45) / buttonColumnCount), ConstraintLayout.LayoutParams.WRAP_CONTENT);
+              new ConstraintLayout.LayoutParams(buttonWidth, ConstraintLayout.LayoutParams.WRAP_CONTENT);
       params.setMargins(buttonMargin,buttonMargin,buttonMargin,buttonMargin);
       areaButton.setLayoutParams(params);
       areaButton.setTextSize(20);
       areaButton.setTextColor(getColor(R.color.green));
+      areaButton.setOutlineAmbientShadowColor(Color.TRANSPARENT);
+      areaButton.setOutlineSpotShadowColor(Color.TRANSPARENT);
       String  areaShortName = areasForPlant.get(i);
       String areaLongName = areasForPlantLong.get(i);
       areaButton.setText(areasForPlant.get(i));
@@ -223,9 +220,17 @@ public class PlantFragment extends Fragment {
 
   public void setFavouriteButtonState(boolean isFavourite) {
     if (isFavourite) {
-      favButton.setAlpha(1f);
+      favButton.setBackground(getContext().getDrawable(R.drawable.ic_fav_wb_n));
     } else {
-      favButton.setAlpha(0.5f);
+      favButton.setBackground(getContext().getDrawable(R.drawable.ic_fav_wb));
+    }
+    if (currentPlantIsFavourite) {
+      ((MainActivity) requireActivity()).removeFavouritePlant(plantViewModel
+              .selectedPlant.id);
+      currentPlantIsFavourite = false;
+    } else {
+      ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
+      currentPlantIsFavourite = true;
     }
   }
 

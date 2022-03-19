@@ -225,8 +225,7 @@
                 android:layout_height="match_parent"
                 app:layout_constraintLeft_toRightOf="@id/drawer_plants_button"
                 app:layout_constraintRight_toRightOf="parent"
-                android:src="@drawable/ic_fav"
-                android:alpha="0.2"/>
+                android:src="@drawable/ic_fav"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

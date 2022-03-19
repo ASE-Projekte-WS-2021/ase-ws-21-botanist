@@ -189,14 +189,13 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:backgroundTint="@color/green"
-            android:background="@drawable/fav_button"
+            android:background="@drawable/ic_fav_wb"
             android:orientation="vertical"
             android:layout_margin="10dp"
             app:layout_constraintWidth_percent="0.2"
             app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:alpha="0.5"/>
+            app:layout_constraintLeft_toLeftOf="parent"/>
 
         <ImageButton
             android:id="@+id/wiki_button"
