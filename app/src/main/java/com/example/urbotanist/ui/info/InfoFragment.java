@@ -71,18 +71,21 @@ public class InfoFragment extends CurrentScreenFragment {
   public void onStart() {
     super.onStart();
     impButton.setOnTouchListener((v, event) -> {
-      if (event.getAction() == MotionEvent.ACTION_UP) {
-        impArrow.getBackground().setTint(getColor(R.color.green));
+      if (impButton.isClickable()) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+          impArrow.getBackground().setTint(getColor(R.color.green));
 
-      } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-        impArrow.getBackground().setTint(getColor(R.color.white));
+        } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+          impArrow.getBackground().setTint(getColor(R.color.white));
+        }
       }
       return false;
     });
     impButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_out));
         Handler handler = new Handler();
+        titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_out));
+        impButton.setClickable(false);
         if (!(getResources().getString(R.string.impressum) == infoTitle.getText())) {
           handler.postDelayed(() -> {
             infoTitle.setText(getResources().getString(R.string.impressum));
@@ -100,24 +103,22 @@ public class InfoFragment extends CurrentScreenFragment {
           slideOut(scrollidoli);
           slideOut(scrollidoli2);
         }
+        handler.postDelayed(() -> {
+          impButton.setClickable(true);
+        }, getInteger(android.R.integer.config_mediumAnimTime));
       }
     });
   }
 
   private void slideIn(View fadeView) {
+    fadeView.setX(fadeView.getX() - fragmentWidth);
     fadeView.startAnimation(loadAnimation(getApplicationContext(),R.anim.animifnforight));
-    fadeView.setX(fadeView.getX()-fragmentWidth);
   }
 
   private void slideOut(View fadeView) {
-    /*TranslateAnimation trans = new TranslateAnimation(0, -fragmentWidth, 0, 0);
-    trans.setDuration(250);
-    fadeView.startAnimation(trans);*/
+    fadeView.setX(fadeView.getX() + fragmentWidth);
     fadeView.startAnimation(loadAnimation(getApplicationContext(),R.anim.animifnfoleft));
-    fadeView.setX(fadeView.getX()+fragmentWidth);
   }
 
-  private void slideTitle(View fadeView){
-  }
 
 }
