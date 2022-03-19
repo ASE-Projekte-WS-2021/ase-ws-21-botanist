@@ -3,15 +3,18 @@ package com.example.urbotanist;
 import static android.view.animation.AnimationUtils.loadAnimation;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
@@ -220,6 +223,29 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       @Override
       public void onDrawerOpened() {
         fadeIn(drawerBackground);
+      }
+    });
+
+
+    slidingTrayDrawer.setOnDrawerScrollListener(new SlidingTray.OnDrawerScrollListener() {
+      @Override
+      public void onScrollStarted() {
+        if(!slidingTrayDrawer.isOpened()){
+          fadeIn(drawerBackground);
+        }
+      }
+
+      @Override
+      public void onScrollEnded() {
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+          @Override
+          public void run() {
+            if (!slidingTrayDrawer.isOpened()) {
+              fadeOut(drawerBackground);
+            }
+          }
+        }, 600);
       }
     });
 
