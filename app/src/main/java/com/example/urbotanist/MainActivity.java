@@ -1,5 +1,7 @@
 package com.example.urbotanist;
 
+import static android.view.animation.AnimationUtils.loadAnimation;
+
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -7,6 +9,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -64,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
   private SlidingTray slidingTrayDrawer;
   private ImageView drawerPlantButton;
   private ImageView drawerAreaButton;
+  private ImageView drawerBackground;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
     slidingTrayDrawer = findViewById(R.id.drawer);
     drawerPlantButton = findViewById(R.id.drawer_plants_button);
     drawerAreaButton = findViewById(R.id.drawer_areas_button);
+    drawerBackground = findViewById(R.id.black_overlay);
 
     loadCurrentScreenFragment(searchFragment);
     loadCurrentScreenFragment(mapFragment);
@@ -204,6 +209,34 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
       }
     });
 
+    slidingTrayDrawer.setOnDrawerCloseListener(new SlidingTray.OnDrawerCloseListener() {
+      @Override
+      public void onDrawerClosed() {
+        fadeOut(drawerBackground);
+      }
+    });
+
+    slidingTrayDrawer.setOnDrawerOpenListener(new SlidingTray.OnDrawerOpenListener() {
+      @Override
+      public void onDrawerOpened() {
+        fadeIn(drawerBackground);
+      }
+    });
+
+  }
+
+  private void fadeIn(View fadeView) {
+    if (fadeView.getVisibility() == View.INVISIBLE) {
+      fadeView.setVisibility(View.VISIBLE);
+      fadeView.setAnimation(loadAnimation(getApplicationContext(),R.anim.fade_in));
+    }
+  }
+
+  private void fadeOut(View fadeView) {
+    if (fadeView.getVisibility() == View.VISIBLE) {
+      fadeView.setAnimation(loadAnimation(getApplicationContext(),R.anim.fade_out));
+      fadeView.setVisibility(View.INVISIBLE);
+    }
   }
 
   private void focusButton(Button focusButton) {
