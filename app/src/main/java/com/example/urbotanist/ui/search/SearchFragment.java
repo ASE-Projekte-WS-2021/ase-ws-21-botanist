@@ -107,7 +107,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
       mainActivity.setCurrentPlant(plant);
       mainActivity.loadCurrentDrawerFragment(mainActivity.plantDrawerFragment);
       mainActivity.openDrawer();
-
+      mainActivity.plantDrawerFragment.setupUi(plant);
       //Close The keyboard
       View view = mainActivity.getCurrentFocus();
       if (view != null) {
