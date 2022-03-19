@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.util.Linkify;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -16,12 +17,14 @@ import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaSelectListener;
 import com.example.urbotanist.ui.search.SearchListener;
 import io.realm.RealmList;
+import java.util.Objects;
 
 public class PlantFragment extends Fragment {
 
@@ -37,6 +40,9 @@ public class PlantFragment extends Fragment {
   private ConstraintLayout locationContainer;
   private ScrollView plantInfoScrollViewContainer;
   private AreaSelectListener areaSelectlistener;
+  private ImageButton wikiButton;
+  private ImageButton favButton;
+
 
   public static PlantFragment newInstance() {
     return new PlantFragment();
@@ -57,6 +63,8 @@ public class PlantFragment extends Fragment {
     plantInfoScrollViewContainer = v.findViewById(R.id.plant_info_scroll_view_container);
     locationContainer = v.findViewById(R.id.plant_footer);
     alternativeLocationGrid = v.findViewById(R.id.alternative_locations_container);
+    wikiButton = v.findViewById(R.id.wiki_button);
+    favButton = v.findViewById(R.id.fav_button);
 
     return v;
   }
@@ -90,6 +98,20 @@ public class PlantFragment extends Fragment {
       plantTypeNameView.setText(plantViewModel.selectedPlant.typeName);
       plantLinkView.setText(plantViewModel.selectedPlant.link);
       Linkify.addLinks(plantLinkView, Linkify.WEB_URLS);
+      wikiButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          Uri uri = Uri.parse(plantViewModel.selectedPlant.link); // missing 'http://' will cause crashed
+          Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+          startActivity(intent);
+        }
+      });
+      favButton.setOnClickListener(new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
+        }
+      });
 
       setupPlantCommonNames();
 
@@ -121,7 +143,7 @@ public class PlantFragment extends Fragment {
       plantCommonNameView.setText("Nicht vorhanden");
     }
   }
-  
+
   private void setupAlternativeLocations() {
     alternativeLocationGrid.setColumnCount(3);
     RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;

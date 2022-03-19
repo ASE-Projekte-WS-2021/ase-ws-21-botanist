@@ -17,6 +17,7 @@ import com.example.urbotanist.database.DatabaseAdapterActivity;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaFragment;
 import com.example.urbotanist.ui.area.AreaSelectListener;
+import com.example.urbotanist.ui.favorites.FavouritePlant;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 import com.example.urbotanist.ui.plant.Plant;
@@ -338,6 +339,24 @@ public class MainActivity extends AppCompatActivity implements SearchListener,
               + " it waits for noone. getPlantsInArea, MainActivity" + e);
     }
     return result;
+  }
+
+  public void addFavouritePlant(Plant plant) {
+    FavouritePlant newFavouritePlant = new FavouritePlant(plant);
+    Realm realm = Realm.getDefaultInstance();
+    Log.d("realm", "new favourite");
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(@NonNull Realm realm) {
+        realm.copyToRealmOrUpdate(newFavouritePlant);
+      }
+    });
+    List<FavouritePlant> favourites = realm.where(FavouritePlant.class).findAll();
+
+    for (FavouritePlant fav: favourites
+    ) {
+      Log.d("realm", fav.plant.familyName);
+    }
   }
 
   public void closeDrawer() {
