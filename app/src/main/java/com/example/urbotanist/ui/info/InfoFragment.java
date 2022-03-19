@@ -1,21 +1,28 @@
 package com.example.urbotanist.ui.info;
 
+import static android.view.animation.AnimationUtils.loadAnimation;
 import static com.sileria.android.Resource.getColor;
+import static com.sileria.android.Resource.getInteger;
+
+import static io.realm.Realm.getApplicationContext;
 
 import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 
@@ -27,6 +34,10 @@ public class InfoFragment extends CurrentScreenFragment {
   private ImageButton impButton;
   private TableLayout infoTable;
   private ImageView impArrow;
+  private ScrollView scrollidoli;
+  private ScrollView scrollidoli2;
+  private ConstraintLayout titleConstraint;
+  private int fragmentWidth;
 
   public static InfoFragment newInstance() {
     return new InfoFragment();
@@ -41,6 +52,15 @@ public class InfoFragment extends CurrentScreenFragment {
     infoText = (TextView) v.findViewById(R.id.infoText);
     impButton = (ImageButton) v.findViewById(R.id.impressumButton);
     impArrow = (ImageView) v.findViewById(R.id.impressumArrow);
+    scrollidoli = (ScrollView) v.findViewById(R.id.scrollView2);
+    scrollidoli2 = (ScrollView) v.findViewById(R.id.scrollView3);
+    titleConstraint = (ConstraintLayout) v.findViewById(R.id.titleConstraint);
+    v.post(new Runnable() {
+      @Override
+      public void run() {
+        fragmentWidth = v.getMeasuredWidth();
+      }
+    });
     return v;
   }
 
@@ -61,19 +81,43 @@ public class InfoFragment extends CurrentScreenFragment {
     });
     impButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
+        titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_out));
+        Handler handler = new Handler();
         if (!(getResources().getString(R.string.impressum) == infoTitle.getText())) {
-          infoTitle.setText(getResources().getString(R.string.impressum));
-          infoText.setText(getResources().getString(R.string.impressumContent));
-          infoTable.setVisibility(View.GONE);
+          handler.postDelayed(() -> {
+            infoTitle.setText(getResources().getString(R.string.impressum));
+            titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_in));
+          }, getInteger(android.R.integer.config_shortAnimTime));
           impArrow.setRotationY(180);
+          slideIn(scrollidoli);
+          slideIn(scrollidoli2);
         } else {
-          infoTitle.setText(getResources().getString(R.string.info));
-          infoTable.setVisibility(View.VISIBLE);
-          infoText.setText(getResources().getString(R.string.infoContent));
+          handler.postDelayed(() -> {
+            infoTitle.setText(getResources().getString(R.string.info));
+            titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_in));
+          }, getInteger(android.R.integer.config_shortAnimTime));
           impArrow.setRotationY(0);
+          slideOut(scrollidoli);
+          slideOut(scrollidoli2);
         }
       }
     });
+  }
+
+  private void slideIn(View fadeView) {
+    fadeView.startAnimation(loadAnimation(getApplicationContext(),R.anim.animifnforight));
+    fadeView.setX(fadeView.getX()-fragmentWidth);
+  }
+
+  private void slideOut(View fadeView) {
+    /*TranslateAnimation trans = new TranslateAnimation(0, -fragmentWidth, 0, 0);
+    trans.setDuration(250);
+    fadeView.startAnimation(trans);*/
+    fadeView.startAnimation(loadAnimation(getApplicationContext(),R.anim.animifnfoleft));
+    fadeView.setX(fadeView.getX()+fragmentWidth);
+  }
+
+  private void slideTitle(View fadeView){
   }
 
 }
