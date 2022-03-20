@@ -51,6 +51,11 @@ jobs:
             with:
               name: Release Unsigned
               path: app/build/outputs/apk/release/app-release-unsigned.apk
+          - name: Upload_Changelog
+            uses: actions/upload-artifact@v3.0.0
+            with:
+              name: Changelog
+              path: ./changelog.md
  
         
 
@@ -96,6 +101,11 @@ jobs:
         uses: actions/download-artifact@v3.0.0
         with:
           name: Release signed
+      - name: Download Changelog Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: Changelog  
+          
          
       - name: Rename APK With App And Version Names
         run: mv app-release-signed.apk ur_botanist-${{ env.VERSION }}.apk
@@ -109,6 +119,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ env.VERSION }}
+          body_path: ./changelog.md
           
       - name: Upload App Apk To Release
         id: upload_release_asset
