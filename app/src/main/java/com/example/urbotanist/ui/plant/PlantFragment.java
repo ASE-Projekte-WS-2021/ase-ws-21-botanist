@@ -128,7 +128,6 @@ public class PlantFragment extends Fragment {
         @Override
         public void onClick(View view) {
           checkIfPlantIsFavourite();
-          setFavouriteButtonState(currentPlantIsFavourite);
           if (currentPlantIsFavourite) {
             ((MainActivity) requireActivity()).removeFavouritePlant(plantViewModel
                     .selectedPlant.id);
@@ -137,6 +136,7 @@ public class PlantFragment extends Fragment {
             ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
             currentPlantIsFavourite = true;
           }
+          setFavouriteButtonState(currentPlantIsFavourite);
         }
       });
       checkIfPlantIsFavourite();
