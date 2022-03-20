@@ -36,6 +36,7 @@ import java.util.List;
 
 public class PlantFragment extends Fragment {
 
+  private MainActivity mainActivity;
   public PlantViewModel plantViewModel;
   private TextView plantFullNameView;
   private TextView plantFamilyNameView;
@@ -62,6 +63,7 @@ public class PlantFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
+
     View v = inflater.inflate(R.layout.plant_fragment, container, false);
     plantFullNameView = v.findViewById(R.id.plant_header);
     plantGenusNameView = v.findViewById(R.id.plant_genus_name);
@@ -88,7 +90,8 @@ public class PlantFragment extends Fragment {
   public void onAttach(Context context) {
     super.onAttach(context);
     plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
-    databaseListener = (MainActivity) requireActivity();
+    mainActivity = (MainActivity) requireActivity();
+    databaseListener = mainActivity;
 
   }
 
@@ -227,9 +230,9 @@ public class PlantFragment extends Fragment {
 
   public void setFavouriteButtonState(boolean isFavourite) {
     if (isFavourite) {
-      favButton.setBackground(getContext().getDrawable(R.drawable.ic_fav_wb_n));
+      favButton.setBackground(mainActivity.getDrawable(R.drawable.ic_fav_wb_n));
     } else {
-      favButton.setBackground(getContext().getDrawable(R.drawable.ic_fav_wb));
+      favButton.setBackground(mainActivity.getDrawable(R.drawable.ic_fav_wb));
     }
   }
 
