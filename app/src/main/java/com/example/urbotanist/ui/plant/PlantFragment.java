@@ -124,16 +124,23 @@ public class PlantFragment extends Fragment {
           startActivity(intent);
         }
       });
-      checkIfPlantIsFavourite();
-      setFavouriteButtonState(currentPlantIsFavourite);
       favButton.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View view) {
           checkIfPlantIsFavourite();
           setFavouriteButtonState(currentPlantIsFavourite);
+          if (currentPlantIsFavourite) {
+            ((MainActivity) requireActivity()).removeFavouritePlant(plantViewModel
+                    .selectedPlant.id);
+            currentPlantIsFavourite = false;
+          } else {
+            ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
+            currentPlantIsFavourite = true;
+          }
         }
       });
-
+      checkIfPlantIsFavourite();
+      setFavouriteButtonState(currentPlantIsFavourite);
       setupPlantCommonNames();
 
       plantInfoScrollViewContainer.setVisibility(View.VISIBLE);
@@ -223,14 +230,6 @@ public class PlantFragment extends Fragment {
       favButton.setBackground(getContext().getDrawable(R.drawable.ic_fav_wb_n));
     } else {
       favButton.setBackground(getContext().getDrawable(R.drawable.ic_fav_wb));
-    }
-    if (currentPlantIsFavourite) {
-      ((MainActivity) requireActivity()).removeFavouritePlant(plantViewModel
-              .selectedPlant.id);
-      currentPlantIsFavourite = false;
-    } else {
-      ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
-      currentPlantIsFavourite = true;
     }
   }
 
