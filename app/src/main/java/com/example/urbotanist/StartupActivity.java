@@ -8,8 +8,10 @@ import android.os.Handler;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.urbotanist.database.DatabaseAdapterActivity;
+import com.example.urbotanist.database.RealmMigrations;
 import com.example.urbotanist.ui.plant.Plant;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import java.util.ArrayList;
 
 public class StartupActivity extends AppCompatActivity {
@@ -18,6 +20,7 @@ public class StartupActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_startup);
+    handleDataBaseMigration();
     SharedPreferences startupPreferences = getSharedPreferences("startupPreferences",
         Context.MODE_PRIVATE);
     String dbIsSetupKey = "DB_IS_SETUP";
@@ -36,6 +39,13 @@ public class StartupActivity extends AppCompatActivity {
     }, 1500);
   }
 
+  private void handleDataBaseMigration() {
+    final RealmConfiguration configuration = new RealmConfiguration.Builder().name("default.realm")
+        .schemaVersion(2).migration(new RealmMigrations()).build();
+    Realm.setDefaultConfiguration(configuration);
+    Realm.getInstance(configuration);
+  }
+
 
   // Creating a Realm Database from our SqlLite Database
   private void firstTimeSetupDb() {
@@ -49,6 +59,7 @@ public class StartupActivity extends AppCompatActivity {
     realm.executeTransactionAsync(new Realm.Transaction() {
       @Override
       public void execute(@NonNull Realm realm) {
+        realm.deleteAll(); // delete incomplete setup from possible previous tries
         realm.copyToRealm(plants);
       }
     });

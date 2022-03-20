@@ -27,7 +27,7 @@ import java.util.List;
 public class SearchFragment extends CurrentScreenFragment implements SearchResultClickListener {
 
   private SearchView searchView;
-  private SearchListener searchListener;
+  private DatabaseListener databaseListener;
   private PlantSearchAdapter searchListAdapter;
   private TextView noSearchResultsText;
 
@@ -39,10 +39,10 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   public void onAttach(Context context) {
     super.onAttach(context);
     try {
-      searchListener = (SearchListener) context;
+      databaseListener = (DatabaseListener) context;
     } catch (ClassCastException castException) {
       Log.e("castException",
-          "Activity must extend SearchListener:" + castException.getLocalizedMessage());
+          "Activity must extend DatabaseListener:" + castException.getLocalizedMessage());
     }
   }
 
@@ -90,8 +90,8 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   }
 
   private void updatePlantWithQuery(String query) {
-    List<Plant> foundPlants = searchListener.searchPlant(query);
-    searchListAdapter.localDataSet = foundPlants;
+    List<Plant> foundPlants = databaseListener.searchPlant(query);
+    searchListAdapter.foundPlantsList = foundPlants;
     if (foundPlants.size() > 0) {
       noSearchResultsText.setVisibility(View.GONE);
     } else {
@@ -108,7 +108,6 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
       mainActivity.loadCurrentDrawerFragment(mainActivity.plantDrawerFragment);
       mainActivity.openDrawer();
       mainActivity.plantDrawerFragment.setupUi(plant);
-
       //Close The keyboard
       View view = mainActivity.getCurrentFocus();
       if (view != null) {

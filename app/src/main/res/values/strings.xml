@@ -51,5 +51,7 @@
     <string name="plants_in_area_header">Pflanzen in diesem Gebiet</string>
     <string name="show_are_button_text">Auf Karte anzeigen</string>
     <string name="area_drawer_map_icon_content_description">map icon</string>
+  <string name="favourite_plants_header">Deine Lieblingspflanzen</string>
+  <string name="favourite_plants_empty_string">Keine Lieblingspflanzen angelegt</string>
 
 </resources>
