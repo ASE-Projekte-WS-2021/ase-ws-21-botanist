@@ -301,9 +301,9 @@ public class MainActivity extends AppCompatActivity implements DatabaseListener,
   }
 
   private void openDrawerWithAreaTag(Area markerArea) {
-    //TODO
-    //area wird erst angezeigt, wenn man zur ausgewählten Pflanze und dann wieder zurück switcht
     setCurrentSelectedArea(markerArea);
+    loadCurrentDrawerFragment(areaDrawerFragment);
+    areaDrawerFragment.setupUi();
     openDrawer();
   }
 
@@ -327,7 +327,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseListener,
 
 
     getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
-        .commit();
+        .commitNow();
   }
 
 
@@ -341,7 +341,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseListener,
       focusButton(showMapButton);
     }
     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
-        .commit();
+        .commitNow();
   }
 
   public void setCurrentPlant(Plant plant) {
