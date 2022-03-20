@@ -193,7 +193,8 @@ public class PlantFragment extends Fragment {
       Button areaButton = new Button(plantCommonNameView.getContext());
       areaButton.setBackgroundResource(R.drawable.button);
       ConstraintLayout.LayoutParams params =
-              new ConstraintLayout.LayoutParams(buttonWidth, ConstraintLayout.LayoutParams.WRAP_CONTENT);
+              new ConstraintLayout.LayoutParams(buttonWidth,
+                  ConstraintLayout.LayoutParams.WRAP_CONTENT);
       params.setMargins(buttonMargin,buttonMargin,buttonMargin,buttonMargin);
       areaButton.setLayoutParams(params);
       areaButton.setTextSize(20);

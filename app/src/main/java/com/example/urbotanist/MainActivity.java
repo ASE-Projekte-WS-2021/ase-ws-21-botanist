@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseListener,
     slidingTrayDrawer.setOnDrawerScrollListener(new SlidingTray.OnDrawerScrollListener() {
       @Override
       public void onScrollStarted() {
-        if(!slidingTrayDrawer.isOpened()){
+        if (!slidingTrayDrawer.isOpened()) {
           fadeIn(drawerBackground);
         }
       }

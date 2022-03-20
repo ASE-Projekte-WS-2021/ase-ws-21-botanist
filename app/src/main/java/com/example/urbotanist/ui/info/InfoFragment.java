@@ -3,7 +3,6 @@ package com.example.urbotanist.ui.info;
 import static android.view.animation.AnimationUtils.loadAnimation;
 import static com.sileria.android.Resource.getColor;
 import static com.sileria.android.Resource.getInteger;
-
 import static io.realm.Realm.getApplicationContext;
 
 import android.annotation.SuppressLint;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 
@@ -82,8 +80,9 @@ public class InfoFragment extends CurrentScreenFragment {
     });
     impButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        Handler handler = new Handler();
-        titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_out));
+
+        titleConstraint.startAnimation(loadAnimation(getApplicationContext(),
+                                                                    R.anim.anim_title_out));
         impButton.setClickable(false);
         String currentTitle = infoTitle.getText().toString();
         if (!getResources().getString(R.string.impressum).equals(currentTitle)) {
@@ -97,10 +96,12 @@ public class InfoFragment extends CurrentScreenFragment {
           slideLeft(infoScroll);
           slideLeft(impScroll);
         }
+        Handler handler = new Handler();
         String finalCurrentTitle = currentTitle;
         handler.postDelayed(() -> {
           infoTitle.setText(finalCurrentTitle);
-          titleConstraint.startAnimation(loadAnimation(getApplicationContext(),R.anim.anim_title_in));
+          titleConstraint.startAnimation(loadAnimation(getApplicationContext(),
+                                                                          R.anim.anim_title_in));
         }, getInteger(android.R.integer.config_shortAnimTime));
         handler.postDelayed(() -> {
           impButton.setClickable(true);
