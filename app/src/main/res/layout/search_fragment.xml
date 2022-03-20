@@ -44,6 +44,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:scrollbarThumbVertical="@color/green"
         android:layout_marginHorizontal="8dp"
+        android:background="@color/lighter_grey"
         android:layout_marginTop="8dp"
         android:id="@+id/search_list_recycler"
         app:layout_constraintBottom_toBottomOf="parent"
