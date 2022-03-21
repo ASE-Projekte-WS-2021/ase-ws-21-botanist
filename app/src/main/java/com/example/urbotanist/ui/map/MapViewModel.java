@@ -66,19 +66,19 @@ public class MapViewModel extends ViewModel {
           .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getAreaTag())))
           .title(info.getAreaName())
           .position(info.getLocation())
-          .visible(false)
+          .visible(true)
           .flat(true));
       infoMarker.setTag(info.getAreaTag());
       markerList.add(infoMarker);
     }
   }
 
-  public void setShowMarker(boolean show) {
+  public void toggleMarkerVisibility() {
     for (Marker marker : markerList) {
-      if (show) {
-        marker.setVisible(true);
-      } else {
+      if (marker.isVisible()) {
         marker.setVisible(false);
+      } else {
+        marker.setVisible(true);
       }
     }
   }

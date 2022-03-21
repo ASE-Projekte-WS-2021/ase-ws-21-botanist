@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -44,6 +46,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   private MapView mapView;
   private String plantLocation;
   private Button showUserPositionButton;
+  private ImageButton toggleMarkerButton;
   private MarkerInfoClickListener markerInfoClickListener;
 
   public MapFragment(String plantLocation) {
@@ -62,6 +65,13 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
       @Override
       public void onClick(View view) {
         requestLocationPermissions();
+      }
+    });
+    toggleMarkerButton = v.findViewById(R.id.toggle_marker_button);
+    toggleMarkerButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mapViewModel.toggleMarkerVisibility();
       }
     });
     IconGenerator iconGen = new IconGenerator(getActivity());
@@ -97,7 +107,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     }
 
     mapViewModel.initInfoMarker();
-    mapViewModel.setShowMarker(true);
+    //mapViewModel.setMarkerVisibility(true);
 
     map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
       @Override
