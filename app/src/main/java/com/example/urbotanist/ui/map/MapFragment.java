@@ -142,8 +142,8 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     this.markerInfoClickListener = listener;
   }
 
-  public String getPlantsInUserArea(LatLng currentUserLocation) {
-    return mapViewModel.currentUserArea(currentUserLocation);
+  public void highlightUserAreaMarker(LatLng currentUserLocation) {
+    mapViewModel.highlightMarker(currentUserLocation);
   }
 
 
