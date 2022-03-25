@@ -51,6 +51,7 @@ public class MapViewModel extends ViewModel {
     map = googleMap;
 
     addPolygonsToMap();
+    //circa middle of botanic garden for start zoom
     LatLng botanicGarden = new LatLng(48.993405, 12.091553);
     map.moveCamera(CameraUpdateFactory.newLatLngZoom(botanicGarden, DEFAULT_ZOOM));
 
@@ -58,25 +59,26 @@ public class MapViewModel extends ViewModel {
 
   public void initInfoMarker() {
     ArrayList<MarkerInfo> markerInfoList = mapMaker.getMarkerInfoArray();
+    iconGen.setStyle(IconGenerator.STYLE_DEFAULT);
 
     for (MarkerInfo info : markerInfoList) {
       Marker infoMarker = map.addMarker(new MarkerOptions()
           .icon(BitmapDescriptorFactory.fromBitmap(iconGen.makeIcon(info.getAreaTag())))
           .title(info.getAreaName())
           .position(info.getLocation())
-          .visible(false)
+          .visible(true)
           .flat(true));
       infoMarker.setTag(info.getAreaTag());
       markerList.add(infoMarker);
     }
   }
 
-  public void setShowMarker(boolean show) {
+  public void toggleMarkerVisibility() {
     for (Marker marker : markerList) {
-      if (show) {
-        marker.setVisible(true);
-      } else {
+      if (marker.isVisible()) {
         marker.setVisible(false);
+      } else {
+        marker.setVisible(true);
       }
     }
   }
@@ -109,14 +111,14 @@ public class MapViewModel extends ViewModel {
           polygon.setFillColor(SELECTED_AREA_FILL_COLOR);
           polygon.setStrokeWidth(POLY_STROKE_WIDTH_PLANT_SELECTED);
           polygon.setStrokeColor(SELECTED_AREA_BORDER_COLOR);
-          findPolygoncenter(polygon);
+          findPolygonCenter(polygon);
           polygon.setZIndex(SELECTED_AREA_Z_INDEX);
         }
       }
     }
   }
 
-  private void findPolygoncenter(Polygon polygon) {
+  private void findPolygonCenter(Polygon polygon) {
     LatLng centerPoint;
     LatLngBounds.Builder builder = new LatLngBounds.Builder();
     // puts all LatLngs from polygon into boundsbuilder
@@ -130,15 +132,28 @@ public class MapViewModel extends ViewModel {
 
   }
 
-  public String currentUserArea(LatLng currentUserLocation) {
+  //gets User position as LatLng
+  //checks if user Position is in any area and highlights all the area markers
+  public void highlightMarker(LatLng currentUserLocation) {
     for (ArrayList<Polygon> polygonList : polyHashMap.values()) {
       for (Polygon polygon : polygonList) {
         if (PolyUtil.containsLocation(currentUserLocation, polygon.getPoints(), true)) {
-          return reversedPolyHashMap.get(polygon);
+          String currentUserArea = reversedPolyHashMap.get(polygon);
+          if (currentUserArea != null) {
+            for (Marker marker : markerList) {
+              if (marker.getTag().toString().contains(currentUserArea)) {
+                iconGen.setStyle(IconGenerator.STYLE_GREEN);
+                marker.setIcon(BitmapDescriptorFactory
+                        .fromBitmap(iconGen.makeIcon(marker.getTag().toString())));
+              } else {
+                iconGen.setStyle(IconGenerator.STYLE_DEFAULT);
+                marker.setIcon(BitmapDescriptorFactory
+                        .fromBitmap(iconGen.makeIcon(marker.getTag().toString())));
+              }
+            }
+          }
         }
       }
     }
-    //TODO what to return, when user is not in  / not in an area
-    return "";
   }
 }

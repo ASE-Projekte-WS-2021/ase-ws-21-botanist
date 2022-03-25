@@ -183,20 +183,27 @@ public class PlantFragment extends Fragment {
   private void setupAlternativeLocations() {
     int buttonColumnCount = 3;
     int gridWidth = (int) (fragmentWidth * 0.45);
+    // im Layout ist die Höhe des Grid von der Favoritenbuttonbreite abhängig
+    // , welche wiederum an der Displaybreite hängt
+    int gridHeight = (int) (fragmentWidth * 0.15);
     alternativeLocationGrid.setColumnCount(buttonColumnCount);
     RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;
     RealmList<String> areasForPlantLong = plantViewModel.selectedPlant.locationLong;
     alternativeLocationGrid.removeAllViews();
     int buttonWidth = (int) gridWidth / buttonColumnCount;
     int buttonMargin = (int) (gridWidth * 0.09 / buttonColumnCount);
+    int buttonHeight = (int) gridHeight;
+    if (areasForPlant.size() > buttonColumnCount) {
+      buttonHeight = (int) (buttonHeight * 0.6);
+    }
     for (int i = 0; i < areasForPlant.size();i++) {
       Button areaButton = new Button(plantCommonNameView.getContext());
       areaButton.setBackgroundResource(R.drawable.button);
       ConstraintLayout.LayoutParams params =
-              new ConstraintLayout.LayoutParams(buttonWidth,
-                  ConstraintLayout.LayoutParams.WRAP_CONTENT);
-      params.setMargins(buttonMargin,buttonMargin,buttonMargin,buttonMargin);
+              new ConstraintLayout.LayoutParams(buttonWidth, buttonHeight);
+      params.setMargins(buttonMargin,(int)(buttonMargin / 2),buttonMargin,(int)(buttonMargin / 2));
       areaButton.setLayoutParams(params);
+      areaButton.setPadding(0,0,0,buttonMargin);
       areaButton.setTextSize(20);
       areaButton.setTextColor(getColor(R.color.green));
       areaButton.setOutlineAmbientShadowColor(Color.TRANSPARENT);

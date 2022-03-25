@@ -248,7 +248,6 @@
       android:id="@+id/no_plant_selected"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:background="@color/white"
       android:gravity="center"
       android:text="@string/no_plant_selected_text"
       android:textSize="20sp"

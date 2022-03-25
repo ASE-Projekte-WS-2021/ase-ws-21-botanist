@@ -101,9 +101,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseListener,
                 // Got last known location. In some rare situations this can be null.
                 if (location != null) {
                   currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                  //TODO LatLng location to MapViewModel,
-                  // search for right Polygon and get Location String.
-                  mapFragment.getPlantsInUserArea(currentUserLocation);
+                  mapFragment.highlightUserAreaMarker(currentUserLocation);
                 }
               }
             });
@@ -506,7 +504,7 @@ public class MainActivity extends AppCompatActivity implements DatabaseListener,
   @Override
   public void onLocationChanged(@NonNull Location location) {
     currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
-    mapFragment.getPlantsInUserArea(currentUserLocation);
+    mapFragment.highlightUserAreaMarker(currentUserLocation);
   }
 
   @Override
