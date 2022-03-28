@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
+import com.example.urbotanist.database.DatabaseRetriever;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 import com.example.urbotanist.ui.plant.Plant;
 import java.util.Collections;
@@ -39,7 +40,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   public void onAttach(Context context) {
     super.onAttach(context);
     try {
-      databaseListener = (DatabaseListener) context;
+      databaseListener = new DatabaseRetriever(); //(DatabaseListener) context;
     } catch (ClassCastException castException) {
       Log.e("castException",
           "Activity must extend DatabaseListener:" + castException.getLocalizedMessage());

@@ -27,6 +27,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
+import com.example.urbotanist.database.DatabaseRetriever;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaSelectListener;
 import com.example.urbotanist.ui.favorites.FavouritePlant;
@@ -36,6 +37,7 @@ import java.util.List;
 
 public class PlantFragment extends Fragment {
 
+  private DatabaseRetriever databaseRetriever;
   private MainActivity mainActivity;
   public PlantViewModel plantViewModel;
   private TextView plantFullNameView;
@@ -91,17 +93,14 @@ public class PlantFragment extends Fragment {
     super.onAttach(context);
     plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     mainActivity = (MainActivity) requireActivity();
-    databaseListener = mainActivity;
-
+    databaseRetriever = new DatabaseRetriever();
+    databaseListener = databaseRetriever;
   }
-
 
   @Override
   public void onStart() {
     super.onStart();
     setupUi(((MainActivity) requireActivity()).getCurrentPlant());
-
-
 
     //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
 
@@ -132,11 +131,11 @@ public class PlantFragment extends Fragment {
         public void onClick(View view) {
           checkIfPlantIsFavourite();
           if (currentPlantIsFavourite) {
-            ((MainActivity) requireActivity()).removeFavouritePlant(plantViewModel
+            databaseRetriever.removeFavouritePlant(plantViewModel
                     .selectedPlant.id);
             currentPlantIsFavourite = false;
           } else {
-            ((MainActivity) requireActivity()).addFavouritePlant(plantViewModel.selectedPlant);
+            databaseRetriever.addFavouritePlant(plantViewModel.selectedPlant);
             currentPlantIsFavourite = true;
           }
           setFavouriteButtonState(currentPlantIsFavourite);

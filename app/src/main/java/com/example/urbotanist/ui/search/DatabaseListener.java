@@ -15,4 +15,6 @@ public interface DatabaseListener {
   public boolean checkIfPlantIsFavourite(Plant plant);
 
   public void removeFavouritePlant(int plantId);
+
+  public void addFavouritePlant(Plant plant);
 }

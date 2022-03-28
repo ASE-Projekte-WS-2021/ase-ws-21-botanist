@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
+import com.example.urbotanist.database.DatabaseRetriever;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.search.DatabaseListener;
 import com.example.urbotanist.ui.search.SearchResultClickListener;
@@ -67,7 +68,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   }
 
   private void initFavouritesList() {
-    favouritesDatabaseListener = (DatabaseListener) getContext();
+    favouritesDatabaseListener = new DatabaseRetriever(); //(DatabaseListener) getContext();
     List<FavouritePlant> newFavouritePlants = favouritesDatabaseListener.searchFavouritePlants();
     if (newFavouritePlants.size() > 0) {
       noFavouritesSelectedView.setVisibility(View.GONE);
