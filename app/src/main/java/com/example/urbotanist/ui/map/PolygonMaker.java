@@ -1,10 +1,10 @@
 package com.example.urbotanist.ui.map;
 
+// Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class PolygonMaker {
 

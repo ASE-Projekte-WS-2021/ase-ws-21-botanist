@@ -1,6 +1,6 @@
 package com.example.urbotanist.ui.area;
 
-
+// Sileria, https://sileria.com/
 import static com.sileria.android.Kit.getSystemService;
 
 import android.content.Context;
@@ -21,8 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
+import com.example.urbotanist.database.DatabaseRetriever;
 import com.example.urbotanist.ui.plant.Plant;
-import com.example.urbotanist.ui.search.DatabaseListener;
 import com.example.urbotanist.ui.search.PlantSearchAdapter;
 import com.example.urbotanist.ui.search.SearchResultClickListener;
 import java.util.Collections;
@@ -36,7 +36,6 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   private TextView noAreaSelectedView;
   private RecyclerView areaPlantListRecycler;
   private PlantSearchAdapter plantListAdapter;
-  private DatabaseListener plantDatabaseListener;
   private ImageButton showAreaButton;
 
 
@@ -71,12 +70,6 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-    try {
-      plantDatabaseListener = (DatabaseListener) context;
-    } catch (ClassCastException castException) {
-      Log.e("castException",
-          "Activity must extend DatabaseListener:" + castException.getLocalizedMessage());
-    }
   }
 
 
@@ -91,8 +84,7 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
   public void searchPlantsInArea() {
 
-    List<Plant> plantsInArea = plantDatabaseListener
-        .searchPlantsInArea(areaViewModel.selectedArea.areaName);
+    List<Plant> plantsInArea = DatabaseRetriever.searchPlantsInArea(areaViewModel.selectedArea.areaName);
     plantListAdapter.foundPlantsList = plantsInArea;
     plantListAdapter.notifyDataSetChanged();
 

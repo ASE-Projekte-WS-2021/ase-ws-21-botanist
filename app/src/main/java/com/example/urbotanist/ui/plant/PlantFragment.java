@@ -1,15 +1,13 @@
 package com.example.urbotanist.ui.plant;
 
-
+// Sileria , https://sileria.com/
 import static com.sileria.android.Resource.getColor;
-import static com.sileria.android.Resource.getDrawableId;
 
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,14 +28,12 @@ import com.example.urbotanist.R;
 import com.example.urbotanist.database.DatabaseRetriever;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaSelectListener;
-import com.example.urbotanist.ui.favorites.FavouritePlant;
-import com.example.urbotanist.ui.search.DatabaseListener;
+
+// realm by MongoDB, https://realm.io/
 import io.realm.RealmList;
-import java.util.List;
 
 public class PlantFragment extends Fragment {
 
-  private DatabaseRetriever databaseRetriever;
   private MainActivity mainActivity;
   public PlantViewModel plantViewModel;
   private TextView plantFullNameView;
@@ -53,7 +49,6 @@ public class PlantFragment extends Fragment {
   private ImageButton wikiButton;
   private int fragmentWidth;
   private ImageButton favButton;
-  private DatabaseListener databaseListener;
   private boolean currentPlantIsFavourite = false;
 
 
@@ -93,8 +88,6 @@ public class PlantFragment extends Fragment {
     super.onAttach(context);
     plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     mainActivity = (MainActivity) requireActivity();
-    databaseRetriever = new DatabaseRetriever();
-    databaseListener = databaseRetriever;
   }
 
   @Override
@@ -103,7 +96,6 @@ public class PlantFragment extends Fragment {
     setupUi(((MainActivity) requireActivity()).getCurrentPlant());
 
     //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
-
   }
 
 
@@ -131,11 +123,11 @@ public class PlantFragment extends Fragment {
         public void onClick(View view) {
           checkIfPlantIsFavourite();
           if (currentPlantIsFavourite) {
-            databaseRetriever.removeFavouritePlant(plantViewModel
+            DatabaseRetriever.removeFavouritePlant(plantViewModel
                     .selectedPlant.id);
             currentPlantIsFavourite = false;
           } else {
-            databaseRetriever.addFavouritePlant(plantViewModel.selectedPlant);
+            DatabaseRetriever.addFavouritePlant(plantViewModel.selectedPlant);
             currentPlantIsFavourite = true;
           }
           setFavouriteButtonState(currentPlantIsFavourite);
@@ -158,11 +150,10 @@ public class PlantFragment extends Fragment {
 
       noPlantSelectedView.setVisibility(View.VISIBLE);
     }
-
   }
 
   private void checkIfPlantIsFavourite() {
-    currentPlantIsFavourite =  databaseListener.checkIfPlantIsFavourite(plantViewModel
+    currentPlantIsFavourite =  DatabaseRetriever.checkIfPlantIsFavourite(plantViewModel
                                                                                   .selectedPlant);
   }
 

@@ -1,8 +1,10 @@
 package com.example.urbotanist.ui.map;
 
 import android.graphics.Color;
-import android.util.Log;
 import androidx.lifecycle.ViewModel;
+import java.util.ArrayList;
+import java.util.HashMap;
+// Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -14,9 +16,6 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.PolyUtil;
 import com.google.maps.android.ui.IconGenerator;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 
 
 public class MapViewModel extends ViewModel {

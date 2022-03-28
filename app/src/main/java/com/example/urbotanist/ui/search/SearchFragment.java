@@ -1,6 +1,6 @@
 package com.example.urbotanist.ui.search;
 
-
+// Sileria , https://sileria.com/
 import static com.sileria.android.Kit.getSystemService;
 
 import android.content.Context;
@@ -28,7 +28,6 @@ import java.util.List;
 public class SearchFragment extends CurrentScreenFragment implements SearchResultClickListener {
 
   private SearchView searchView;
-  private DatabaseListener databaseListener;
   private PlantSearchAdapter searchListAdapter;
   private TextView noSearchResultsText;
 
@@ -39,12 +38,6 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
-    try {
-      databaseListener = new DatabaseRetriever(); //(DatabaseListener) context;
-    } catch (ClassCastException castException) {
-      Log.e("castException",
-          "Activity must extend DatabaseListener:" + castException.getLocalizedMessage());
-    }
   }
 
   @Override
@@ -91,7 +84,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   }
 
   private void updatePlantWithQuery(String query) {
-    List<Plant> foundPlants = databaseListener.searchPlant(query);
+    List<Plant> foundPlants = DatabaseRetriever.searchPlant(query);
     searchListAdapter.foundPlantsList = foundPlants;
     if (foundPlants.size() > 0) {
       noSearchResultsText.setVisibility(View.GONE);

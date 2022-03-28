@@ -8,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.plant.Plant;
-import com.example.urbotanist.ui.search.DatabaseListener;
 import com.example.urbotanist.ui.search.SearchResultClickListener;
 import java.util.List;
 

@@ -1,7 +1,6 @@
 package com.example.urbotanist.ui.favorites;
 
 import androidx.lifecycle.ViewModel;
-import java.util.ArrayList;
 import java.util.List;
 
 public class FavoritesViewModel extends ViewModel {

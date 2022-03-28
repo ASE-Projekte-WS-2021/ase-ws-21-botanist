@@ -5,22 +5,20 @@ import androidx.annotation.NonNull;
 
 import com.example.urbotanist.ui.favorites.FavouritePlant;
 import com.example.urbotanist.ui.plant.Plant;
-import com.example.urbotanist.ui.search.DatabaseListener;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
+// realm by MongoDB https://realm.io/
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.Sort;
 
-public class DatabaseRetriever implements DatabaseListener {
+public class DatabaseRetriever {
 
-    public DatabaseRetriever() { }
-
-    @Override
-    public boolean checkIfPlantIsFavourite(Plant plant) {
+    public static boolean checkIfPlantIsFavourite(Plant plant) {
         final boolean[] isFavourite = new boolean[1];
         Realm realm = Realm.getDefaultInstance();
         if (plant != null) {
@@ -42,8 +40,7 @@ public class DatabaseRetriever implements DatabaseListener {
         return isFavourite[0];
     }
 
-    @Override
-    public void removeFavouritePlant(int plantId) {
+    public static void removeFavouritePlant(int plantId) {
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
@@ -55,8 +52,7 @@ public class DatabaseRetriever implements DatabaseListener {
         });
     }
 
-    @Override
-    public List<Plant> searchPlant(String searchTerm) {
+    public static List<Plant> searchPlant(String searchTerm) {
         ArrayList<Plant> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -95,8 +91,7 @@ public class DatabaseRetriever implements DatabaseListener {
         return result;
     }
 
-    @Override
-    public List<Plant> searchPlantsInArea(String areaName) {
+    public static List<Plant> searchPlantsInArea(String areaName) {
         ArrayList<Plant> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -108,7 +103,6 @@ public class DatabaseRetriever implements DatabaseListener {
                                 .sort("fullName", Sort.ASCENDING).freeze());
             }
         });
-
         try {
             Thread.sleep(100);
         } catch (Exception e) {
@@ -118,8 +112,7 @@ public class DatabaseRetriever implements DatabaseListener {
         return result;
     }
 
-    @Override
-    public List<FavouritePlant> searchFavouritePlants() {
+    public static List<FavouritePlant> searchFavouritePlants() {
         ArrayList<FavouritePlant> result = new ArrayList<>();
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {
@@ -137,8 +130,7 @@ public class DatabaseRetriever implements DatabaseListener {
         return result;
     }
 
-    @Override
-    public void addFavouritePlant(Plant plant) {
+    public static void addFavouritePlant(Plant plant) {
         FavouritePlant newFavouritePlant = new FavouritePlant(plant);
         Realm realm = Realm.getDefaultInstance();
         realm.executeTransactionAsync(new Realm.Transaction() {

@@ -1,10 +1,10 @@
 package com.example.urbotanist.ui.favorites;
 
+// Sileria, https://sileria.com/
 import static com.sileria.android.Kit.getSystemService;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,6 @@ import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.database.DatabaseRetriever;
 import com.example.urbotanist.ui.plant.Plant;
-import com.example.urbotanist.ui.search.DatabaseListener;
 import com.example.urbotanist.ui.search.SearchResultClickListener;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +30,6 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   private FavoritesViewModel favoritesViewModel;
   private RecyclerView favouritePlantListRecycler;
   private FavouriteListAdapter favouriteListAdapter;
-  private DatabaseListener favouritesDatabaseListener;
   private TextView noFavouritesSelectedView;
 
   public static FavoritesFragment newInstance() {
@@ -68,8 +66,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   }
 
   private void initFavouritesList() {
-    favouritesDatabaseListener = new DatabaseRetriever(); //(DatabaseListener) getContext();
-    List<FavouritePlant> newFavouritePlants = favouritesDatabaseListener.searchFavouritePlants();
+    List<FavouritePlant> newFavouritePlants = DatabaseRetriever.searchFavouritePlants();
     if (newFavouritePlants.size() > 0) {
       noFavouritesSelectedView.setVisibility(View.GONE);
     }

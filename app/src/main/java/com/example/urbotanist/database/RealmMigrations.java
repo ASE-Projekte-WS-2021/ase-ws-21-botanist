@@ -1,11 +1,10 @@
 package com.example.urbotanist.database;
 
-import com.example.urbotanist.ui.plant.Plant;
+import java.util.Date;
+// realm by MongoDB https://realm.io/
 import io.realm.DynamicRealm;
 import io.realm.RealmMigration;
-import io.realm.RealmObjectSchema;
 import io.realm.RealmSchema;
-import java.util.Date;
 
 public class RealmMigrations implements RealmMigration {
 

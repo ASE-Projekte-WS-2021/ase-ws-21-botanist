@@ -3,19 +3,12 @@ package com.example.urbotanist;
 import static android.view.animation.AnimationUtils.loadAnimation;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.DragEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
@@ -27,29 +20,22 @@ import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaFragment;
 import com.example.urbotanist.ui.area.AreaSelectListener;
 import com.example.urbotanist.ui.favorites.FavoritesFragment;
-import com.example.urbotanist.ui.favorites.FavouritePlant;
 import com.example.urbotanist.ui.info.InfoFragment;
 import com.example.urbotanist.ui.map.MapFragment;
 import com.example.urbotanist.ui.map.MarkerInfoClickListener;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.plant.PlantFragment;
-import com.example.urbotanist.ui.search.DatabaseListener;
 import com.example.urbotanist.ui.search.SearchFragment;
+// Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
+// Sileria , https://sileria.com/
 import com.sileria.android.Kit;
 import com.sileria.android.view.SlidingTray;
-import io.realm.Case;
-import io.realm.Realm;
-import io.realm.Realm.Transaction;
-import io.realm.Sort;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
+// GIF API by DroidsOnRoids, https://github.com/DroidsOnRoids/API
 import pl.droidsonroids.gif.GifImageView;
 
 

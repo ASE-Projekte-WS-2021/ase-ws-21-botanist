@@ -1,5 +1,6 @@
 package com.example.urbotanist.ui.map;
 
+// Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.maps.model.PolygonOptions;
 import java.util.ArrayList;
 

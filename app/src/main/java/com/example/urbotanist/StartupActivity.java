@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.urbotanist.database.DatabaseAdapterActivity;
 import com.example.urbotanist.database.RealmMigrations;
 import com.example.urbotanist.ui.plant.Plant;
+// realm by MongoDB, https://realm.io/
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import java.util.ArrayList;
