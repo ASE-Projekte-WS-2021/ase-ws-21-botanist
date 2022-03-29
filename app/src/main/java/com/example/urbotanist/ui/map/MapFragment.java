@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -25,8 +27,10 @@ import com.example.urbotanist.ui.area.Area;
 
 // Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -34,14 +38,15 @@ import com.google.maps.android.ui.IconGenerator;
 
 
 public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback,
-    ActivityResultCallback {
+        ActivityResultCallback {
 
   private static final LatLng SW_MAP_BORDER = new LatLng(48.992262952936514, 12.089423798024654);
   private static final LatLng NE_MAP_BORDER = new LatLng(48.995638443353734, 12.093880958855152);
   private static final LatLngBounds mapBounds = new LatLngBounds(SW_MAP_BORDER,
-      NE_MAP_BORDER);
+          NE_MAP_BORDER);
   private static final float MAX_ZOOM_LEVEL = 19.351759f;
   private static final float MIN_ZOOM_LEVEL = 13.314879f;
+  private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
   private MapViewModel mapViewModel;
   private GoogleMap map;
@@ -51,13 +56,23 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   private ImageButton toggleMarkerButton;
   private MarkerInfoClickListener markerInfoClickListener;
 
+  public static MapFragment newInstance() {
+    return new MapFragment();
+  }
+
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-      @Nullable Bundle savedInstanceState) {
+                           @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.map_fragment, container, false);
 
+    Bundle mapViewBundle = null;
+    if (savedInstanceState != null) {
+      mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+      Log.d("SavedBundle: ", mapViewBundle.toString());
+    }
     mapView = v.findViewById(R.id.google_map);
-    mapView.onCreate(savedInstanceState);
+    mapView.onCreate(mapViewBundle);
+
     showUserPositionButton = v.findViewById(R.id.show_user_position_button);
     showUserPositionButton.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -78,6 +93,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     //create Map
     mapView.getMapAsync(this);
 
+    Log.d("MapFragment: ", "onCreate");
     return v;
   }
 
@@ -108,7 +124,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
       @Override
       public void onInfoWindowClick(@NonNull Marker marker) {
         if (markerInfoClickListener != null) {
-          Area area = new Area(marker.getTag().toString().substring(0,1), marker.getTitle());
+          Area area = new Area(marker.getTag().toString().substring(0, 1), marker.getTitle());
           markerInfoClickListener.onMarkerInfoClicked(area);
         }
       }
@@ -121,6 +137,17 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     map.setLatLngBoundsForCameraTarget(mapBounds);
     map.setMaxZoomPreference(MAX_ZOOM_LEVEL);
     map.setMinZoomPreference(MIN_ZOOM_LEVEL);
+    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+      // TODO: Consider calling
+      //    ActivityCompat#requestPermissions
+      // here to request the missing permissions, and then overriding
+      //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+      //                                          int[] grantResults)
+      // to handle the case where the user grants the permission. See the documentation
+      // for ActivityCompat#requestPermissions for more details.
+      return;
+    }
+    map.setMyLocationEnabled(true);
   }
 
   public void requestLocationPermissions() {
@@ -151,61 +178,56 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     mapViewModel.highlightMarker(currentUserLocation);
   }
 
-/*
   @Override
   public void onResume() {
     super.onResume();
     mapView.onResume();
-    Log.d("MapFragment: ", "onResume");
+    Log.d("Map:", " onResume");
   }
 
   @Override
   public void onPause() {
     super.onPause();
     mapView.onPause();
-    Log.d("MapFragment: ", "onPause");
   }
 
   @Override
   public void onStop() {
     super.onStop();
     mapView.onStop();
-    Log.d("MapFragment: ", "onStop");
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
-    Log.d("MapFragment: ", "onDestroy");
+    mapView.onDestroy();
+    Log.d("Map:", " onDestroy");
   }
 
   @Override
   public void onSaveInstanceState(@NonNull Bundle outState) {
-    super.onSaveInstanceState(outState);
-    mapView.onSaveInstanceState(outState);
+    Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+    if (mapViewBundle == null) {
+      mapViewBundle = new Bundle();
+      outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+    }
+    super.onSaveInstanceState(mapViewBundle);
+    mapView.onSaveInstanceState(mapViewBundle);
   }
+
+
 
   @Override
   public void onLowMemory() {
     super.onLowMemory();
     mapView.onLowMemory();
-  }*/
-
-  /*private void setPlantLocation() {
-    String areaType = plantLocation.substring(0, 1);
-    mapViewModel.setPlantLocation(areaType);
-  }*/
+  }
 
   public void setPlantArea(String plantArea) {
     if(plantArea != "") {
       this.plantArea = plantArea.substring(0, 1);
       mapViewModel.setPlantArea(plantArea);
     }
-  }
-
-  @Override
-  public void onActivityResult(Object result) {
-
   }
 
   @SuppressLint("MissingPermission")
@@ -221,4 +243,9 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
             showUserPositionButton.setVisibility(View.VISIBLE);
           }
         });
+
+    @Override
+    public void onActivityResult(Object result) {
+
+    }
 }
