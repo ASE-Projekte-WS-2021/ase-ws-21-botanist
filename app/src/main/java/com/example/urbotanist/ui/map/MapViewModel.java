@@ -2,10 +2,8 @@ package com.example.urbotanist.ui.map;
 
 import android.graphics.Color;
 import androidx.lifecycle.ViewModel;
-import java.util.ArrayList;
-import java.util.HashMap;
-// Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.maps.CameraUpdateFactory;
+// Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -16,14 +14,15 @@ import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.maps.android.PolyUtil;
 import com.google.maps.android.ui.IconGenerator;
-
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MapViewModel extends ViewModel {
 
   private GoogleMap map;
   private MapMarkerMaker mapMaker;
   private IconGenerator iconGen;
-  ArrayList<Marker> markerList = new ArrayList<Marker>();
+  private ArrayList<Marker> markerList = new ArrayList<Marker>();
 
   private static final int SELECTED_AREA_FILL_COLOR = 0x80FA6E6E;
   private static final int SELECTED_AREA_BORDER_COLOR = Color.parseColor("#FA6E6E");
@@ -132,27 +131,38 @@ public class MapViewModel extends ViewModel {
   }
 
   //gets User position as LatLng
+  //sets Highlight to default for 'not in polygon' case
   //checks if user Position is in any area and highlights all the area markers
   public void highlightMarker(LatLng currentUserLocation) {
+    setMarkerDefault();
+    String currentUserArea = "";
     for (ArrayList<Polygon> polygonList : polyHashMap.values()) {
       for (Polygon polygon : polygonList) {
         if (PolyUtil.containsLocation(currentUserLocation, polygon.getPoints(), true)) {
-          String currentUserArea = reversedPolyHashMap.get(polygon);
-          if (currentUserArea != null) {
-            for (Marker marker : markerList) {
-              if (marker.getTag().toString().contains(currentUserArea)) {
-                iconGen.setStyle(IconGenerator.STYLE_GREEN);
-                marker.setIcon(BitmapDescriptorFactory
-                        .fromBitmap(iconGen.makeIcon(marker.getTag().toString())));
-              } else {
-                iconGen.setStyle(IconGenerator.STYLE_DEFAULT);
-                marker.setIcon(BitmapDescriptorFactory
-                        .fromBitmap(iconGen.makeIcon(marker.getTag().toString())));
-              }
-            }
-          }
+          currentUserArea = reversedPolyHashMap.get(polygon);
         }
       }
     }
+    if (!currentUserArea.equals("")) {
+      for (Marker marker : markerList) {
+        setMarkerHighlight(marker, marker.getTag().toString().contains(currentUserArea));
+      }
+    }
+  }
+
+  private void setMarkerDefault() {
+    for (Marker marker : markerList) {
+      setMarkerHighlight(marker, false);
+    }
+  }
+
+  private void setMarkerHighlight(Marker marker, boolean highlight) {
+    if (highlight) {
+      iconGen.setStyle(IconGenerator.STYLE_GREEN);
+    } else {
+      iconGen.setStyle(IconGenerator.STYLE_DEFAULT);
+    }
+    marker.setIcon(BitmapDescriptorFactory
+            .fromBitmap(iconGen.makeIcon(marker.getTag().toString())));
   }
 }
