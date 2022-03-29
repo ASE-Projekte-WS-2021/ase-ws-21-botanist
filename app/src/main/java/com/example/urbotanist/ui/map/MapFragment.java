@@ -4,13 +4,11 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
-
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -19,18 +17,14 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
-
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 import com.example.urbotanist.ui.area.Area;
-
 // Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -51,10 +45,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   private MapViewModel mapViewModel;
   private GoogleMap map;
   private MapView mapView;
-  private String plantArea;
   private Button showUserPositionButton;
   private ImageButton toggleMarkerButton;
   private MarkerInfoClickListener markerInfoClickListener;
+  private String plantArea;
 
   public static MapFragment newInstance() {
     return new MapFragment();
@@ -68,7 +62,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     Bundle mapViewBundle = null;
     if (savedInstanceState != null) {
       mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
-      Log.d("SavedBundle: ", mapViewBundle.toString());
     }
     mapView = v.findViewById(R.id.google_map);
     mapView.onCreate(mapViewBundle);
@@ -92,8 +85,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
     //create Map
     mapView.getMapAsync(this);
-
-    Log.d("MapFragment: ", "onCreate");
     return v;
   }
 
@@ -118,7 +109,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     mapViewModel.initData(map);
 
     mapViewModel.initInfoMarker();
-    //mapViewModel.setMarkerVisibility(true);
 
     map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
       @Override
@@ -137,14 +127,11 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     map.setLatLngBoundsForCameraTarget(mapBounds);
     map.setMaxZoomPreference(MAX_ZOOM_LEVEL);
     map.setMinZoomPreference(MIN_ZOOM_LEVEL);
-    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-      // TODO: Consider calling
-      //    ActivityCompat#requestPermissions
-      // here to request the missing permissions, and then overriding
-      //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-      //                                          int[] grantResults)
-      // to handle the case where the user grants the permission. See the documentation
-      // for ActivityCompat#requestPermissions for more details.
+    if (ActivityCompat.checkSelfPermission(
+            getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
       return;
     }
     map.setMyLocationEnabled(true);
@@ -182,7 +169,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   public void onResume() {
     super.onResume();
     mapView.onResume();
-    Log.d("Map:", " onResume");
   }
 
   @Override
@@ -201,7 +187,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   public void onDestroy() {
     super.onDestroy();
     mapView.onDestroy();
-    Log.d("Map:", " onDestroy");
   }
 
   @Override
@@ -224,7 +209,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   }
 
   public void setPlantArea(String plantArea) {
-    if(plantArea != "") {
+    if (plantArea != "") {
       this.plantArea = plantArea.substring(0, 1);
       mapViewModel.setPlantArea(plantArea);
     }
@@ -244,8 +229,8 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
           }
         });
 
-    @Override
-    public void onActivityResult(Object result) {
+  @Override
+  public void onActivityResult(Object result) {
 
-    }
+  }
 }
