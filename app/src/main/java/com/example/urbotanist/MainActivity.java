@@ -1,11 +1,15 @@
 package com.example.urbotanist;
 
 import static android.view.animation.AnimationUtils.loadAnimation;
+import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +17,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.example.urbotanist.database.DatabaseAdapterActivity;
@@ -28,11 +33,18 @@ import com.example.urbotanist.ui.plant.PlantFragment;
 import com.example.urbotanist.ui.search.SearchFragment;
 // Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 // Sileria , https://sileria.com/
+import com.google.android.gms.tasks.Task;
 import com.sileria.android.Kit;
 import com.sileria.android.view.SlidingTray;
 // GIF API by DroidsOnRoids, https://github.com/DroidsOnRoids/API
@@ -54,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   private Area currentSelectedArea;
   private LatLng currentUserLocation;
   private FusedLocationProviderClient fusedLocationClient;
+  private LocationRequest locationRequest;
   private Button showMapButton;
   private Button searchButton;
   private Button infoButton;
@@ -74,12 +87,14 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     initDatabase();
     preloadViews();
     getLastUserLocation();
+    getLocationRequest();
+    getLocationUpdates();
     executeDelayedActions(4000);
   }
 
   @SuppressLint("MissingPermission")
   private void getLastUserLocation() {
-    fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+    fusedLocationClient = getFusedLocationProviderClient(this);
     fusedLocationClient.getLastLocation()
             .addOnSuccessListener(this, new OnSuccessListener<Location>() {
               @Override
@@ -91,6 +106,44 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
                 }
               }
             });
+  }
+
+  private void getLocationRequest() {
+    locationRequest = LocationRequest.create();
+    locationRequest.setInterval(4000);
+    locationRequest.setFastestInterval(2000);
+    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+  }
+
+  private void getLocationUpdates() {
+    LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest);
+    SettingsClient client = LocationServices.getSettingsClient(this);
+    Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+    task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+      @Override
+      public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+        startLocationUpdates();
+      }
+    });
+  }
+
+  private void startLocationUpdates() {
+    if (ActivityCompat.checkSelfPermission(
+            this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this, Manifest.permission.ACCESS_COARSE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
+    getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest,
+            new LocationCallback() {
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            onLocationChanged(locationResult.getLastLocation());
+        }
+        },
+                    Looper.myLooper());
   }
 
   private void preloadViews() {
