@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
 
   DatabaseAdapterActivity dbHelper;
 
-  public MapFragment mapFragment = new MapFragment("");
+  public MapFragment mapFragment = new MapFragment();
   public SearchFragment searchFragment = new SearchFragment();
   public InfoFragment infoFragment = new InfoFragment();
   public PlantFragment plantDrawerFragment = new PlantFragment();
@@ -204,8 +204,8 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   }
 
   private void showMapWithArea(String area) {
-    mapFragment = new MapFragment(area);
     loadCurrentScreenFragment(mapFragment);
+    mapFragment.setPlantArea(area);
   }
 
   private void initDatabase() {

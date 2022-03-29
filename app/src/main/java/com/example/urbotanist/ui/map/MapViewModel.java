@@ -101,7 +101,7 @@ public class MapViewModel extends ViewModel {
     }
   }
 
-  public void setPlantLocation(String location) {
+  public void setPlantArea(String location) {
     for (String area : reversedPolyHashMap.values()) {
       if (area.equals(location)) {
         ArrayList<Polygon> polygonList = polyHashMap.get(area);

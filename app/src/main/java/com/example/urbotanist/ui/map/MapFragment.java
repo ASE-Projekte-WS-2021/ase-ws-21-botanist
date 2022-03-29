@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;
@@ -43,14 +46,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   private MapViewModel mapViewModel;
   private GoogleMap map;
   private MapView mapView;
-  private String plantLocation;
+  private String plantArea;
   private Button showUserPositionButton;
   private ImageButton toggleMarkerButton;
   private MarkerInfoClickListener markerInfoClickListener;
-
-  public MapFragment(String plantLocation) {
-    this.plantLocation = plantLocation;
-  }
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -101,9 +100,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
     //setup polygons
     mapViewModel.initData(map);
-    if (plantLocation != "") {
-      setPlantLocation();
-    }
 
     mapViewModel.initInfoMarker();
     //mapViewModel.setMarkerVisibility(true);
@@ -155,29 +151,32 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     mapViewModel.highlightMarker(currentUserLocation);
   }
 
-
+/*
   @Override
   public void onResume() {
     super.onResume();
     mapView.onResume();
+    Log.d("MapFragment: ", "onResume");
   }
 
   @Override
   public void onPause() {
     super.onPause();
     mapView.onPause();
+    Log.d("MapFragment: ", "onPause");
   }
 
   @Override
   public void onStop() {
     super.onStop();
     mapView.onStop();
+    Log.d("MapFragment: ", "onStop");
   }
 
   @Override
   public void onDestroy() {
     super.onDestroy();
-    mapView.onDestroy();
+    Log.d("MapFragment: ", "onDestroy");
   }
 
   @Override
@@ -190,11 +189,18 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   public void onLowMemory() {
     super.onLowMemory();
     mapView.onLowMemory();
-  }
+  }*/
 
-  private void setPlantLocation() {
+  /*private void setPlantLocation() {
     String areaType = plantLocation.substring(0, 1);
     mapViewModel.setPlantLocation(areaType);
+  }*/
+
+  public void setPlantArea(String plantArea) {
+    if(plantArea != "") {
+      this.plantArea = plantArea.substring(0, 1);
+      mapViewModel.setPlantArea(plantArea);
+    }
   }
 
   @Override
