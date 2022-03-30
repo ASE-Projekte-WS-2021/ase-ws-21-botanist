@@ -53,8 +53,6 @@ public class MapMarkerMaker {
     markerInfoArray
             .add(new MarkerInfo("U", new LatLng(48.992947, 12.092129), "Rubus- & Sorbus-Sammlung"));
     markerInfoArray
-            .add(new MarkerInfo("U", new LatLng(48.992964, 12.091612), "Rubus- & Sorbus-Sammlung"));
-    markerInfoArray
             .add(new MarkerInfo("V", new LatLng(48.993163, 12.092096),
                     "Versuchs- & Anzuchtflächen"));
     markerInfoArray.add(new MarkerInfo("X", new LatLng(48.993404, 12.092591), "Vermehrungskästen"));
