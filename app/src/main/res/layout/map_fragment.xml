@@ -26,12 +26,13 @@
 
     <ImageButton
         android:id="@+id/toggle_marker_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green"
-        android:background="@drawable/locations_icon"
-        android:orientation="vertical"
-        android:layout_margin="10dp" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/ic_toggle_marker_svg"
+        android:orientation="vertical" />
 
 
     <!--it.sephiroth.android.library.imagezoom.ImageViewTouch
