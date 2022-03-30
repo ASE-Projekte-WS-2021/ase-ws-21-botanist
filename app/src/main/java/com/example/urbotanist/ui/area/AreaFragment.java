@@ -84,7 +84,8 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
   public void searchPlantsInArea() {
 
-    List<Plant> plantsInArea = DatabaseRetriever.searchPlantsInArea(areaViewModel.selectedArea.areaName);
+    List<Plant> plantsInArea =
+            DatabaseRetriever.searchPlantsInArea(areaViewModel.selectedArea.areaName);
     plantListAdapter.foundPlantsList = plantsInArea;
     plantListAdapter.notifyDataSetChanged();
 

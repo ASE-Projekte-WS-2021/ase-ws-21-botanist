@@ -1,7 +1,6 @@
 package com.example.urbotanist;
 
 import android.app.Application;
-
 // realm by MongoDB, https://realm.io/
 import io.realm.Realm;
 

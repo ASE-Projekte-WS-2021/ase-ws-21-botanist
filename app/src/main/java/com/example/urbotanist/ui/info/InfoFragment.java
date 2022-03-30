@@ -1,11 +1,9 @@
 package com.example.urbotanist.ui.info;
 
 import static android.view.animation.AnimationUtils.loadAnimation;
-
 // Sileria, https://sileria.com/
 import static com.sileria.android.Resource.getColor;
 import static com.sileria.android.Resource.getInteger;
-
 // realm by MongoDB, https://realm.io/
 import static io.realm.Realm.getApplicationContext;
 

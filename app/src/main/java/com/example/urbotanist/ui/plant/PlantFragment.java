@@ -28,7 +28,6 @@ import com.example.urbotanist.R;
 import com.example.urbotanist.database.DatabaseRetriever;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaSelectListener;
-
 // realm by MongoDB, https://realm.io/
 import io.realm.RealmList;
 

@@ -1,11 +1,11 @@
 package com.example.urbotanist.ui.favorites;
 
 import com.example.urbotanist.ui.plant.Plant;
-import java.time.Instant;
-import java.util.Date;
 // realm by MongoDB https://realm.io/
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import java.time.Instant;
+import java.util.Date;
 
 public class FavouritePlant extends RealmObject {
 
