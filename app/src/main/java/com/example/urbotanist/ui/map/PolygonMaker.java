@@ -1,6 +1,8 @@
 package com.example.urbotanist.ui.map;
 
 // Google Maps by Google, https://developers.google.com/maps
+import android.animation.LayoutTransition;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolygonOptions;
 import java.util.ArrayList;
@@ -29,7 +31,6 @@ public class PolygonMaker {
   private PolygonOptions polyOpT2;
   private PolygonOptions polyOpU1;
   private PolygonOptions polyOpU2;
-  private PolygonOptions polyOpU3;
   private PolygonOptions polyOpV;
   private PolygonOptions polyOpX;
   private PolygonOptions polyOpY;
@@ -61,8 +62,8 @@ public class PolygonMaker {
     polyInfoList.add(new PolygonInfo("R", new ArrayList(Arrays.asList(polyOpR))));
     polyInfoList.add(new PolygonInfo("S", new ArrayList(Arrays.asList(polyOpS))));
     polyInfoList.add(new PolygonInfo("T", new ArrayList(Arrays.asList(polyOpT1, polyOpT2))));
-    polyInfoList.add(new PolygonInfo("U", new ArrayList(Arrays.asList(polyOpU1,
-        polyOpU2, polyOpU3))));
+    polyInfoList.add(new PolygonInfo("U", new ArrayList(Arrays.asList(
+        polyOpU1, polyOpU2))));
     polyInfoList.add(new PolygonInfo("V", new ArrayList(Arrays.asList(polyOpV))));
     polyInfoList.add(new PolygonInfo("X", new ArrayList(Arrays.asList(polyOpX))));
     polyInfoList.add(new PolygonInfo("Y", new ArrayList(Arrays.asList(polyOpY))));
@@ -103,7 +104,8 @@ public class PolygonMaker {
             new LatLng(48.992922, 12.091971),
             new LatLng(48.992882, 12.091875),
             new LatLng(48.992837, 12.091892),
-            new LatLng(48.992778, 12.091637),
+            new LatLng(48.992774, 12.091546),
+            new LatLng(48.992822, 12.091543),
             new LatLng(48.992865, 12.091704));
 
     polyOpE = new PolygonOptions()
@@ -116,19 +118,23 @@ public class PolygonMaker {
             new LatLng(48.993293, 12.089466));
 
     polyOpF = new PolygonOptions()
-        .add(new LatLng(48.993552, 12.091610),
+        .add(new LatLng(48.993553, 12.091583),
             new LatLng(48.993500, 12.091680),
             new LatLng(48.993287, 12.091650),
             new LatLng(48.993071, 12.091634),
-            new LatLng(48.993074, 12.091570));
+            new LatLng(48.992865, 12.091704),
+            new LatLng(48.992822, 12.091543),
+            new LatLng(48.992979, 12.091551),
+            new LatLng(48.993340, 12.091544));
 
     polyOpG = new PolygonOptions()
         .add(new LatLng(48.992734, 12.089562),
             new LatLng(48.992841, 12.089948),
             new LatLng(48.992753, 12.090184),
             new LatLng(48.992744, 12.090663),
-            new LatLng(48.992953, 12.091486),
-            new LatLng(48.992764, 12.091495),
+            new LatLng(48.992979, 12.091551),
+            new LatLng(48.992822, 12.091543),
+            new LatLng(48.992774, 12.091546),
             new LatLng(48.992590, 12.090897),
             new LatLng(48.992462, 12.089775));
 
@@ -147,7 +153,7 @@ public class PolygonMaker {
             new LatLng(48.993195, 12.092526));
 
     polyOpJ = new PolygonOptions()
-        .add(new LatLng(48.993377, 12.092537),
+        .add(new LatLng(48.993378, 12.092528),
             new LatLng(48.993378, 12.092633),
             new LatLng(48.993366, 12.092644),
             new LatLng(48.993359, 12.092530));
@@ -155,11 +161,12 @@ public class PolygonMaker {
     polyOpK = new PolygonOptions()
         .add(new LatLng(48.993499, 12.092276),
             new LatLng(48.993501, 12.092528),
+            new LatLng(48.993378, 12.092528),
             new LatLng(48.993359, 12.092530),
             new LatLng(48.993314, 12.092268));
 
     polyOpL = new PolygonOptions()
-        .add(new LatLng(48.9930249, 12.092239),
+        .add(new LatLng(48.993029, 12.092239),
             new LatLng(48.993133, 12.092520),
             new LatLng(48.993195, 12.092526),
             new LatLng(48.993184, 12.092620),
@@ -211,20 +218,14 @@ public class PolygonMaker {
             new LatLng(48.993414, 12.093615));
 
     polyOpU1 = new PolygonOptions()
-        .add(new LatLng(48.993074, 12.091570),
-            new LatLng(48.993071, 12.091634),
-            new LatLng(48.992865, 12.091704),
-            new LatLng(48.992887, 12.091584));
-
-    polyOpU2 = new PolygonOptions()
-        .add(new LatLng(48.993552, 12.091610),
+        .add(new LatLng(48.993553, 12.091583),
             new LatLng(48.993523, 12.092626),
             new LatLng(48.993484, 12.092638),
             new LatLng(48.993501, 12.092528),
             new LatLng(48.993499, 12.092276),
             new LatLng(48.993500, 12.091680));
 
-    polyOpU3 = new PolygonOptions()
+    polyOpU2 = new PolygonOptions()
         .add(new LatLng(48.992882, 12.091875),
             new LatLng(48.992922, 12.091971),
             new LatLng(48.993029, 12.092239),
@@ -234,6 +235,13 @@ public class PolygonMaker {
     polyOpV = new PolygonOptions()
         .add(new LatLng(48.993287, 12.091650),
             new LatLng(48.993284, 12.092059),
+            new LatLng(48.993325, 12.092056),
+            new LatLng(48.993314, 12.092268),
+            new LatLng(48.993359, 12.092530),
+            new LatLng(48.993315, 12.092529),
+            new LatLng(48.993195, 12.092526),
+            new LatLng(48.993195, 12.092526),
+            new LatLng(48.993133, 12.092520),
             new LatLng(48.993029, 12.092239),
             new LatLng(48.992922, 12.091971),
             new LatLng(48.993094, 12.091871),
@@ -243,7 +251,7 @@ public class PolygonMaker {
         .add(new LatLng(48.993501, 12.092528),
             new LatLng(48.993484, 12.092638),
             new LatLng(48.993378, 12.092633),
-            new LatLng(48.993377, 12.092537));
+            new LatLng(48.993378, 12.092528));
 
     polyOpY = new PolygonOptions()
         .add(new LatLng(48.993456, 12.092695),
@@ -269,7 +277,8 @@ public class PolygonMaker {
             new LatLng(48.993465, 12.091358),
             new LatLng(48.993608, 12.091456),
             new LatLng(48.993553, 12.091583),
-            new LatLng(48.992953, 12.091486),
+            new LatLng(48.993340, 12.091544),
+            new LatLng(48.992979, 12.091551),
             new LatLng(48.992744, 12.090663),
             new LatLng(48.992753, 12.090184),
             new LatLng(48.992841, 12.089948),
