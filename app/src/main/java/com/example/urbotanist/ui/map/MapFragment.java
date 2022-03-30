@@ -38,7 +38,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   private static final LatLng NE_MAP_BORDER = new LatLng(48.995638443353734, 12.093880958855152);
   private static final LatLngBounds mapBounds = new LatLngBounds(SW_MAP_BORDER,
           NE_MAP_BORDER);
-  private static final float MAX_ZOOM_LEVEL = 19.351759f;
+  private static final float MAX_ZOOM_LEVEL = 22f;
   private static final float MIN_ZOOM_LEVEL = 13.314879f;
   private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
 
