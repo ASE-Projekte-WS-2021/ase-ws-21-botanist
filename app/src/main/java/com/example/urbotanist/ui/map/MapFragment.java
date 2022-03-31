@@ -30,14 +30,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.ui.IconGenerator;
 
 
-public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback,
+public class MapFragment extends CurrentScreenFragment implements
+    OnMapReadyCallback, //TODO: in ViewModel
     ActivityResultCallback {
 
   private static final LatLng SW_MAP_BORDER = new LatLng(48.992262952936514, 12.089423798024654);
   private static final LatLng NE_MAP_BORDER = new LatLng(48.995638443353734, 12.093880958855152);
   private static final LatLngBounds mapBounds = new LatLngBounds(SW_MAP_BORDER,
       NE_MAP_BORDER);
-  private static final float MAX_ZOOM_LEVEL = 19.351759f;
+  private static final float MAX_ZOOM_LEVEL = 22f;
   private static final float MIN_ZOOM_LEVEL = 13.314879f;
 
   private MapViewModel mapViewModel;
@@ -73,6 +74,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         mapViewModel.toggleMarkerVisibility();
       }
     });
+    //TODO: in ViewModel
     IconGenerator iconGen = new IconGenerator(getActivity());
     mapViewModel = new MapViewModel(iconGen);
 
@@ -93,7 +95,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   }
 
 
-  @Override
+  @Override  //TODO: in ViewModel
   public void onMapReady(@NonNull GoogleMap googleMap) {
     map = googleMap;
     //setup map and get permissions
@@ -125,6 +127,14 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     map.setLatLngBoundsForCameraTarget(mapBounds);
     map.setMaxZoomPreference(MAX_ZOOM_LEVEL);
     map.setMinZoomPreference(MIN_ZOOM_LEVEL);
+    if (ActivityCompat.checkSelfPermission(
+        getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
+    map.setMyLocationEnabled(true);
   }
 
   public void requestLocationPermissions() {
@@ -205,14 +215,19 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   @SuppressLint("MissingPermission")
   private final ActivityResultLauncher<String[]> requestPermissionLauncher =
       registerForActivityResult(
-        new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
-          if (permissions.get(Manifest.permission.ACCESS_COARSE_LOCATION) && permissions
-              .get(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            map.setMyLocationEnabled(true);
-            map.getUiSettings().setMyLocationButtonEnabled(true);
-            showUserPositionButton.setVisibility(View.GONE);
-          } else {
-            showUserPositionButton.setVisibility(View.VISIBLE);
-          }
-        });
+          new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
+            if (permissions.get(Manifest.permission.ACCESS_COARSE_LOCATION) && permissions
+                .get(Manifest.permission.ACCESS_FINE_LOCATION)) {
+              map.setMyLocationEnabled(true);
+              map.getUiSettings().setMyLocationButtonEnabled(true);
+              showUserPositionButton.setVisibility(View.GONE);
+            } else {
+              showUserPositionButton.setVisibility(View.VISIBLE);
+            }
+          });
+
+  @Override
+  public void onActivityResult(Object result) {
+
+  }
 }

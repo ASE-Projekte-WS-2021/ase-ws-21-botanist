@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:gravity="center"
-        android:text="@string/PLANT_FULL_NAME"
+        android:text="@string/plant_full_name_placeholder"
         android:textSize="30sp"
         android:textStyle="bold"
         android:layout_marginHorizontal="20dp"

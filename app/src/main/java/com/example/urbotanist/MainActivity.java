@@ -93,18 +93,21 @@ public class MainActivity extends AppCompatActivity implements
   private void getLastUserLocation() {
     fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
     fusedLocationClient.getLastLocation()
-            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-              @Override
-              public void onSuccess(Location location) {
-                // Got last known location. In some rare situations this can be null.
-                if (location != null) {
-                  currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                  mapFragment.highlightUserAreaMarker(currentUserLocation);
-                }
-              }
-            });
+        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+          @Override
+          public void onSuccess(Location location) {
+            // Got last known location. In some rare situations this can be null.
+            if (location != null) {
+              currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
+              mapFragment.highlightUserAreaMarker(currentUserLocation);
+            }
+          }
+        });
   }
 
+  /**
+   * Setup Views for main activity and load drawers
+   */
   private void preloadViews() {
     //every task which tooks precious time to prepare
     showMapButton = findViewById(R.id.map_button);
@@ -136,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements
     DisplayMetrics displayMetrics = new DisplayMetrics();
     getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-    ImageView handle =  findViewById(R.id.handle);
+    ImageView handle = findViewById(R.id.handle);
     handle.setX(handle.getX() + (int) (displayMetrics.widthPixels * 0.28));
     handle.setY(handle.getY() - 30f);
 
@@ -165,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements
   }
 
   private void showMapWithArea(String area) {
-    mapFragment = new MapFragment(area);
+    mapFragment = new MapFragment();
     loadCurrentScreenFragment(mapFragment);
   }
 
@@ -209,7 +212,6 @@ public class MainActivity extends AppCompatActivity implements
       }
     });
 
-
     plantDrawerFragment.setAreaSelectListener(new AreaSelectListener() {
       @Override
       public void onAreaSelected(String area) {
@@ -245,7 +247,6 @@ public class MainActivity extends AppCompatActivity implements
       }
     });
 
-
     slidingTrayDrawer.setOnDrawerScrollListener(new SlidingTray.OnDrawerScrollListener() {
       @Override
       public void onScrollStarted() {
@@ -273,13 +274,13 @@ public class MainActivity extends AppCompatActivity implements
   private void fadeIn(View fadeView) {
     if (fadeView.getVisibility() == View.INVISIBLE) {
       fadeView.setVisibility(View.VISIBLE);
-      fadeView.setAnimation(loadAnimation(getApplicationContext(),R.anim.fade_in));
+      fadeView.setAnimation(loadAnimation(getApplicationContext(), R.anim.fade_in));
     }
   }
 
   private void fadeOut(View fadeView) {
     if (fadeView.getVisibility() == View.VISIBLE) {
-      fadeView.setAnimation(loadAnimation(getApplicationContext(),R.anim.fade_out));
+      fadeView.setAnimation(loadAnimation(getApplicationContext(), R.anim.fade_out));
       fadeView.setVisibility(View.INVISIBLE);
     }
   }
@@ -317,7 +318,6 @@ public class MainActivity extends AppCompatActivity implements
           .getDrawable(this, R.drawable.ic_drawerbutton));
     }
 
-
     getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
         .commitNow();
   }
@@ -336,8 +336,14 @@ public class MainActivity extends AppCompatActivity implements
         .commitNow();
   }
 
-  public void setCurrentPlant(Plant plant) {
+  public void setCurrentPlant(Plant plant, boolean shouldOpenPlantFragment) {
     this.currentPlant = plant;
+
+    if (shouldOpenPlantFragment) {
+      loadCurrentDrawerFragment(plantDrawerFragment);
+      plantDrawerFragment.setupUi(plant);
+      openDrawer();
+    }
   }
 
   public Area getCurrentSelectedArea() {
@@ -353,7 +359,33 @@ public class MainActivity extends AppCompatActivity implements
   }
 
   public void openDrawer() {
-    slidingTrayDrawer.animateOpen();
+    if (!slidingTrayDrawer.isOpened()) {
+      slidingTrayDrawer.animateOpen();
+    }
+  }
+
+
+  public List<Plant> searchPlantsInArea(String areaName) {
+    ArrayList<Plant> result = new ArrayList<>();
+    Realm realm = Realm.getDefaultInstance();
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(@NonNull Realm realm) {
+        // .freeze() is used to create an own object that doesn't reference the query
+        result.addAll(
+            realm.where(Plant.class).contains("location", areaName, Case.INSENSITIVE).findAll()
+                .sort("fullName", Sort.ASCENDING).freeze());
+      }
+    });
+
+    try {
+      Thread.sleep(100);
+    } catch (Exception e) {
+      Log.e("Exception", "Time couldn't wait,"
+          + " it waits for noone. getPlantsInArea, MainActivity" + e);
+    }
+
+    return result;
   }
 
 

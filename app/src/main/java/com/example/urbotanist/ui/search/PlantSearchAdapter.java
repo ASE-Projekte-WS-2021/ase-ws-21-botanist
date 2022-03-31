@@ -60,7 +60,7 @@ public class PlantSearchAdapter extends RecyclerView.Adapter<PlantSearchAdapter.
         @Override
         public void onClick(View view) {
           searchResultClickListener
-              .onSearchResultClick(foundPlantsList.get(viewHolder.getAdapterPosition()));
+              .onPlantSelectedListener(foundPlantsList.get(viewHolder.getAdapterPosition()));
         }
       });
     }

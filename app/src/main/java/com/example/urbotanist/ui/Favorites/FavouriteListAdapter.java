@@ -19,12 +19,11 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
 
 
   public FavouriteListAdapter(List<FavouritePlant> favouritePlantsList,
-                                  SearchResultClickListener searchResultClickListener) {
+      SearchResultClickListener searchResultClickListener) {
     this.favouritePlantsList = favouritePlantsList;
     this.searchResultClickListener = searchResultClickListener;
 
   }
-
 
   @NonNull
   @Override
@@ -39,31 +38,36 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
     // Get element from your dataset at this position and replace the
     // contents of the view with that element
     Plant plant = favouritePlantsList.get(position).plant;
-    viewHolder.getAllViews()[0].setText(plant.fullName);
+    viewHolder.fullNameView.setText(plant.fullName);
+
+    // Set up all Common Names for that plant
     if (!plant.commonName.isEmpty()) {
       String allNames = "";
       for (String name : plant.commonName) {
         allNames += name + ", ";
       }
       allNames = allNames.substring(0, allNames.length() - 2);
-      viewHolder.getAllViews()[1].setText("(" + allNames + ")");
-      viewHolder.getAllViews()[1].setVisibility(View.VISIBLE);
-    } else {
-      viewHolder.getAllViews()[1].setVisibility(View.GONE);
-    }
-    viewHolder.getAllViews()[2]
-        .setText("Familie der \"" + plant.familyName + "\"");
 
-    //for all textViews
-    for (int i = 0; i < viewHolder.getAllViews().length; i++) {
-      viewHolder.getAllViews()[i].setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-          searchResultClickListener
-              .onSearchResultClick(plant);
-        }
-      });
+      viewHolder.commonNameView.setText("(" + allNames + ")");
+      viewHolder.commonNameView.setVisibility(View.VISIBLE);
+    } else {
+      viewHolder.commonNameView.setVisibility(View.GONE);
     }
+
+    // Set up family name View
+    viewHolder.familyNameView
+        .setText(viewHolder.itemView.getContext()
+            .getString(R.string.family_of_string, plant.familyName));
+
+    // Connect the itemView to the onPlantSelectedListener
+    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        searchResultClickListener
+            .onPlantSelectedListener(plant);
+      }
+    });
+
   }
 
   @Override
@@ -80,18 +84,9 @@ public class FavouriteListAdapter extends RecyclerView.Adapter<FavouriteListAdap
     public ViewHolder(View view) {
       super(view);
       // Define click listener for the ViewHolder's View
-
       fullNameView = (TextView) view.findViewById(R.id.display_full_name);
       commonNameView = (TextView) view.findViewById(R.id.display_common_name);
       familyNameView = (TextView) view.findViewById(R.id.display_family_name);
-    }
-
-    public TextView[] getAllViews() {
-      TextView[] allTextViews = new TextView[3];
-      allTextViews[0] = fullNameView;
-      allTextViews[1] = commonNameView;
-      allTextViews[2] = familyNameView;
-      return allTextViews;
     }
   }
 
