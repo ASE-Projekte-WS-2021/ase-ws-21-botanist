@@ -53,10 +53,9 @@ import java.util.Set;
 import pl.droidsonroids.gif.GifImageView;
 
 
-public class MainActivity extends AppCompatActivity implements DatabaseListener,
+public class MainActivity extends AppCompatActivity implements
     AreaSelectListener, LocationSource.OnLocationChangedListener, MarkerInfoClickListener {
 
-  DatabaseAdapterActivity dbHelper;
 
   public MapFragment mapFragment = new MapFragment("");
   public SearchFragment searchFragment = new SearchFragment();
@@ -85,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements DatabaseListener,
     Kit.init(this);
     setContentView(R.layout.activity_main);
     setupSplashscreen();
-    initDatabase();
     preloadViews();
     getLastUserLocation();
     executeDelayedActions(4000);
@@ -171,10 +169,6 @@ public class MainActivity extends AppCompatActivity implements DatabaseListener,
     loadCurrentScreenFragment(mapFragment);
   }
 
-  private void initDatabase() {
-    dbHelper = new DatabaseAdapterActivity(this);
-    dbHelper.createDatabase();
-  }
 
   private void setupListeners() {
     showMapButton.setOnClickListener(new View.OnClickListener() {
