@@ -20,7 +20,6 @@ import java.util.HashMap;
 public class MapViewModel extends ViewModel {
 
   private GoogleMap map;
-  private MapMarkerMaker mapMaker;
   private IconGenerator iconGen;
   private ArrayList<Marker> markerList = new ArrayList<Marker>();
 
@@ -42,7 +41,6 @@ public class MapViewModel extends ViewModel {
     this.iconGen = iconGen;
     PolygonMaker polyMaker = new PolygonMaker();
     polyInfoList = polyMaker.getPolyInfoList();
-    mapMaker = new MapMarkerMaker();
   }
 
   public void initData(GoogleMap googleMap) {
@@ -56,7 +54,7 @@ public class MapViewModel extends ViewModel {
   }
 
   public void initInfoMarker() {
-    ArrayList<MarkerInfo> markerInfoList = mapMaker.getMarkerInfoArray();
+    ArrayList<MarkerInfo> markerInfoList = MapMarkerSetup.setupMarkerCoordinatesAndNames();
     iconGen.setStyle(IconGenerator.STYLE_DEFAULT);
 
     for (MarkerInfo info : markerInfoList) {

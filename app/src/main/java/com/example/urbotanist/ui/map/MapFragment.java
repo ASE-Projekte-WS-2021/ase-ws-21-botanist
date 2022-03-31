@@ -29,15 +29,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.maps.android.ui.IconGenerator;
+import java.util.Objects;
 
 
 public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback,
-        ActivityResultCallback {
+    ActivityResultCallback {
 
   private static final LatLng SW_MAP_BORDER = new LatLng(48.992262952936514, 12.089423798024654);
   private static final LatLng NE_MAP_BORDER = new LatLng(48.995638443353734, 12.093880958855152);
   private static final LatLngBounds mapBounds = new LatLngBounds(SW_MAP_BORDER,
-          NE_MAP_BORDER);
+      NE_MAP_BORDER);
   private static final float MAX_ZOOM_LEVEL = 22f;
   private static final float MIN_ZOOM_LEVEL = 13.314879f;
   private static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
@@ -56,7 +57,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                           @Nullable Bundle savedInstanceState) {
+      @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.map_fragment, container, false);
 
     Bundle mapViewBundle = null;
@@ -99,6 +100,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   }
 
 
+  @SuppressLint("PotentialBehaviorOverride")
   @Override
   public void onMapReady(@NonNull GoogleMap googleMap) {
     map = googleMap;
@@ -114,7 +116,8 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
       @Override
       public void onInfoWindowClick(@NonNull Marker marker) {
         if (markerInfoClickListener != null) {
-          Area area = new Area(marker.getTag().toString().substring(0, 1), marker.getTitle());
+          Area area = new Area(Objects.requireNonNull(marker.getTag()).toString().substring(0, 1),
+              marker.getTitle());
           markerInfoClickListener.onMarkerInfoClicked(area);
         }
       }
@@ -128,10 +131,10 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
     map.setMaxZoomPreference(MAX_ZOOM_LEVEL);
     map.setMinZoomPreference(MIN_ZOOM_LEVEL);
     if (ActivityCompat.checkSelfPermission(
-            getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
+        requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) {
       return;
     }
     map.setMyLocationEnabled(true);
@@ -201,7 +204,6 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   }
 
 
-
   @Override
   public void onLowMemory() {
     super.onLowMemory();
@@ -209,7 +211,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   }
 
   public void setPlantArea(String plantArea) {
-    if (plantArea != "") {
+    if (plantArea.equals("")) {
       this.plantArea = plantArea.substring(0, 1);
       mapViewModel.setPlantArea(plantArea);
     }
@@ -218,16 +220,19 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
   @SuppressLint("MissingPermission")
   private final ActivityResultLauncher<String[]> requestPermissionLauncher =
       registerForActivityResult(
-        new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
-          if (permissions.get(Manifest.permission.ACCESS_COARSE_LOCATION) && permissions
-              .get(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            map.setMyLocationEnabled(true);
-            map.getUiSettings().setMyLocationButtonEnabled(true);
-            showUserPositionButton.setVisibility(View.GONE);
-          } else {
-            showUserPositionButton.setVisibility(View.VISIBLE);
-          }
-        });
+          new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
+            if (ActivityCompat
+                .checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED && ActivityCompat
+                .checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+              map.setMyLocationEnabled(true);
+              map.getUiSettings().setMyLocationButtonEnabled(true);
+              showUserPositionButton.setVisibility(View.GONE);
+            } else {
+              showUserPositionButton.setVisibility(View.VISIBLE);
+            }
+          });
 
   @Override
   public void onActivityResult(Object result) {

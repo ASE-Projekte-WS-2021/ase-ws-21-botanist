@@ -4,15 +4,12 @@ package com.example.urbotanist.ui.map;
 import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 
-public class MapMarkerMaker {
+public class MapMarkerSetup {
 
-  private final ArrayList<MarkerInfo> markerInfoArray = new ArrayList<MarkerInfo>();
 
-  public MapMarkerMaker() {
-    initMarkerArray();
-  }
+  public static ArrayList<MarkerInfo> setupMarkerCoordinatesAndNames() {
+    ArrayList<MarkerInfo> markerInfoArray = new ArrayList<MarkerInfo>();
 
-  private void initMarkerArray() {
     markerInfoArray
             .add(new MarkerInfo("A", new LatLng(48.993714, 12.090622), "Bruch- und Auwälder"));
     markerInfoArray
@@ -72,10 +69,10 @@ public class MapMarkerMaker {
     markerInfoArray.add(new MarkerInfo("S6", new LatLng(48.992876, 12.090904), "Cayrophylidae"));
     markerInfoArray
         .add(new MarkerInfo("S7", new LatLng(48.993322, 12.090174), "Lamiidae, Asteridae"));
+
+    return markerInfoArray;
   }
 
-  public ArrayList<MarkerInfo> getMarkerInfoArray() {
-    return this.markerInfoArray;
-  }
+
 
 }
