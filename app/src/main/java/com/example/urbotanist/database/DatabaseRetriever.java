@@ -47,7 +47,9 @@ public class DatabaseRetriever {
       public void execute(@NonNull Realm realm) {
         FavouritePlant favouriteToDelete = realm.where(FavouritePlant.class)
             .equalTo("plantId", plantId).findFirst();
-        favouriteToDelete.deleteFromRealm();
+        if(favouriteToDelete != null) {
+          favouriteToDelete.deleteFromRealm();
+        }
       }
     });
   }

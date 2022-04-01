@@ -1,6 +1,7 @@
 package com.example.urbotanist.ui.plant;
 
 // Sileria , https://sileria.com/
+
 import static com.sileria.android.Resource.getColor;
 
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -101,7 +103,7 @@ public class PlantFragment extends Fragment {
 
   public void setupUi(Plant plant) {
 
-    if  (plantViewModel == null) {
+    if (plantViewModel == null) {
       plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     }
     plantViewModel.setSelectedPlant(plant);
@@ -113,7 +115,8 @@ public class PlantFragment extends Fragment {
       wikiButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          Uri uri = Uri.parse(plantViewModel.selectedPlant.link); // missing 'http://' will cause crashed
+          Uri uri = Uri
+              .parse(plantViewModel.selectedPlant.link); // missing 'http://' will cause crashed
           Intent intent = new Intent(Intent.ACTION_VIEW, uri);
           startActivity(intent);
         }
@@ -121,15 +124,15 @@ public class PlantFragment extends Fragment {
       favButton.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View view) {
-          checkIfPlantIsFavourite();
           if (currentPlantIsFavourite) {
             DatabaseRetriever.removeFavouritePlant(plantViewModel
-                    .selectedPlant.id);
+                .selectedPlant.id);
             currentPlantIsFavourite = false;
           } else {
             DatabaseRetriever.addFavouritePlant(plantViewModel.selectedPlant);
             currentPlantIsFavourite = true;
           }
+
           setFavouriteButtonState(currentPlantIsFavourite);
         }
       });
@@ -192,19 +195,20 @@ public class PlantFragment extends Fragment {
     if (areasForPlant.size() > buttonColumnCount) {
       buttonHeight = (int) (buttonHeight * 0.6);
     }
-    for (int i = 0; i < areasForPlant.size();i++) {
+    for (int i = 0; i < areasForPlant.size(); i++) {
       Button areaButton = new Button(plantCommonNameView.getContext());
       areaButton.setBackgroundResource(R.drawable.button);
       ConstraintLayout.LayoutParams params =
-              new ConstraintLayout.LayoutParams(buttonWidth, buttonHeight);
-      params.setMargins(buttonMargin,(int)(buttonMargin / 2),buttonMargin,(int)(buttonMargin / 2));
+          new ConstraintLayout.LayoutParams(buttonWidth, buttonHeight);
+      params.setMargins(buttonMargin, (int) (buttonMargin / 2), buttonMargin,
+          (int) (buttonMargin / 2));
       areaButton.setLayoutParams(params);
-      areaButton.setPadding(0,0,0,buttonMargin);
+      areaButton.setPadding(0, 0, 0, buttonMargin);
       areaButton.setTextSize(20);
       areaButton.setTextColor(getColor(R.color.green));
       areaButton.setOutlineAmbientShadowColor(Color.TRANSPARENT);
       areaButton.setOutlineSpotShadowColor(Color.TRANSPARENT);
-      String  areaShortName = areasForPlant.get(i);
+      String areaShortName = areasForPlant.get(i);
       String areaLongName = areasForPlantLong.get(i);
       areaButton.setText(areasForPlant.get(i));
       areaButton.setOnTouchListener((v, event) -> {
@@ -216,18 +220,18 @@ public class PlantFragment extends Fragment {
         return false;
       });
       areaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-              areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.white));
-              if (areaSelectlistener != null) {
-                Area areaObject = new Area(areaShortName, areaLongName);
-                areaSelectlistener.onAreaSelected(areaShortName);
-                ((MainActivity)requireActivity()).setCurrentSelectedArea(areaObject);
-                ((MainActivity)requireActivity()).loadCurrentDrawerFragment(
-                    ((MainActivity)requireActivity()).areaDrawerFragment);
-              }
-            }
-        });
+        @Override
+        public void onClick(View view) {
+          areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.white));
+          if (areaSelectlistener != null) {
+            Area areaObject = new Area(areaShortName, areaLongName);
+            areaSelectlistener.onAreaSelected(areaShortName);
+            ((MainActivity) requireActivity()).setCurrentSelectedArea(areaObject);
+            ((MainActivity) requireActivity()).loadCurrentDrawerFragment(
+                ((MainActivity) requireActivity()).areaDrawerFragment);
+          }
+        }
+      });
       alternativeLocationGrid.addView(areaButton);
     }
   }
