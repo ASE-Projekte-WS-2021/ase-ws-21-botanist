@@ -94,8 +94,6 @@ public class MapFragment extends CurrentScreenFragment implements
   public void onStart() {
     super.onStart();
     mapView.onStart();
-    //"Cannot create an instance of class com.example.urbotanist.ui.map.MapViewModel"
-    //mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
   }
 
 
