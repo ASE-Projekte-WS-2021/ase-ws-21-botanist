@@ -43,7 +43,6 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   private ProgressBar plantInAreaSearchOngoingSpinner;
 
 
-
   private AreaSelectListener areaSelectListener;
 
   public static AreaFragment newInstance() {
@@ -69,7 +68,7 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
 
   /**
-   * Connects Views with their layout counterparts and adapters
+   * Connects Views with their layout counterparts and adapters.
    */
   public void setupViews(View v) {
     plantInAreaSearchOngoingSpinner = v.findViewById(R.id.area_plant_search_ongoing_spinner);
@@ -88,20 +87,21 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
 
   /**
-   * Sets up the views according to the state of the ViewModel
+   * Sets up the views according to the state of the ViewModel.
    */
   public void setupUi() {
     areaViewModel.setSelectedArea(((MainActivity) requireActivity()).getCurrentSelectedArea());
     if (areaViewModel.selectedArea != null) {
       plantInAreaSearchOngoingSpinner.setVisibility(View.VISIBLE);
-      DatabaseRetriever.searchPlantsInArea(areaViewModel.selectedArea.areaName, new DbPlantFoundListener() {
-        @Override
-        public void onPlantFound(List<Plant> plants) {
-          plantListAdapter.foundPlantsList = plants;
-          plantListAdapter.notifyDataSetChanged();
-          plantInAreaSearchOngoingSpinner.setVisibility(View.GONE);
-        }
-      });
+      DatabaseRetriever
+          .searchPlantsInArea(areaViewModel.selectedArea.areaName, new DbPlantFoundListener() {
+            @Override
+            public void onPlantFound(List<Plant> plants) {
+              plantListAdapter.foundPlantsList = plants;
+              plantListAdapter.notifyDataSetChanged();
+              plantInAreaSearchOngoingSpinner.setVisibility(View.GONE);
+            }
+          });
 
       areaFullNameView.setText(areaViewModel.selectedArea.areaNameLong);
       areaShortNameView.setText(areaViewModel.selectedArea.areaName);
@@ -127,8 +127,9 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
 
   /**
-   * Set an Listener that is called when a area is selected
-   * @param listener Is called when an area ist selected
+   * Set an Listener that is called when a area is selected.
+   *
+   * @param listener Is called when an area ist selected.
    */
   public void setAreaSelectListener(AreaSelectListener listener) {
     this.areaSelectListener = listener;
@@ -136,9 +137,9 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
 
 
   /**
-   * Listener Method for clicks in the areaPlantListRecycler
+   * Listener Method for clicks in the areaPlantListRecycler.
    *
-   * @param plant The plant that was selected from the RecyclerView
+   * @param plant The plant that was selected from the RecyclerView.
    */
   @Override
   public void onPlantSelectedListener(Plant plant) {

@@ -18,8 +18,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
-import com.example.urbotanist.mainfragments.CurrentScreenFragment;
 import com.example.urbotanist.drawerfragments.area.Area;
+import com.example.urbotanist.mainfragments.CurrentScreenFragment;
 // Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -32,7 +32,7 @@ import java.util.Objects;
 
 
 public class MapFragment extends CurrentScreenFragment implements
-    OnMapReadyCallback, //TODO: in ViewModel
+    OnMapReadyCallback,
     ActivityResultCallback {
 
   private static final LatLng SW_MAP_BORDER = new LatLng(48.992262952936514, 12.089423798024654);
@@ -81,7 +81,6 @@ public class MapFragment extends CurrentScreenFragment implements
         mapViewModel.toggleMarkerVisibility();
       }
     });
-    //TODO: in ViewModel
     IconGenerator iconGen = new IconGenerator(getActivity());
     mapViewModel = new MapViewModel(iconGen);
 
@@ -95,7 +94,6 @@ public class MapFragment extends CurrentScreenFragment implements
   public void onStart() {
     super.onStart();
     mapView.onStart();
-    //TODO error
     //"Cannot create an instance of class com.example.urbotanist.ui.map.MapViewModel"
     //mapViewModel = new ViewModelProvider(this).get(MapViewModel.class);
   }

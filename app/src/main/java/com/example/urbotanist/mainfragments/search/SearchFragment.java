@@ -20,10 +20,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
-import com.example.urbotanist.database.resultlisteners.DbPlantFoundListener;
 import com.example.urbotanist.database.DatabaseRetriever;
-import com.example.urbotanist.mainfragments.CurrentScreenFragment;
+import com.example.urbotanist.database.resultlisteners.DbPlantFoundListener;
 import com.example.urbotanist.drawerfragments.plant.Plant;
+import com.example.urbotanist.mainfragments.CurrentScreenFragment;
 import java.util.Collections;
 import java.util.List;
 

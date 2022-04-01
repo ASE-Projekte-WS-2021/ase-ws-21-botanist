@@ -24,11 +24,11 @@ import com.example.urbotanist.drawerfragments.area.Area;
 import com.example.urbotanist.drawerfragments.area.AreaFragment;
 import com.example.urbotanist.drawerfragments.area.AreaSelectListener;
 import com.example.urbotanist.drawerfragments.favorites.FavoritesFragment;
+import com.example.urbotanist.drawerfragments.plant.Plant;
+import com.example.urbotanist.drawerfragments.plant.PlantFragment;
 import com.example.urbotanist.mainfragments.info.InfoFragment;
 import com.example.urbotanist.mainfragments.map.MapFragment;
 import com.example.urbotanist.mainfragments.map.MarkerInfoClickListener;
-import com.example.urbotanist.drawerfragments.plant.Plant;
-import com.example.urbotanist.drawerfragments.plant.PlantFragment;
 import com.example.urbotanist.mainfragments.search.SearchFragment;
 // Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
         });
   }
 
-  private void initLocationServices(){
+  private void initLocationServices() {
     getLastUserLocation();
     getLocationRequest();
     getLocationUpdates();
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   }
 
   /**
-   * Setup Views for main activity
+   * Setup Views for main activity.
    */
   private void setupViews() {
     showMapButton = findViewById(R.id.map_button);

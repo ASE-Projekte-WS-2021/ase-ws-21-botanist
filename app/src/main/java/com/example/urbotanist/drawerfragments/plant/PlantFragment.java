@@ -120,7 +120,6 @@ public class PlantFragment extends Fragment {
           startActivity(intent);
         }
       });
-      //TODO: in ViewModel
       favButton.setOnClickListener(new OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -154,7 +153,7 @@ public class PlantFragment extends Fragment {
       noPlantSelectedView.setVisibility(View.VISIBLE);
     }
   }
-  //TODO: in ViewModel
+
   private void checkIfPlantIsFavourite() {
     DatabaseRetriever.checkIfPlantIsFavourite(plantViewModel.selectedPlant,
         new DbIsPlantFavouriteListener() {
@@ -243,7 +242,7 @@ public class PlantFragment extends Fragment {
       favButton.setBackground(mainActivity.getDrawable(R.drawable.ic_fav_wb));
     }
   }
-  //TODO: in ViewModel
+
   public void setAreaSelectListener(AreaSelectListener listener) {
     this.areaSelectlistener = listener;
   }

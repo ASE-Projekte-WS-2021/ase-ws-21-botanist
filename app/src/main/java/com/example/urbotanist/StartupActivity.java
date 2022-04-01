@@ -40,17 +40,17 @@ public class StartupActivity extends AppCompatActivity {
     SharedPreferences startupPreferences = getSharedPreferences("startupPreferences",
         Context.MODE_PRIVATE);
 
-    boolean needsDBSetup;
+    boolean needsDbSetup;
     if (!startupPreferences.getBoolean(dbIsSetupKey, false)) {
       databaseSetupSpinner.setVisibility(View.VISIBLE);
       databaseSetupText.setVisibility(View.VISIBLE);
-      needsDBSetup = true;
+      needsDbSetup = true;
       new DbSetupBackgroundTask(this).execute();
 
     } else {
-      needsDBSetup = false;
+      needsDbSetup = false;
     }
-    if (!needsDBSetup) {
+    if (!needsDbSetup) {
       Handler handler = new Handler();
       handler.postDelayed(new Runnable() {
         @Override

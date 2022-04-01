@@ -1,21 +1,19 @@
 package com.example.urbotanist.database;
 
 import androidx.annotation.NonNull;
-
 import com.example.urbotanist.database.resultlisteners.DbFavouritesFoundListener;
 import com.example.urbotanist.database.resultlisteners.DbIsPlantFavouriteListener;
 import com.example.urbotanist.database.resultlisteners.DbPlantFoundListener;
 import com.example.urbotanist.drawerfragments.favorites.FavouritePlant;
 import com.example.urbotanist.drawerfragments.plant.Plant;
-
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 // realm by MongoDB https://realm.io/
 import io.realm.Case;
 import io.realm.Realm;
 import io.realm.Sort;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 
 public class DatabaseRetriever {
 
@@ -47,7 +45,7 @@ public class DatabaseRetriever {
       public void execute(@NonNull Realm realm) {
         FavouritePlant favouriteToDelete = realm.where(FavouritePlant.class)
             .equalTo("plantId", plantId).findFirst();
-        if(favouriteToDelete != null) {
+        if (favouriteToDelete != null) {
           favouriteToDelete.deleteFromRealm();
         }
       }

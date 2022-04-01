@@ -4,5 +4,5 @@ import com.example.urbotanist.drawerfragments.area.Area;
 
 public interface MarkerInfoClickListener {
 
-   void onMarkerInfoClicked(Area area);
+  void onMarkerInfoClicked(Area area);
 }

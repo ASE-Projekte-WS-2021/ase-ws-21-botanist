@@ -62,7 +62,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   }
 
   /**
-   * Connects Views with their layout counterparts and adapters
+   * Connects Views with their layout counterparts and adapters.
    */
   public void setupViews(View v) {
     favouritesSearchOngoingSpinner = v.findViewById(R.id.favourites_search_ongoing_spinner);
@@ -80,7 +80,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
 
   /**
    * Fills the Favourite Lists with Favourite Plants provided by Database
-   * and shows/hides the No Plants Found text
+   * and shows/hides the No Plants Found text.
    */
   private void initFavouritesList() {
     favouritesSearchOngoingSpinner.setVisibility(View.VISIBLE);
@@ -102,9 +102,9 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   }
 
   /**
-   * Listener Method for clicks in the areaPlantListRecycler
+   * Listener Method for clicks in the areaPlantListRecycler.
    *
-   * @param plant The plant that was selected from the RecyclerView
+   * @param plant The plant that was selected from the RecyclerView.
    */
   @Override
   public void onPlantSelectedListener(Plant plant) {
