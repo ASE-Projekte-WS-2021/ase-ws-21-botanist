@@ -54,5 +54,6 @@
   <string name="favourite_plants_header">Deine Lieblingspflanzen</string>
   <string name="favourite_plants_empty_string">Keine Lieblingspflanzen angelegt</string>
   <string name="family_of_string">Familie der \"%1$s\"</string>
+  <string name="loading_database">Updating Database</string>
 
 </resources>

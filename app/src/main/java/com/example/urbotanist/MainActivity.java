@@ -20,17 +20,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import com.example.urbotanist.database.DatabaseAdapterActivity;
-import com.example.urbotanist.ui.area.Area;
-import com.example.urbotanist.ui.area.AreaFragment;
-import com.example.urbotanist.ui.area.AreaSelectListener;
-import com.example.urbotanist.ui.favorites.FavoritesFragment;
-import com.example.urbotanist.ui.info.InfoFragment;
-import com.example.urbotanist.ui.map.MapFragment;
-import com.example.urbotanist.ui.map.MarkerInfoClickListener;
-import com.example.urbotanist.ui.plant.Plant;
-import com.example.urbotanist.ui.plant.PlantFragment;
-import com.example.urbotanist.ui.search.SearchFragment;
+import com.example.urbotanist.drawerfragments.area.Area;
+import com.example.urbotanist.drawerfragments.area.AreaFragment;
+import com.example.urbotanist.drawerfragments.area.AreaSelectListener;
+import com.example.urbotanist.drawerfragments.favorites.FavoritesFragment;
+import com.example.urbotanist.mainfragments.info.InfoFragment;
+import com.example.urbotanist.mainfragments.map.MapFragment;
+import com.example.urbotanist.mainfragments.map.MarkerInfoClickListener;
+import com.example.urbotanist.drawerfragments.plant.Plant;
+import com.example.urbotanist.drawerfragments.plant.PlantFragment;
+import com.example.urbotanist.mainfragments.search.SearchFragment;
 // Google Maps by Google, https://developers.google.com/maps
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -69,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   private Button showMapButton;
   private Button searchButton;
   private Button infoButton;
-  private GifImageView splashscreen;
+
   private SlidingTray slidingTrayDrawer;
   private ImageView drawerPlantButton;
   private ImageView drawerAreaButton;
@@ -82,12 +81,14 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     setTheme(R.style.noTransition);
     Kit.init(this);
     setContentView(R.layout.activity_main);
-    setupSplashscreen();
-    preloadViews();
-    getLastUserLocation();
-    getLocationRequest();
-    getLocationUpdates();
-    executeDelayedActions(4000);
+    setupViews();
+    initLocationServices();
+    loadCurrentScreenFragment(mapFragment);
+    loadCurrentDrawerFragment(favoritesDrawerFragment);
+
+    setupListeners();
+    setTheme(R.style.Theme_URBotanist);
+
   }
 
   @SuppressLint("MissingPermission")
@@ -106,11 +107,18 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
         });
   }
 
+  private void initLocationServices(){
+    getLastUserLocation();
+    getLocationRequest();
+    getLocationUpdates();
+  }
+
   private void getLocationRequest() {
     locationRequest = LocationRequest.create();
     locationRequest.setInterval(4000);
     locationRequest.setFastestInterval(2000);
     locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    mapFragment.requestLocationPermissions();
   }
 
   private void getLocationUpdates() {
@@ -145,10 +153,9 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   }
 
   /**
-   * Setup Views for main activity and load drawers
+   * Setup Views for main activity
    */
-  private void preloadViews() {
-    //every task which tooks precious time to prepare
+  private void setupViews() {
     showMapButton = findViewById(R.id.map_button);
     searchButton = findViewById(R.id.search_button);
     infoButton = findViewById(R.id.bar_icon_background);
@@ -158,51 +165,14 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     drawerBackground = findViewById(R.id.black_overlay);
     drawerFavouritesButton = findViewById(R.id.drawer_favorite_button);
 
-    loadCurrentScreenFragment(searchFragment);
-    loadCurrentScreenFragment(mapFragment);
-
-    // need to load the plant fragment for a short time to  set it up correctly
-    openDrawer();
-    loadCurrentDrawerFragment(favoritesDrawerFragment);
-    loadCurrentDrawerFragment(areaDrawerFragment);
-    loadCurrentDrawerFragment(plantDrawerFragment);
-    // needs short delay for correct getting display Metrics
-    Handler handler = new Handler();
-    handler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        closeDrawer();
-      }
-    }, 60);
-
+    //Setup Drawer Handle Position
     DisplayMetrics displayMetrics = new DisplayMetrics();
     getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-
     ImageView handle = findViewById(R.id.handle);
     handle.setX(handle.getX() + (int) (displayMetrics.widthPixels * 0.28));
     handle.setY(handle.getY() - 30f);
   }
 
-  private void setupSplashscreen() {
-    //setting up the splashscreen
-    splashscreen = findViewById(R.id.splashscreen);
-    splashscreen.setVisibility(View.VISIBLE);
-  }
-
-  private void executeDelayedActions(int delay) {
-    //everything here should happen after a given delay
-    // - e.g. the End of the Splashscreen & showing requests
-    Handler handler = new Handler();
-    handler.postDelayed(new Runnable() {
-      @Override
-      public void run() {
-        splashscreen.setVisibility(View.INVISIBLE);
-        mapFragment.requestLocationPermissions();
-        setupListeners();
-        setTheme(R.style.Theme_URBotanist);
-      }
-    }, delay);
-  }
 
   private void showMapWithArea(String area) {
     mapFragment = new MapFragment();
