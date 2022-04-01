@@ -8,6 +8,7 @@
     - Added onResult listeners to database calls and therefor removed app freeze
     - Removed useless code
     - Added some documentation comments
+    - Minor bug fixes
     
 ### v0.0.5
 
