@@ -91,6 +91,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
 
   private void updatePlantWithQuery(String query) {
     searchOngoingSpinner.setVisibility(View.VISIBLE);
+    noSearchResultsText.setVisibility(View.GONE);
     DatabaseRetriever.searchPlants(query, new DbPlantFoundListener() {
       @Override
       public void onPlantFound(List<Plant> plants) {
