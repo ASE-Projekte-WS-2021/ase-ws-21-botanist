@@ -403,30 +403,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   }
 
 
-  public List<Plant> searchPlantsInArea(String areaName) {
-    ArrayList<Plant> result = new ArrayList<>();
-    Realm realm = Realm.getDefaultInstance();
-    realm.executeTransactionAsync(new Realm.Transaction() {
-      @Override
-      public void execute(@NonNull Realm realm) {
-        // .freeze() is used to create an own object that doesn't reference the query
-        result.addAll(
-            realm.where(Plant.class).contains("location", areaName, Case.INSENSITIVE).findAll()
-                .sort("fullName", Sort.ASCENDING).freeze());
-      }
-    });
-
-    try {
-      Thread.sleep(100);
-    } catch (Exception e) {
-      Log.e("Exception", "Time couldn't wait,"
-          + " it waits for noone. getPlantsInArea, MainActivity" + e);
-    }
-
-    return result;
-  }
-
-
   public void closeDrawer() {
     slidingTrayDrawer.animateClose();
   }

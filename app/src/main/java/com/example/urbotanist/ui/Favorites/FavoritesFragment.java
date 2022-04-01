@@ -79,7 +79,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
 
 
   /**
-   * Fills the Favourite Lists with Favourite Plants provided by the ViewModel
+   * Fills the Favourite Lists with Favourite Plants provided by Database
    * and shows/hides the No Plants Found text
    */
   private void initFavouritesList() {
@@ -94,8 +94,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
           noFavouritesSelectedView.setVisibility(View.VISIBLE);
         }
         favouritesSearchOngoingSpinner.setVisibility(View.GONE);
-        favoritesViewModel.setFavouritePlants(favouritePlants);
-        favouriteListAdapter.favouritePlantsList = favoritesViewModel.getFavouritePlants();
+        favouriteListAdapter.favouritePlantsList = favouritePlants;
         favouriteListAdapter.notifyDataSetChanged();
       }
     });

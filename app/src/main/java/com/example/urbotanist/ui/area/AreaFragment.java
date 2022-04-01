@@ -93,8 +93,16 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   public void setupUi() {
     areaViewModel.setSelectedArea(((MainActivity) requireActivity()).getCurrentSelectedArea());
     if (areaViewModel.selectedArea != null) {
-      plantListAdapter.foundPlantsList = areaViewModel.searchPlantsInArea();
-      plantListAdapter.notifyDataSetChanged();
+      plantInAreaSearchOngoingSpinner.setVisibility(View.VISIBLE);
+      DatabaseRetriever.searchPlantsInArea(areaViewModel.selectedArea.areaName, new DbPlantFoundListener() {
+        @Override
+        public void onPlantFound(List<Plant> plants) {
+          plantListAdapter.foundPlantsList = plants;
+          plantListAdapter.notifyDataSetChanged();
+          plantInAreaSearchOngoingSpinner.setVisibility(View.GONE);
+        }
+      });
+
       areaFullNameView.setText(areaViewModel.selectedArea.areaNameLong);
       areaShortNameView.setText(areaViewModel.selectedArea.areaName);
       areaPlantListRecycler.setVisibility(View.VISIBLE);

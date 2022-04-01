@@ -355,14 +355,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"/>
 
-                <TextView
-                    android:id="@+id/infoText3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/impressumSources"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+
             </LinearLayout>
         </ScrollView>
 
