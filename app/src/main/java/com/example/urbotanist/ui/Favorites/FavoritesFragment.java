@@ -44,16 +44,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.favourite_fragment, container, false);
-    favouritesSearchOngoingSpinner = v.findViewById(R.id.favourites_search_ongoing_spinner);
-    noFavouritesSelectedView = v.findViewById(R.id.no_fav_selected);
-    favouriteListAdapter =
-        new FavouriteListAdapter(Collections.emptyList(), this);
-    favouritePlantListRecycler = v.findViewById(R.id.favourite_plant_list_recycler);
-    favouritePlantListRecycler.setAdapter(favouriteListAdapter);
-    favouritePlantListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
-    favouritePlantListRecycler.addItemDecoration(
-        new DividerItemDecoration(favouritePlantListRecycler.getContext(),
-            DividerItemDecoration.VERTICAL));
+    setupViews(v);
 
     return v;
   }
@@ -70,6 +61,27 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
     initFavouritesList();
   }
 
+  /**
+   * Connects Views with their layout counterparts and adapters
+   */
+  public void setupViews(View v) {
+    favouritesSearchOngoingSpinner = v.findViewById(R.id.favourites_search_ongoing_spinner);
+    noFavouritesSelectedView = v.findViewById(R.id.no_fav_selected);
+    favouriteListAdapter =
+        new FavouriteListAdapter(Collections.emptyList(), this);
+    favouritePlantListRecycler = v.findViewById(R.id.favourite_plant_list_recycler);
+    favouritePlantListRecycler.setAdapter(favouriteListAdapter);
+    favouritePlantListRecycler.setLayoutManager(new LinearLayoutManager(v.getContext()));
+    favouritePlantListRecycler.addItemDecoration(
+        new DividerItemDecoration(favouritePlantListRecycler.getContext(),
+            DividerItemDecoration.VERTICAL));
+  }
+
+
+  /**
+   * Fills the Favourite Lists with Favourite Plants provided by the ViewModel
+   * and shows/hides the No Plants Found text
+   */
   private void initFavouritesList() {
     favouritesSearchOngoingSpinner.setVisibility(View.VISIBLE);
     DatabaseRetriever.searchFavouritePlants(new DbFavouritesFoundListener() {
@@ -90,16 +102,18 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
 
   }
 
-
+  /**
+   * Listener Method for clicks in the areaPlantListRecycler
+   *
+   * @param plant The plant that was selected from the RecyclerView
+   */
   @Override
-  public void onSearchResultClick(Plant plant) {
+  public void onPlantSelectedListener(Plant plant) {
     MainActivity mainActivity = (MainActivity) getActivity();
     if (mainActivity != null) {
-      mainActivity.setCurrentPlant(plant);
-      mainActivity.loadCurrentDrawerFragment(mainActivity.plantDrawerFragment);
-      mainActivity.plantDrawerFragment.setupUi(plant);
+      mainActivity.setCurrentPlant(plant, true);
 
-      //Close The keyboard
+      //Close the Keyboard if possible
       View view = mainActivity.getCurrentFocus();
       if (view != null) {
         InputMethodManager imm = (InputMethodManager) getSystemService(

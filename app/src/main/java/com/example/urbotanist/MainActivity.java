@@ -54,7 +54,6 @@ import pl.droidsonroids.gif.GifImageView;
 public class MainActivity extends AppCompatActivity implements AreaSelectListener,
         LocationSource.OnLocationChangedListener, MarkerInfoClickListener {
 
-  DatabaseAdapterActivity dbHelper;
 
   public MapFragment mapFragment = new MapFragment();
   public SearchFragment searchFragment = new SearchFragment();
@@ -84,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     Kit.init(this);
     setContentView(R.layout.activity_main);
     setupSplashscreen();
-    initDatabase();
     preloadViews();
     getLastUserLocation();
     getLocationRequest();
@@ -96,16 +94,16 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   private void getLastUserLocation() {
     fusedLocationClient = getFusedLocationProviderClient(this);
     fusedLocationClient.getLastLocation()
-            .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-              @Override
-              public void onSuccess(Location location) {
-                // Got last known location. In some rare situations this can be null.
-                if (location != null) {
-                  currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                  mapFragment.highlightUserAreaMarker(currentUserLocation);
-                }
-              }
-            });
+        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+          @Override
+          public void onSuccess(Location location) {
+            // Got last known location. In some rare situations this can be null.
+            if (location != null) {
+              currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
+              mapFragment.highlightUserAreaMarker(currentUserLocation);
+            }
+          }
+        });
   }
 
   private void getLocationRequest() {
@@ -146,6 +144,9 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
                     Looper.myLooper());
   }
 
+  /**
+   * Setup Views for main activity and load drawers
+   */
   private void preloadViews() {
     //every task which tooks precious time to prepare
     showMapButton = findViewById(R.id.map_button);
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     DisplayMetrics displayMetrics = new DisplayMetrics();
     getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-    ImageView handle =  findViewById(R.id.handle);
+    ImageView handle = findViewById(R.id.handle);
     handle.setX(handle.getX() + (int) (displayMetrics.widthPixels * 0.28));
     handle.setY(handle.getY() - 30f);
   }
@@ -204,14 +205,11 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   }
 
   private void showMapWithArea(String area) {
+    mapFragment = new MapFragment();
     loadCurrentScreenFragment(mapFragment);
     mapFragment.setPlantArea(area);
   }
 
-  private void initDatabase() {
-    dbHelper = new DatabaseAdapterActivity(this);
-    dbHelper.createDatabase();
-  }
 
   private void setupListeners() {
     showMapButton.setOnClickListener(new View.OnClickListener() {
@@ -252,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
       }
     });
 
-
     plantDrawerFragment.setAreaSelectListener(new AreaSelectListener() {
       @Override
       public void onAreaSelected(String area) {
@@ -288,7 +285,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
       }
     });
 
-
     slidingTrayDrawer.setOnDrawerScrollListener(new SlidingTray.OnDrawerScrollListener() {
       @Override
       public void onScrollStarted() {
@@ -316,13 +312,13 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   private void fadeIn(View fadeView) {
     if (fadeView.getVisibility() == View.INVISIBLE) {
       fadeView.setVisibility(View.VISIBLE);
-      fadeView.setAnimation(loadAnimation(getApplicationContext(),R.anim.fade_in));
+      fadeView.setAnimation(loadAnimation(getApplicationContext(), R.anim.fade_in));
     }
   }
 
   private void fadeOut(View fadeView) {
     if (fadeView.getVisibility() == View.VISIBLE) {
-      fadeView.setAnimation(loadAnimation(getApplicationContext(),R.anim.fade_out));
+      fadeView.setAnimation(loadAnimation(getApplicationContext(), R.anim.fade_out));
       fadeView.setVisibility(View.INVISIBLE);
     }
   }
@@ -360,7 +356,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
           .getDrawable(this, R.drawable.ic_drawerbutton));
     }
 
-
     getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
         .commitNow();
   }
@@ -379,8 +374,14 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
         .commitNow();
   }
 
-  public void setCurrentPlant(Plant plant) {
+  public void setCurrentPlant(Plant plant, boolean shouldOpenPlantFragment) {
     this.currentPlant = plant;
+
+    if (shouldOpenPlantFragment) {
+      loadCurrentDrawerFragment(plantDrawerFragment);
+      plantDrawerFragment.setupUi(plant);
+      openDrawer();
+    }
   }
 
   public Area getCurrentSelectedArea() {
@@ -396,7 +397,33 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   }
 
   public void openDrawer() {
-    slidingTrayDrawer.animateOpen();
+    if (!slidingTrayDrawer.isOpened()) {
+      slidingTrayDrawer.animateOpen();
+    }
+  }
+
+
+  public List<Plant> searchPlantsInArea(String areaName) {
+    ArrayList<Plant> result = new ArrayList<>();
+    Realm realm = Realm.getDefaultInstance();
+    realm.executeTransactionAsync(new Realm.Transaction() {
+      @Override
+      public void execute(@NonNull Realm realm) {
+        // .freeze() is used to create an own object that doesn't reference the query
+        result.addAll(
+            realm.where(Plant.class).contains("location", areaName, Case.INSENSITIVE).findAll()
+                .sort("fullName", Sort.ASCENDING).freeze());
+      }
+    });
+
+    try {
+      Thread.sleep(100);
+    } catch (Exception e) {
+      Log.e("Exception", "Time couldn't wait,"
+          + " it waits for noone. getPlantsInArea, MainActivity" + e);
+    }
+
+    return result;
   }
 
 

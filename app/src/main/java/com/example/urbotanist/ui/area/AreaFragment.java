@@ -55,6 +55,23 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.area_fragment, container, false);
+    setupViews(v);
+
+    return v;
+  }
+
+  @Override
+  public void onStart() {
+    super.onStart();
+    areaViewModel = new ViewModelProvider(this).get(AreaViewModel.class);
+    setupUi();
+  }
+
+
+  /**
+   * Connects Views with their layout counterparts and adapters
+   */
+  public void setupViews(View v) {
     plantInAreaSearchOngoingSpinner = v.findViewById(R.id.area_plant_search_ongoing_spinner);
     areaFullNameView = v.findViewById(R.id.area_header);
     areaShortNameView = v.findViewById(R.id.area_short_name);
@@ -67,55 +84,19 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
     areaPlantListRecycler.addItemDecoration(
         new DividerItemDecoration(areaPlantListRecycler.getContext(),
             DividerItemDecoration.VERTICAL));
-
-    //alternativeLocationContainer = v.findViewById(R.id.alternative_locations_container);
-
-    return v;
-  }
-
-  @Override
-  public void onAttach(Context context) {
-    super.onAttach(context);
   }
 
 
-  @Override
-  public void onStart() {
-    super.onStart();
-    //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
-    areaViewModel = new ViewModelProvider(this).get(AreaViewModel.class);
-
-    setupUi();
-  }
-
-  public void searchPlantsInArea() {
-    plantInAreaSearchOngoingSpinner.setVisibility(View.VISIBLE);
-
-    DatabaseRetriever.searchPlantsInArea(areaViewModel.selectedArea.areaName,
-        new DbPlantFoundListener() {
-          @Override
-          public void onPlantFound(List<Plant> plants) {
-            plantInAreaSearchOngoingSpinner.setVisibility(View.GONE);
-            plantListAdapter.foundPlantsList = plants;
-            plantListAdapter.notifyDataSetChanged();
-          }
-        });
-
-
-  }
-
-
+  /**
+   * Sets up the views according to the state of the ViewModel
+   */
   public void setupUi() {
     areaViewModel.setSelectedArea(((MainActivity) requireActivity()).getCurrentSelectedArea());
     if (areaViewModel.selectedArea != null) {
-
-        searchPlantsInArea();
-
-
-
+      plantListAdapter.foundPlantsList = areaViewModel.searchPlantsInArea();
+      plantListAdapter.notifyDataSetChanged();
       areaFullNameView.setText(areaViewModel.selectedArea.areaNameLong);
       areaShortNameView.setText(areaViewModel.selectedArea.areaName);
-
       areaPlantListRecycler.setVisibility(View.VISIBLE);
       areaFullNameView.setVisibility(View.VISIBLE);
       areaShortNameView.setVisibility(View.VISIBLE);
@@ -125,7 +106,6 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
         areaSelectListener.onAreaSelected(areaViewModel.selectedArea.areaName);
         ((MainActivity) requireActivity()).closeDrawer();
       });
-
     } else {
       areaPlantListRecycler.setVisibility(View.GONE);
       areaFullNameView.setVisibility(View.GONE);
@@ -138,27 +118,33 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   }
 
 
+  /**
+   * Set an Listener that is called when a area is selected
+   * @param listener Is called when an area ist selected
+   */
   public void setAreaSelectListener(AreaSelectListener listener) {
     this.areaSelectListener = listener;
   }
 
+
+  /**
+   * Listener Method for clicks in the areaPlantListRecycler
+   *
+   * @param plant The plant that was selected from the RecyclerView
+   */
   @Override
-  public void onSearchResultClick(Plant plant) {
+  public void onPlantSelectedListener(Plant plant) {
     MainActivity mainActivity = (MainActivity) getActivity();
     if (mainActivity != null) {
-      mainActivity.setCurrentPlant(plant);
-      mainActivity.loadCurrentDrawerFragment(mainActivity.plantDrawerFragment);
-      mainActivity.plantDrawerFragment.setupUi(plant);
-
-      //Close The keyboard
+      mainActivity.setCurrentPlant(plant, true);
       View view = mainActivity.getCurrentFocus();
+
+      //Close the Keyboard if possible
       if (view != null) {
         InputMethodManager imm = (InputMethodManager) getSystemService(
             Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
       }
-
-
     } else {
       Log.e("TAG", "Failed to open Fragment; MainActivity not found");
     }

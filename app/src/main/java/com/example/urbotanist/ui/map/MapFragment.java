@@ -31,7 +31,8 @@ import com.google.maps.android.ui.IconGenerator;
 import java.util.Objects;
 
 
-public class MapFragment extends CurrentScreenFragment implements OnMapReadyCallback,
+public class MapFragment extends CurrentScreenFragment implements
+    OnMapReadyCallback, //TODO: in ViewModel
     ActivityResultCallback {
 
   private static final LatLng SW_MAP_BORDER = new LatLng(48.992262952936514, 12.089423798024654);
@@ -80,6 +81,7 @@ public class MapFragment extends CurrentScreenFragment implements OnMapReadyCall
         mapViewModel.toggleMarkerVisibility();
       }
     });
+    //TODO: in ViewModel
     IconGenerator iconGen = new IconGenerator(getActivity());
     mapViewModel = new MapViewModel(iconGen);
 

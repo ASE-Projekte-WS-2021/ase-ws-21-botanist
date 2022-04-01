@@ -108,13 +108,11 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   }
 
   @Override
-  public void onSearchResultClick(Plant plant) {
+  public void onPlantSelectedListener(Plant plant) {
     MainActivity mainActivity = (MainActivity) getActivity();
     if (mainActivity != null) {
-      mainActivity.setCurrentPlant(plant);
-      mainActivity.loadCurrentDrawerFragment(mainActivity.plantDrawerFragment);
-      mainActivity.openDrawer();
-      mainActivity.plantDrawerFragment.setupUi(plant);
+      mainActivity.setCurrentPlant(plant, true);
+
       //Close The keyboard
       View view = mainActivity.getCurrentFocus();
       if (view != null) {

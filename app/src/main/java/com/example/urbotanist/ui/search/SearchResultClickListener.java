@@ -4,5 +4,5 @@ import com.example.urbotanist.ui.plant.Plant;
 
 public interface SearchResultClickListener {
 
-  public void onSearchResultClick(Plant plant);
+  public void onPlantSelectedListener(Plant plant);
 }
