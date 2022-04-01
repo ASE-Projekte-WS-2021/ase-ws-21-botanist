@@ -5,8 +5,8 @@ import androidx.annotation.NonNull;
 import com.example.urbotanist.database.resultlisteners.DbFavouritesFoundListener;
 import com.example.urbotanist.database.resultlisteners.DbIsPlantFavouriteListener;
 import com.example.urbotanist.database.resultlisteners.DbPlantFoundListener;
-import com.example.urbotanist.ui.favorites.FavouritePlant;
-import com.example.urbotanist.ui.plant.Plant;
+import com.example.urbotanist.drawerfragments.favorites.FavouritePlant;
+import com.example.urbotanist.drawerfragments.plant.Plant;
 
 import java.util.ArrayList;
 import java.util.LinkedHashSet;

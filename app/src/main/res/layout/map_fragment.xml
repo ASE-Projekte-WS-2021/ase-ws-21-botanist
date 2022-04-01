@@ -6,7 +6,7 @@
     xmlns:xmls="http://schemas.android.com/apk/res-auto"
     android:foreground="@drawable/inside_box_shadow"
     android:layout_marginHorizontal="8dp"
-    tools:context=".ui.map.MapFragment"
+    tools:context=".mainfragments.map.MapFragment"
     android:backgroundTint="@color/black"
     android:layout_marginBottom="8dp"
     android:layout_marginTop="10dp">
