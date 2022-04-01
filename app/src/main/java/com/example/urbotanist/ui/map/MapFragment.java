@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.ui.CurrentScreenFragment;

@@ -21,7 +21,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
   public static String TAG = "DATABASEACTIVITY";
 
-  public DatabaseHelper(@Nullable Context context) {
+  public DatabaseHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
     dbFile = context.getDatabasePath(DATABASE_NAME);
     this.context = context;

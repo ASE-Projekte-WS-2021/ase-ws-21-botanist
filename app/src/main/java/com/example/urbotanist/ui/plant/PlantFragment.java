@@ -26,6 +26,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.database.DatabaseRetriever;
+import com.example.urbotanist.database.resultlisteners.DbIsPlantFavouriteListener;
 import com.example.urbotanist.ui.area.Area;
 import com.example.urbotanist.ui.area.AreaSelectListener;
 // realm by MongoDB, https://realm.io/
@@ -152,8 +153,14 @@ public class PlantFragment extends Fragment {
   }
 
   private void checkIfPlantIsFavourite() {
-    currentPlantIsFavourite =  DatabaseRetriever.checkIfPlantIsFavourite(plantViewModel
-                                                                                  .selectedPlant);
+    DatabaseRetriever.checkIfPlantIsFavourite(plantViewModel.selectedPlant,
+        new DbIsPlantFavouriteListener() {
+          @Override
+          public void onIsFavouriteResult(boolean isFavourite) {
+            setFavouriteButtonState(isFavourite);
+            currentPlantIsFavourite = isFavourite;
+          }
+        });
   }
 
   private void setupPlantCommonNames() {

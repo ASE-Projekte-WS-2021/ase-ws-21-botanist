@@ -1,6 +1,7 @@
 package com.example.urbotanist.ui.area;
 
 // Sileria, https://sileria.com/
+
 import static com.sileria.android.Kit.getSystemService;
 
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.database.DatabaseRetriever;
+import com.example.urbotanist.database.resultlisteners.DbPlantFoundListener;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.search.PlantSearchAdapter;
 import com.example.urbotanist.ui.search.SearchResultClickListener;
@@ -37,6 +40,8 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   private RecyclerView areaPlantListRecycler;
   private PlantSearchAdapter plantListAdapter;
   private ImageButton showAreaButton;
+  private ProgressBar plantInAreaSearchOngoingSpinner;
+
 
 
   private AreaSelectListener areaSelectListener;
@@ -50,6 +55,7 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.area_fragment, container, false);
+    plantInAreaSearchOngoingSpinner = v.findViewById(R.id.area_plant_search_ongoing_spinner);
     areaFullNameView = v.findViewById(R.id.area_header);
     areaShortNameView = v.findViewById(R.id.area_short_name);
     noAreaSelectedView = v.findViewById(R.id.no_area_selected);
@@ -83,11 +89,18 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   }
 
   public void searchPlantsInArea() {
+    plantInAreaSearchOngoingSpinner.setVisibility(View.VISIBLE);
 
-    List<Plant> plantsInArea =
-            DatabaseRetriever.searchPlantsInArea(areaViewModel.selectedArea.areaName);
-    plantListAdapter.foundPlantsList = plantsInArea;
-    plantListAdapter.notifyDataSetChanged();
+    DatabaseRetriever.searchPlantsInArea(areaViewModel.selectedArea.areaName,
+        new DbPlantFoundListener() {
+          @Override
+          public void onPlantFound(List<Plant> plants) {
+            plantInAreaSearchOngoingSpinner.setVisibility(View.GONE);
+            plantListAdapter.foundPlantsList = plants;
+            plantListAdapter.notifyDataSetChanged();
+          }
+        });
+
 
   }
 
@@ -95,7 +108,10 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
   public void setupUi() {
     areaViewModel.setSelectedArea(((MainActivity) requireActivity()).getCurrentSelectedArea());
     if (areaViewModel.selectedArea != null) {
-      searchPlantsInArea();
+
+        searchPlantsInArea();
+
+
 
       areaFullNameView.setText(areaViewModel.selectedArea.areaNameLong);
       areaShortNameView.setText(areaViewModel.selectedArea.areaName);
@@ -107,7 +123,7 @@ public class AreaFragment extends Fragment implements SearchResultClickListener 
       noAreaSelectedView.setVisibility(View.GONE);
       showAreaButton.setOnClickListener(view -> {
         areaSelectListener.onAreaSelected(areaViewModel.selectedArea.areaName);
-        ((MainActivity)requireActivity()).closeDrawer();
+        ((MainActivity) requireActivity()).closeDrawer();
       });
 
     } else {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
+import com.example.urbotanist.database.resultlisteners.DbPlantFoundListener;
 import com.example.urbotanist.database.DatabaseRetriever;
 import com.example.urbotanist.ui.CurrentScreenFragment;
 import com.example.urbotanist.ui.plant.Plant;
@@ -30,6 +32,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   private SearchView searchView;
   private PlantSearchAdapter searchListAdapter;
   private TextView noSearchResultsText;
+  private ProgressBar searchOngoingSpinner;
 
   public static SearchFragment newInstance() {
     return new SearchFragment();
@@ -45,6 +48,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
       @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.search_fragment, container, false);
     searchView = v.findViewById(R.id.search_bar);
+    searchOngoingSpinner = v.findViewById(R.id.search_ongoing_spinner);
     RecyclerView searchListRecycler = v.findViewById(R.id.search_list_recycler);
     noSearchResultsText = v.findViewById(R.id.no_search_results_text);
     searchListAdapter = new PlantSearchAdapter(Collections.emptyList(), this);
@@ -54,6 +58,8 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
         new DividerItemDecoration(searchListRecycler.getContext(), DividerItemDecoration.VERTICAL));
     initSearch();
     updatePlantWithQuery("");
+
+
 
     return v;
   }
@@ -84,14 +90,21 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
   }
 
   private void updatePlantWithQuery(String query) {
-    List<Plant> foundPlants = DatabaseRetriever.searchPlant(query);
-    searchListAdapter.foundPlantsList = foundPlants;
-    if (foundPlants.size() > 0) {
-      noSearchResultsText.setVisibility(View.GONE);
-    } else {
-      noSearchResultsText.setVisibility(View.VISIBLE);
-    }
-    searchListAdapter.notifyDataSetChanged();
+    searchOngoingSpinner.setVisibility(View.VISIBLE);
+    DatabaseRetriever.searchPlants(query, new DbPlantFoundListener() {
+      @Override
+      public void onPlantFound(List<Plant> plants) {
+        searchOngoingSpinner.setVisibility(View.GONE);
+        searchListAdapter.foundPlantsList = plants;
+        if (plants.size() > 0) {
+          noSearchResultsText.setVisibility(View.GONE);
+        } else {
+          noSearchResultsText.setVisibility(View.VISIBLE);
+        }
+        searchListAdapter.notifyDataSetChanged();
+      }
+    });
+
   }
 
   @Override
