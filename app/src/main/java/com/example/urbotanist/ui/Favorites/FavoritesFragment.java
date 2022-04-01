@@ -1,6 +1,7 @@
 package com.example.urbotanist.ui.favorites;
 
 // Sileria, https://sileria.com/
+
 import static com.sileria.android.Kit.getSystemService;
 
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
 import com.example.urbotanist.database.DatabaseRetriever;
+import com.example.urbotanist.database.resultlisteners.DbFavouritesFoundListener;
 import com.example.urbotanist.ui.plant.Plant;
 import com.example.urbotanist.ui.search.SearchResultClickListener;
 import java.util.Collections;
@@ -31,6 +34,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   private RecyclerView favouritePlantListRecycler;
   private FavouriteListAdapter favouriteListAdapter;
   private TextView noFavouritesSelectedView;
+  private ProgressBar favouritesSearchOngoingSpinner;
 
   public static FavoritesFragment newInstance() {
     return new FavoritesFragment();
@@ -40,6 +44,7 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
       @Nullable Bundle savedInstanceState) {
     View v = inflater.inflate(R.layout.favourite_fragment, container, false);
+    favouritesSearchOngoingSpinner = v.findViewById(R.id.favourites_search_ongoing_spinner);
     noFavouritesSelectedView = v.findViewById(R.id.no_fav_selected);
     favouriteListAdapter =
         new FavouriteListAdapter(Collections.emptyList(), this);
@@ -66,13 +71,23 @@ public class FavoritesFragment extends Fragment implements SearchResultClickList
   }
 
   private void initFavouritesList() {
-    List<FavouritePlant> newFavouritePlants = DatabaseRetriever.searchFavouritePlants();
-    if (newFavouritePlants.size() > 0) {
-      noFavouritesSelectedView.setVisibility(View.GONE);
-    }
-    favoritesViewModel.setFavouritePlants(newFavouritePlants);
-    favouriteListAdapter.favouritePlantsList = favoritesViewModel.getFavouritePlants();
-    favouriteListAdapter.notifyDataSetChanged();
+    favouritesSearchOngoingSpinner.setVisibility(View.VISIBLE);
+    DatabaseRetriever.searchFavouritePlants(new DbFavouritesFoundListener() {
+      @Override
+      public void onFavouritePlantsFound(
+          List<com.example.urbotanist.ui.favorites.FavouritePlant> favouritePlants) {
+        if (favouritePlants.size() > 0) {
+          noFavouritesSelectedView.setVisibility(View.GONE);
+        } else {
+          noFavouritesSelectedView.setVisibility(View.VISIBLE);
+        }
+        favouritesSearchOngoingSpinner.setVisibility(View.GONE);
+        favoritesViewModel.setFavouritePlants(favouritePlants);
+        favouriteListAdapter.favouritePlantsList = favoritesViewModel.getFavouritePlants();
+        favouriteListAdapter.notifyDataSetChanged();
+      }
+    });
+
   }
 
 
