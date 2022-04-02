@@ -55,4 +55,23 @@
   <string name="family_of_string">Familie der \"%1$s\"</string>
   <string name="loading_database">Updating Database</string>
 
+    <string name="testMap">mapButton</string>
+    <string name="testSearch">searchButton</string>
+    <string name="testInfo">infoButton</string>
+    <string name="testSearchElement">searchResultItem</string>
+    <string name="testSearchBar">searchBar</string>
+    <string name="testArea">areaButton</string>
+    <string name="testDrawer">drawer</string>
+    <string name="testFavorit">favoritButton</string>
+    <string name="testDrawerPlants">drawerPlants</string>
+    <string name="testDrawerFavorit">drawerFavorit</string>
+    <string name="testDrawerArea">drawerArea</string>
+    <string name="testInfoNavigation">infoNavButton</string>
+    <string name="testMapMarker">mapMarkerButton</string>
+
+
+
+
+
+
 </resources>

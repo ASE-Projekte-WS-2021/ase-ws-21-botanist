@@ -201,6 +201,7 @@ public class PlantFragment extends Fragment {
           new ConstraintLayout.LayoutParams(buttonWidth, buttonHeight);
       params.setMargins(buttonMargin, (int) (buttonMargin / 2), buttonMargin,
           (int) (buttonMargin / 2));
+      areaButton.setContentDescription("alternativeLocationButton");
       areaButton.setLayoutParams(params);
       areaButton.setPadding(0, 0, 0, buttonMargin);
       areaButton.setTextSize(20);

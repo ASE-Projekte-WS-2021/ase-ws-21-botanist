@@ -74,6 +74,7 @@
 
     <ImageButton
         android:id="@+id/show_area_button"
+        android:contentDescription="@string/testArea"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:backgroundTint="@color/green"

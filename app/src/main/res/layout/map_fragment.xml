@@ -26,6 +26,7 @@
 
     <ImageButton
         android:id="@+id/toggle_marker_button"
+        android:contentDescription="@string/testMapMarker"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="bottom"

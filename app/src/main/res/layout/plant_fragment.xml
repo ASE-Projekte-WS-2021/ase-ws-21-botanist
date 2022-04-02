@@ -186,6 +186,7 @@
 
         <ImageButton
             android:id="@+id/fav_button"
+            android:contentDescription="@string/testFavorit"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:backgroundTint="@color/green"
@@ -209,28 +210,6 @@
             app:layout_constraintBottom_toBottomOf="@id/fav_button"
             app:layout_constraintLeft_toRightOf="@id/fav_button"/>
 
-        <!--<ImageView
-            android:layout_width="3dp"
-            android:layout_height="0dp"
-            android:layout_marginLeft="5dp"
-            android:src="@color/green"
-            app:layout_constraintLeft_toRightOf="@+id/fav_button"
-            app:layout_constraintRight_toLeftOf="@+id/alternative_locations_container"
-            app:layout_constraintTop_toTopOf="@id/wiki_button"
-            app:layout_constraintBottom_toBottomOf="@id/wiki_button"/>-->
-
-        <!--<TextView
-            android:id="@+id/alternative_locations_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="20dp"
-            android:gravity="center"
-            android:text="@string/plant_locations_header"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            app:layout_constraintLeft_toRightOf="@id/wiki_button" />-->
-
         <GridLayout
             android:id="@+id/alternative_locations_container"
             android:layout_width="wrap_content"
@@ -242,6 +221,7 @@
             app:layout_constraintRight_toRightOf="parent"
 
             />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

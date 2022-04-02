@@ -34,6 +34,7 @@
 
       <Button
           android:id="@+id/map_button"
+          android:contentDescription="@string/testMap"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:background="@drawable/bar_icon_background"
@@ -59,6 +60,7 @@
 
       <Button
           android:id="@+id/search_button"
+          android:contentDescription="@string/testSearch"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:background="@drawable/bar_icon_background"
@@ -84,6 +86,7 @@
 
       <Button
           android:id="@+id/bar_icon_background"
+          android:contentDescription="@string/testInfo"
           android:layout_width="0dp"
           android:layout_height="match_parent"
           android:background="@drawable/botanist_icon_background"
@@ -156,6 +159,7 @@
     android:focusable="false">
 
     <ImageView
+      android:contentDescription="@string/testDrawer"
       android:id="@+id/handle"
       android:layout_width="40dp"
       android:layout_height="80dp"
@@ -204,6 +208,7 @@
 
             <ImageView
                 android:id="@+id/drawer_areas_button"
+                android:contentDescription="@string/testDrawerArea"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -213,6 +218,7 @@
 
             <ImageView
                 android:id="@+id/drawer_plants_button"
+                android:contentDescription="@string/testDrawerPlants"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:layout_constraintLeft_toRightOf="@id/drawer_areas_button"
@@ -221,6 +227,7 @@
 
             <ImageView
                 android:id="@+id/drawer_favorite_button"
+                android:contentDescription="@string/testDrawerFavorit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 app:layout_constraintLeft_toRightOf="@id/drawer_plants_button"

@@ -12,7 +12,7 @@
 
 
     <androidx.appcompat.widget.SearchView
-        android:contentDescription="searchBar"
+        android:contentDescription="@string/testSearchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/search_bar"
@@ -21,9 +21,6 @@
         app:iconifiedByDefault="false"
         android:background="@color/white"
         android:elevation="@dimen/cardview_default_elevation"/>
-
-
-
 
 
     <androidx.recyclerview.widget.RecyclerView
