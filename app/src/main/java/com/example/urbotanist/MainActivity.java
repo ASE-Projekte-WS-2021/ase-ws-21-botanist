@@ -94,13 +94,20 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     setContentView(R.layout.activity_main);
     SharedPreferences sharedPreferences =
             PreferenceManager.getDefaultSharedPreferences(this);
-    // Check if we need to display our OnboardingSupportFragment
-    //if (!sharedPreferences.getBoolean(
-    //        OnboardingActivity.COMPLETED_ONBOARDING_PREF_NAME
-    //        , false)) {
-      // The user hasn't seen the OnboardingSupportFragment yet, so show it
-    startActivity(new Intent(this, OnboardingActivity.class));
-    //}
+    // TODO: Shared Preferences für ob Onboarding schon gesehen wurde
+    Handler handler = new Handler();
+    handler.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        startOnboardingActivity();
+      }
+
+      private void startOnboardingActivity() {
+        Intent intent = new Intent(MainActivity.this, OnboardingActivity.class);
+        startActivity(intent);
+        finish();
+      }
+    }, 1500);
 
   }
 

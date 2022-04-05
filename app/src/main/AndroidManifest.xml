@@ -17,9 +17,6 @@
         android:testOnly="false"
         android:theme="@style/Theme.URBotanist" >
         <activity
-            android:name=".OnboardingActivity"
-            android:exported="false" />
-        <activity
             android:name=".StartupActivity"
             android:exported="true"
             android:theme="@style/splStart" >
@@ -39,6 +36,10 @@
             android:exported="true"
             android:windowSoftInputMode="adjustPan" >
         </activity>
+
+        <activity
+            android:name=".OnboardingActivity"
+            android:exported="false" />
 
         <uses-library
             android:name="org.apache.http.legacy"
