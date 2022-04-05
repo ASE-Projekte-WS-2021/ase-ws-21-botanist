@@ -100,7 +100,6 @@ public class MapViewModel extends ViewModel {
   }
 
   public void setPlantArea(String location) {
-    if (!location.equals("")) {
     for (String area : reversedPolyHashMap.values()) {
       if (area.equals(location)) {
         ArrayList<Polygon> polygonList = polyHashMap.get(area);
@@ -110,7 +109,6 @@ public class MapViewModel extends ViewModel {
           polygon.setStrokeColor(SELECTED_AREA_BORDER_COLOR);
           findPolygonCenter(polygon);
           polygon.setZIndex(SELECTED_AREA_Z_INDEX);
-        }
         }
       }
     }
