@@ -1,6 +1,5 @@
 package com.example.urbotanist;
 
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.fragment.app.FragmentActivity;
 import com.example.urbotanist.ui.onboarding.OnboardingFragment;
