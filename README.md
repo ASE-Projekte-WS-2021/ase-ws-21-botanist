@@ -17,13 +17,19 @@ Keine Abhängigkeiten vorhanden. App kann ohne weitere Installationen gebaut und
 
 ### Arbeitsverteilung im Team:
 **Teambeschreibung**
+
 5 Studenten im Masterkurs Advanced Software Engineering der Medieninformatik.
 
 **Aufgabenverteilung bzw. Zuständigkeitsbereiche:**
+
 Martina und Polina: Automated Testing, Datenbank (Suchfunktionalität, Realmintegrierung), Onboarding
+
 Sabrina: Karte (Marker, Highlighting, Positionsbestimmung)
+
 Anton: Design (Entwürfe und xml-Design), Splashscreen
+
 Johannes: Betreuung, Hilfe für alle, MVP
+
 
 Aber auf Absprache haben alle allen geholfen.
 
