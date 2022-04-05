@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     mapFragment = new MapFragment();
     loadCurrentScreenFragment(mapFragment);
     mapFragment.setPlantArea(area);
+    setupListeners();
   }
 
 

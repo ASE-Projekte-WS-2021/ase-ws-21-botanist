@@ -109,21 +109,21 @@ public class MapFragment extends CurrentScreenFragment implements
 
     mapViewModel.initInfoMarker();
 
-    if (!this.plantArea.equals("")) {
-      mapViewModel.setPlantArea(this.plantArea);
-    }
-
-
     map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
       @Override
       public void onInfoWindowClick(@NonNull Marker marker) {
         if (markerInfoClickListener != null) {
           Area area = new Area(Objects.requireNonNull(marker.getTag()).toString().substring(0, 1),
-              marker.getTitle());
+                  marker.getTitle());
           markerInfoClickListener.onMarkerInfoClicked(area);
         }
       }
     });
+
+    if (!this.plantArea.equals("")) {
+      mapViewModel.setPlantArea(this.plantArea);
+    }
+
   }
 
 
