@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
 
   @Override
   public void onAreaSelected(String location) {
-    showMapWithArea(location);
+    //showMapWithArea(location);
   }
 
   // Override back button to close drawer instead of closing app if drawer is open

@@ -49,7 +49,7 @@ public class MapFragment extends CurrentScreenFragment implements
   private Button showUserPositionButton;
   private ImageButton toggleMarkerButton;
   private MarkerInfoClickListener markerInfoClickListener;
-  private String plantArea;
+  private String plantArea = "";
 
   public static MapFragment newInstance() {
     return new MapFragment();
@@ -108,6 +108,11 @@ public class MapFragment extends CurrentScreenFragment implements
     mapViewModel.initData(map);
 
     mapViewModel.initInfoMarker();
+
+    if (!this.plantArea.equals("")) {
+      mapViewModel.setPlantArea(this.plantArea);
+    }
+
 
     map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
       @Override
@@ -208,9 +213,8 @@ public class MapFragment extends CurrentScreenFragment implements
   }
 
   public void setPlantArea(String plantArea) {
-    if (plantArea.equals("")) {
+    if (!plantArea.equals("")) {
       this.plantArea = plantArea.substring(0, 1);
-      mapViewModel.setPlantArea(plantArea);
     }
   }
 
