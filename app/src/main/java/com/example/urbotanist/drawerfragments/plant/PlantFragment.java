@@ -118,59 +118,64 @@ public class PlantFragment extends Fragment {
 
   public void setupUi(Plant plant) {
 
-    if (plantViewModel == null) {
-      plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
-    }
-    plantInfoScrollViewContainer.scrollTo(0, 0);
-
-    plantViewModel.setSelectedPlant(plant);
     plantImage.setVisibility(View.GONE);
     imageLicenseView.setVisibility(View.GONE);
     downloadImageSpinner.setVisibility(View.GONE);
-    noImageAvailable.setVisibility(View.GONE);
-    plantViewModel.checkForPlantImage(new ImageDownloadListener() {
-      @Override
-      public void onImageAvailabilityChecked(boolean isAvailable, boolean needsDownload,
-          String imageDownloadUrl,
-          String licenseHtmlString, Bitmap image) {
-        if (isAvailable) {
-          if (!needsDownload) {
-            plantImage.setImageBitmap(image);
-            imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
-            plantImage.setVisibility(View.VISIBLE);
-            imageLicenseView.setVisibility(View.VISIBLE);
-            downloadImageButton.setVisibility(View.GONE);
-          } else {
-            downloadImageButton.setOnClickListener(new OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                plantViewModel.downloadImage(plantImage, imageLicenseView, downloadImageSpinner,
-                    imageDownloadUrl, licenseHtmlString);
-                imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
-                downloadImageButton.setVisibility(View.GONE);
-                downloadImageSpinner.setVisibility(View.VISIBLE);
+    downloadImageButton.setVisibility(View.GONE);
+    if (plantViewModel == null) {
+      plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
 
-              }
-            });
+    }
 
-            imageLicenseView.setMovementMethod(LinkMovementMethod.getInstance());
-            downloadImageButton.setVisibility(View.VISIBLE);
-          }
+    plantInfoScrollViewContainer.scrollTo(0, 0);
 
-        } else {
-          plantImage.setVisibility(View.GONE);
-          imageLicenseView.setVisibility(View.GONE);
-          downloadImageSpinner.setVisibility(View.GONE);
-          noImageAvailable.setVisibility(View.VISIBLE);
+    plantViewModel.setSelectedPlant(plant);
 
-        }
-      }
-    });
+
     if (plantViewModel.selectedPlant != null) {
       plantFullNameView.setText(plantViewModel.selectedPlant.fullName);
       plantGenusNameView.setText(plantViewModel.selectedPlant.genusName);
       plantFamilyNameView.setText(plantViewModel.selectedPlant.familyName);
       plantTypeNameView.setText(plantViewModel.selectedPlant.typeName);
+      noImageAvailable.setText("");
+      plantViewModel.checkForPlantImage(new ImageDownloadListener() {
+        @Override
+        public void onImageAvailabilityChecked(boolean isAvailable, boolean needsDownload,
+            String imageDownloadUrl,
+            String licenseHtmlString, Bitmap image) {
+          if (isAvailable) {
+            if (!needsDownload) {
+              plantImage.setImageBitmap(image);
+              imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
+              plantImage.setVisibility(View.VISIBLE);
+              imageLicenseView.setVisibility(View.VISIBLE);
+              downloadImageButton.setVisibility(View.GONE);
+            } else {
+              downloadImageButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                  plantViewModel.downloadImage(plantImage, imageLicenseView, downloadImageSpinner,
+                      imageDownloadUrl, licenseHtmlString);
+                  imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
+                  downloadImageButton.setVisibility(View.GONE);
+                  downloadImageSpinner.setVisibility(View.VISIBLE);
+
+                }
+              });
+
+              imageLicenseView.setMovementMethod(LinkMovementMethod.getInstance());
+              downloadImageButton.setVisibility(View.VISIBLE);
+            }
+
+          } else {
+            plantImage.setVisibility(View.GONE);
+            imageLicenseView.setVisibility(View.GONE);
+            downloadImageSpinner.setVisibility(View.GONE);
+            noImageAvailable.setText(getResources().getText(R.string.no_image_available));
+
+          }
+        }
+      });
       wikiButton.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {

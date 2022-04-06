@@ -187,6 +187,15 @@
               app:layout_constraintLeft_toLeftOf="@+id/plant_image"
               app:layout_constraintRight_toRightOf="@+id/plant_image"/>
 
+            <TextView
+              android:id="@+id/no_plant_image_available"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/no_image_available"
+              android:gravity="center"
+              android:visibility="visible"
+              />
+
             <FrameLayout
               android:id="@+id/plant_image_frame"
               android:layout_width="match_parent"
@@ -220,13 +229,7 @@
                   android:adjustViewBounds="true"
                   android:visibility="gone"
                   android:scaleType="fitStart"/>
-                <TextView
-                  android:id="@+id/no_plant_image_available"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:gravity="center"
-                  android:visibility="gone"
-                  android:text="@string/no_image_available"/>
+
             </FrameLayout>
             <TextView
               android:id="@+id/image_license_view"
