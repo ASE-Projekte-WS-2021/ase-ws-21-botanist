@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -51,6 +52,7 @@ public class PlantFragment extends Fragment {
   private int fragmentWidth;
   private ImageButton favButton;
   private boolean currentPlantIsFavourite = false;
+  private ImageView plantImage;
 
 
   public static PlantFragment newInstance() {
@@ -73,6 +75,7 @@ public class PlantFragment extends Fragment {
     locationContainer = v.findViewById(R.id.plant_footer);
     alternativeLocationGrid = v.findViewById(R.id.alternative_locations_container);
     wikiButton = v.findViewById(R.id.wiki_button);
+    plantImage = v.findViewById(R.id.plant_image);
     v.post(new Runnable() {
       @Override
       public void run() {
@@ -96,6 +99,7 @@ public class PlantFragment extends Fragment {
     super.onStart();
     setupUi(((MainActivity) requireActivity()).getCurrentPlant());
 
+
     //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
   }
 
@@ -106,6 +110,17 @@ public class PlantFragment extends Fragment {
       plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     }
     plantViewModel.setSelectedPlant(plant);
+    plantViewModel.checkForPlantImage(new CheckForImageListener() {
+      @Override
+      public void onImageAvailabilityChecked(boolean isAvailable, String imageDownloadUrl) {
+        if (isAvailable) {
+          plantViewModel.downloadImage(plantImage, imageDownloadUrl);
+        }
+        else {
+          plantImage.setVisibility(View.GONE);
+        }
+      }
+    });
     if (plantViewModel.selectedPlant != null) {
       plantFullNameView.setText(plantViewModel.selectedPlant.fullName);
       plantGenusNameView.setText(plantViewModel.selectedPlant.genusName);

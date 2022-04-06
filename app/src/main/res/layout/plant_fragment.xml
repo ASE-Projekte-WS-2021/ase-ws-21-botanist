@@ -50,26 +50,30 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
 
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:layout_constraintDimensionRatio="H,1:1"
-                    android:layout_margin="10dp"
-                    android:background="@drawable/ic_item_bg"
-                    android:backgroundTint="@color/green"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintLeft_toLeftOf="@id/plant_info_border"
-                    app:layout_constraintRight_toRightOf="@id/plant_info_border"
-                    app:layout_constraintTop_toTopOf="@id/plant_info_border"
-                    app:layout_constraintBottom_toBottomOf="@id/plant_info_border"/>
+                  android:layout_width="match_parent"
+                  android:layout_height="0dp"
+                  android:layout_margin="0dp"
+                  android:background="@drawable/ic_item_bg"
+                  android:backgroundTint="@color/green"
+                  android:scaleType="fitXY"
+                  android:adjustViewBounds="true"
+                  app:layout_constraintBottom_toBottomOf="@+id/plant_info_border"
+                  app:layout_constraintLeft_toLeftOf="@id/plant_info_border"
+                  app:layout_constraintRight_toRightOf="@id/plant_info_border"
+                  app:layout_constraintTop_toTopOf="@id/plant_info_border" />
 
                 <LinearLayout
                     android:id="@+id/plant_info_border"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="start">
+                    android:gravity="start"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent">
 
                     <LinearLayout
                         android:id="@+id/plant_info_prefix_container"
@@ -172,6 +176,23 @@
 
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+              android:layout_width="match_parent"
+              android:layout_height="1dp"
+              android:layout_marginTop="2dp"
+              android:src="@color/green"
+              app:layout_constraintBottom_toTopOf="@+id/plant_image"
+              app:layout_constraintLeft_toLeftOf="@+id/plant_image"
+              app:layout_constraintRight_toRightOf="@+id/plant_image"/>
+
+            <ImageView
+              android:id="@+id/plant_image"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="5dp"
+              android:adjustViewBounds="true"
+              android:scaleType="fitStart"/>
 
         </LinearLayout>
     </ScrollView>
