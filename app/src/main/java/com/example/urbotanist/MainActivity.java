@@ -54,7 +54,7 @@ import com.sileria.android.view.SlidingTray;
 
 
 public class MainActivity extends AppCompatActivity implements AreaSelectListener,
-        LocationSource.OnLocationChangedListener, MarkerInfoClickListener {
+    LocationSource.OnLocationChangedListener, MarkerInfoClickListener {
 
 
   public MapFragment mapFragment = new MapFragment();
@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
 
   private void getLocationUpdates() {
     LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest);
+        .addLocationRequest(locationRequest);
     SettingsClient client = LocationServices.getSettingsClient(this);
     Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
     task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
@@ -138,20 +138,20 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
 
   private void startLocationUpdates() {
     if (ActivityCompat.checkSelfPermission(
-            this, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    this, Manifest.permission.ACCESS_COARSE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
+        this, Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) {
       return;
     }
     getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest,
-            new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
+        new LocationCallback() {
+          @Override
+          public void onLocationResult(LocationResult locationResult) {
             onLocationChanged(locationResult.getLastLocation());
-        }
+          }
         },
-                    Looper.myLooper());
+        Looper.myLooper());
   }
 
   /**

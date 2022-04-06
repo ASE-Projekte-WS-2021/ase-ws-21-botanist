@@ -6,10 +6,12 @@ import static com.sileria.android.Resource.getColor;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -56,6 +59,8 @@ public class PlantFragment extends Fragment {
   private boolean currentPlantIsFavourite = false;
   private ImageView plantImage;
   private TextView imageLicenseView;
+  private Button downloadImageButton;
+  private ProgressBar downloadImageSpinner;
 
 
   public static PlantFragment newInstance() {
@@ -80,6 +85,8 @@ public class PlantFragment extends Fragment {
     wikiButton = v.findViewById(R.id.wiki_button);
     plantImage = v.findViewById(R.id.plant_image);
     imageLicenseView = v.findViewById(R.id.image_license_view);
+    downloadImageButton = v.findViewById(R.id.download_plant_image_button);
+    downloadImageSpinner = v.findViewById(R.id.plant_image_download_spinner);
     v.post(new Runnable() {
       @Override
       public void run() {
@@ -112,21 +119,47 @@ public class PlantFragment extends Fragment {
     if (plantViewModel == null) {
       plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     }
+    plantInfoScrollViewContainer.scrollTo(0,0);
+
     plantViewModel.setSelectedPlant(plant);
     plantImage.setVisibility(View.GONE);
     imageLicenseView.setVisibility(View.GONE);
+    downloadImageSpinner.setVisibility(View.GONE);
     plantViewModel.checkForPlantImage(new ImageDownloadListener() {
       @Override
-      public void onImageAvailabilityChecked(boolean isAvailable, String imageDownloadUrl,
-          String licenseHtmlString) {
+      public void onImageAvailabilityChecked(boolean isAvailable, boolean needsDownload, String imageDownloadUrl,
+          String licenseHtmlString, String imageName) {
         if (isAvailable) {
-          imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
-          imageLicenseView.setMovementMethod(LinkMovementMethod.getInstance());
-          plantViewModel.downloadImage(plantImage, imageLicenseView, imageDownloadUrl);
+          if (!needsDownload) {
+            Bitmap image = plantViewModel.loadImageFromStorage(PlantViewModel.plantImagePath,imageName);
+            plantImage.setImageBitmap(image);
+            imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
+            plantImage.setVisibility(View.VISIBLE);
+            imageLicenseView.setVisibility(View.VISIBLE);
+            downloadImageButton.setVisibility(View.GONE);
+            Log.d("image", "loading from local storage");
+          } else {
+            downloadImageButton.setOnClickListener(new OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                plantViewModel.downloadImage(plantImage, imageLicenseView, downloadImageSpinner,
+                    imageDownloadUrl, licenseHtmlString);
+                downloadImageButton.setVisibility(View.GONE);
+                downloadImageSpinner.setVisibility(View.VISIBLE);
+
+              }
+            });
+
+
+            imageLicenseView.setMovementMethod(LinkMovementMethod.getInstance());
+            downloadImageButton.setVisibility(View.VISIBLE);
+          }
 
         } else {
           plantImage.setVisibility(View.GONE);
           imageLicenseView.setVisibility(View.GONE);
+          downloadImageSpinner.setVisibility(View.GONE);
+
         }
       }
     });

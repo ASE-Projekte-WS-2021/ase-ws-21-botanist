@@ -9,12 +9,19 @@ public interface WikimediaApiCalls {
 
   /**
    * https://www.mediawiki.org/wiki/Extension:PageImages
+   *
    * @param plantName Name of the plant (most likely "genusName + _ + typeName")
    * @return returns the responseBody of the Api call
    */
   @GET("w/api.php?action=query&prop=pageimages&format=json&piprop=original|name&pilicense=free")
   Call<ResponseBody> checkForImage(@Query("titles") String plantName);
 
+  /**
+   * https://www.mediawiki.org/wiki/API:Imageinfo
+   *
+   * @param mediaWikiImageName Name of the file from the MediaWiki Page
+   * @return returns the responseBody of the Api call
+   */
   @GET("w/api.php?action=query&prop=imageinfo&format=json&iiprop=extmetadata")
-  Call<ResponseBody> getImageLicenseData(@Query("titles") String wikimediaImageName);
+  Call<ResponseBody> getImageLicenseData(@Query("titles") String mediaWikiImageName);
 }

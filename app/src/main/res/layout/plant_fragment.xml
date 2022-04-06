@@ -187,14 +187,40 @@
               app:layout_constraintLeft_toLeftOf="@+id/plant_image"
               app:layout_constraintRight_toRightOf="@+id/plant_image"/>
 
-            <ImageView
-              android:id="@+id/plant_image"
+            <FrameLayout
+              android:id="@+id/plant_image_frame"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:src="@drawable/plant_icon"
-              android:layout_margin="5dp"
-              android:adjustViewBounds="true"
-              android:scaleType="fitStart"/>
+              >
+                <Button
+                  android:id="@+id/download_plant_image_button"
+                  android:layout_gravity="center"
+                  android:text="@string/download_image"
+                  android:visibility="gone"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"/>
+                <ProgressBar
+                  android:id="@+id/plant_image_download_spinner"
+                  style="?android:attr/progressBarStyle"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:visibility="gone"
+                  app:layout_constraintBottom_toBottomOf="parent"
+                  app:layout_constraintTop_toBottomOf="@+id/search_bar"
+                  app:layout_constraintLeft_toLeftOf="parent"
+                  app:layout_constraintRight_toRightOf="parent"
+                  />
+
+                <ImageView
+                  android:id="@+id/plant_image"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:layout_margin="5dp"
+                  android:adjustViewBounds="true"
+                  android:visibility="gone"
+                  android:scaleType="fitStart"/>
+            </FrameLayout>
             <TextView
               android:id="@+id/image_license_view"
               android:visibility="gone"

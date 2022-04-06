@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,17 +14,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-  WeakReference<ImageView> imageViewToUpdate;
-  WeakReference<TextView> imageLicenseViewToUpdate;
+  DownloadImageListener downloadImageListener;
 
-  public DownloadImageTask(ImageView imageViewToUpdate, TextView imageLicenseViewToUpdate) {
-    this.imageViewToUpdate = new WeakReference<>(imageViewToUpdate);
-    this.imageLicenseViewToUpdate = new WeakReference<>(imageLicenseViewToUpdate);
+  public DownloadImageTask(DownloadImageListener listener) {
+    downloadImageListener = listener;
+
 
   }
 
   protected Bitmap doInBackground(String... urls) {
     try {
+
       URL url = new java.net.URL(urls[0]);
       HttpURLConnection connection = (HttpURLConnection) url
           .openConnection();
@@ -39,11 +40,6 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
   }
 
   protected void onPostExecute(Bitmap result) {
-    if (imageViewToUpdate.get() != null && imageLicenseViewToUpdate.get() != null) {
-      imageViewToUpdate.get().setImageBitmap(result);
-      imageViewToUpdate.get().setVisibility(View.VISIBLE);
-      imageLicenseViewToUpdate.get().setVisibility(View.VISIBLE);
-    }
-    imageViewToUpdate.clear();
+    downloadImageListener.onImageDownloadFinished(result);
   }
 }

@@ -77,8 +77,7 @@
     <string name="onboarding_description_page_2">In dieser App können Sie nach Pflanzen suchen und über sie lernen. Ebenso können Sie andere Pflanzen im selben Bereich erkunden, Ihren Standort einsehen und Ihre Favoriten speichern. Das alles kann man mit dem roten Lesezeichen finden!</string>
     <string name="onboarding_description_page_3">Kurz vorab: Die Kürzel der Bereiche sind dieselben Kürzel, die auch auf den Karten im botanischen Garten gefunden werden können, also wenn ein Bereich dort besonders gefällt, kann man ihn in der App erkunden!</string>
     <string name="onboarding_button">Auf geht\'s!</string>
-
-
+  <string name="download_image">Bild herunterladen</string>
 
 
 </resources>
