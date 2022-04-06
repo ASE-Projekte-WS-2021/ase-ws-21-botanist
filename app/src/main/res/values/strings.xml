@@ -78,6 +78,7 @@
     <string name="onboarding_description_page_3">Kurz vorab: Die Kürzel der Bereiche sind dieselben Kürzel, die auch auf den Karten im botanischen Garten gefunden werden können, also wenn ein Bereich dort besonders gefällt, kann man ihn in der App erkunden!</string>
     <string name="onboarding_button">Auf geht\'s!</string>
   <string name="download_image">Bild herunterladen</string>
+  <string name="no_image_available">Kein Bild verfügbar</string>
 
 
 </resources>

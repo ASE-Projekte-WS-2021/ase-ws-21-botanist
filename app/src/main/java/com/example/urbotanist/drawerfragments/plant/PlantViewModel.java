@@ -50,7 +50,7 @@ public class PlantViewModel extends ViewModel {
               Context.MODE_PRIVATE);
       String plantLicenseString = plantImageLicensePreferences.getString(plantName, null);
       imageDownloadListener.onImageAvailabilityChecked(true, false,
-          null, plantLicenseString, plantName);
+          null, plantLicenseString, plantImageFromStorage);
 
     } else {
 
@@ -71,7 +71,6 @@ public class PlantViewModel extends ViewModel {
                 "" + pages.getJSONObject(pages.keys().next()).getJSONObject("original")
                     .get("source");
             String imageName = "" + pages.getJSONObject(pages.keys().next()).get("pageimage");
-            Log.d("api", imageName);
 
             getImageLicenseData(imageName, imageUrl, imageDownloadListener);
 
@@ -125,7 +124,7 @@ public class PlantViewModel extends ViewModel {
                   + "</a>, via Wikimedia Commons";
           imageDownloadListener
               .onImageAvailabilityChecked(true, true, imageUrl, completeLicenseHMTLString,
-                  imageFileName);
+                  null);
 
         } catch (IOException | JSONException e) {
           e.printStackTrace();
@@ -174,7 +173,6 @@ public class PlantViewModel extends ViewModel {
     File directory = cw.getDir("plantImages", Context.MODE_PRIVATE);
     // Create imageDir
     File mypath = new File(directory, filename + ".png");
-    Log.d("image", "save to path: " + mypath.getPath() + "  filename: " + mypath.getName());
     FileOutputStream fos = null;
     try {
       fos = new FileOutputStream(mypath);
@@ -197,7 +195,6 @@ public class PlantViewModel extends ViewModel {
     ContextWrapper cw = new ContextWrapper(context);
     try {
       File directory = cw.getDir("plantImages", Context.MODE_PRIVATE);
-      Log.d("image", "load from path: " + directory + " filename:" + filename);
       File f = new File(directory, filename + ".png");
       Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
       return b;

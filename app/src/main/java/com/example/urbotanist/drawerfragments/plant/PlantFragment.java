@@ -61,6 +61,7 @@ public class PlantFragment extends Fragment {
   private TextView imageLicenseView;
   private Button downloadImageButton;
   private ProgressBar downloadImageSpinner;
+  private TextView noImageAvailable;
 
 
   public static PlantFragment newInstance() {
@@ -87,6 +88,7 @@ public class PlantFragment extends Fragment {
     imageLicenseView = v.findViewById(R.id.image_license_view);
     downloadImageButton = v.findViewById(R.id.download_plant_image_button);
     downloadImageSpinner = v.findViewById(R.id.plant_image_download_spinner);
+    noImageAvailable = v.findViewById(R.id.no_plant_image_available);
     v.post(new Runnable() {
       @Override
       public void run() {
@@ -125,25 +127,25 @@ public class PlantFragment extends Fragment {
     plantImage.setVisibility(View.GONE);
     imageLicenseView.setVisibility(View.GONE);
     downloadImageSpinner.setVisibility(View.GONE);
+    noImageAvailable.setVisibility(View.GONE);
     plantViewModel.checkForPlantImage(new ImageDownloadListener() {
       @Override
       public void onImageAvailabilityChecked(boolean isAvailable, boolean needsDownload, String imageDownloadUrl,
-          String licenseHtmlString, String imageName) {
+          String licenseHtmlString, Bitmap image) {
         if (isAvailable) {
           if (!needsDownload) {
-            Bitmap image = plantViewModel.loadImageFromStorage(PlantViewModel.plantImagePath,imageName);
             plantImage.setImageBitmap(image);
             imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
             plantImage.setVisibility(View.VISIBLE);
             imageLicenseView.setVisibility(View.VISIBLE);
             downloadImageButton.setVisibility(View.GONE);
-            Log.d("image", "loading from local storage");
           } else {
             downloadImageButton.setOnClickListener(new OnClickListener() {
               @Override
               public void onClick(View view) {
                 plantViewModel.downloadImage(plantImage, imageLicenseView, downloadImageSpinner,
                     imageDownloadUrl, licenseHtmlString);
+                imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
                 downloadImageButton.setVisibility(View.GONE);
                 downloadImageSpinner.setVisibility(View.VISIBLE);
 
@@ -159,6 +161,7 @@ public class PlantFragment extends Fragment {
           plantImage.setVisibility(View.GONE);
           imageLicenseView.setVisibility(View.GONE);
           downloadImageSpinner.setVisibility(View.GONE);
+          noImageAvailable.setVisibility(View.VISIBLE);
 
         }
       }
