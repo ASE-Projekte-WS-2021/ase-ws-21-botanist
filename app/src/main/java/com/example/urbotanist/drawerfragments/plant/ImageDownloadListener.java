@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface ImageDownloadListener {
 
-  void onImageAvailabilityChecked(boolean isAvailable,boolean needsDownload, String imageDownloadUrl,
-      String licenseString, Bitmap image );
+  void onImageAvailabilityChecked(boolean isAvailable, boolean needsDownload,
+      String imageDownloadUrl,
+      String licenseString, Bitmap image);
 
 }

@@ -11,11 +11,9 @@ import io.realm.RealmList;
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-
 // https://stackoverflow.com/questions/9109438/how-to-use-an-existing-database-with-an-android-application
 
-public class DatabaseAdapterActivity {
+public class DatabaseAdapter {
 
   protected static final String TAG = "DataAdapter";
 
@@ -23,21 +21,19 @@ public class DatabaseAdapterActivity {
   private SQLiteDatabase sqLiteDatabase;
   private DatabaseHelper dbHelper;
 
-  /**
-   * Constructor
-   * @param context
-   */
-  public DatabaseAdapterActivity(Context context) {
+
+  public DatabaseAdapter(Context context) {
     this.context = context;
     dbHelper = new DatabaseHelper(this.context);
   }
 
   /**
-   * Calls the DatabaseHelper Class and creates the SQL Database
-   * @return
-   * @throws SQLException
+   * Calls the DatabaseHelper Class and creates the SQL Database.
+   *
+   * @return returns this Adapter after creating the dbHelper
+   * @throws SQLException thrown on error in SQL
    */
-  public DatabaseAdapterActivity createDatabase() throws SQLException {
+  public DatabaseAdapter createDatabase() throws SQLException {
     try {
       dbHelper.createDataBase();
     } catch (IOException ioException) {
@@ -49,10 +45,11 @@ public class DatabaseAdapterActivity {
 
   /**
    * Opens the SQLDatabase in the Helper class.
-   * @return
-   * @throws SQLException
+   *
+   * @return returns this Adapter after creating the opening the Database
+   * @throws SQLException thrown on error in SQL
    */
-  public DatabaseAdapterActivity open() throws SQLException {
+  public DatabaseAdapter open() throws SQLException {
     try {
       dbHelper.openDataBase();
       dbHelper.close();
@@ -65,7 +62,7 @@ public class DatabaseAdapterActivity {
   }
 
   /**
-   * Closes the DatabaseHelper Object
+   * Closes the DatabaseHelper Object.
    */
   public void close() {
     dbHelper.close();
@@ -74,6 +71,7 @@ public class DatabaseAdapterActivity {
   /**
    * Function used to transfer all plants saved in the SQL database to be transfered into the Realm
    * Database on first start of the app.
+   *
    * @param searchTerm = to initialize the database, the searchTerm is an empty string.
    * @return Function returns a list of all plants in the database
    */
@@ -122,10 +120,13 @@ public class DatabaseAdapterActivity {
   }
 
   /**
-   * Function returns a list with different native names that share a biological name.
-   * Alternatively also returns a list of locations for a plant with its single biological name that appears in different locations.
+   * Function returns a list with different native names that share a biological name. Alternatively
+   * also returns a list of locations for a plant with its single biological name that appears in
+   * different locations.
+   *
    * @param genus & @param type are used to identify a single plant via its unique biological name
-   * @param row = used to determine the use case, as described in the function's description (row 7: native names, row 9/10: locations)
+   * @param row   = used to determine the use case, as described in the function's description (row
+   *              7: native names, row 9/10: locations)
    * @return Function returns a String List containing all native names
    */
   private RealmList<String> getAllNativeNames(String genus, String type, int row) {

@@ -121,7 +121,7 @@ public class PlantFragment extends Fragment {
     if (plantViewModel == null) {
       plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     }
-    plantInfoScrollViewContainer.scrollTo(0,0);
+    plantInfoScrollViewContainer.scrollTo(0, 0);
 
     plantViewModel.setSelectedPlant(plant);
     plantImage.setVisibility(View.GONE);
@@ -130,7 +130,8 @@ public class PlantFragment extends Fragment {
     noImageAvailable.setVisibility(View.GONE);
     plantViewModel.checkForPlantImage(new ImageDownloadListener() {
       @Override
-      public void onImageAvailabilityChecked(boolean isAvailable, boolean needsDownload, String imageDownloadUrl,
+      public void onImageAvailabilityChecked(boolean isAvailable, boolean needsDownload,
+          String imageDownloadUrl,
           String licenseHtmlString, Bitmap image) {
         if (isAvailable) {
           if (!needsDownload) {
@@ -151,7 +152,6 @@ public class PlantFragment extends Fragment {
 
               }
             });
-
 
             imageLicenseView.setMovementMethod(LinkMovementMethod.getInstance());
             downloadImageButton.setVisibility(View.VISIBLE);

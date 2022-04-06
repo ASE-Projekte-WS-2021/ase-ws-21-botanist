@@ -21,10 +21,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
   public static String TAG = "DATABASEACTIVITY";
 
-  /**
-   * Constructor
-   * @param context
-   */
+
   public DatabaseHelper(Context context) {
     super(context, DATABASE_NAME, null, DATABASE_VERSION);
     dbFile = context.getDatabasePath(DATABASE_NAME);
@@ -42,8 +39,9 @@ class DatabaseHelper extends SQLiteOpenHelper {
   }
 
   /**
-   * Function creates the SQL database
-   * @throws IOException
+   * Function creates the SQL database.
+   *
+   * @throws IOException thrown when database copying failed
    */
   public void createDataBase() throws IOException {
     // If the database does not exist, copy it from the assets.
@@ -61,15 +59,16 @@ class DatabaseHelper extends SQLiteOpenHelper {
   }
 
   /**
-   * Checks that the database file exists in databases folder
+   * Checks that the database file exists in databases folder.
    */
   private boolean checkDataBase() {
     return dbFile.exists();
   }
 
   /**
-   * Function copies the database file
-   * @throws IOException
+   * Function copies the database file.
+   *
+   * @throws IOException thrown if database cant be opened or read from
    */
   private void copyDataBase() throws IOException {
     InputStream inputStream = context.getAssets().open(DATABASE_NAME);
@@ -85,18 +84,18 @@ class DatabaseHelper extends SQLiteOpenHelper {
   }
 
   /**
-   * Function opens the SQL Database
+   * Function opens the SQL Database.
+   *
    * @return = Returns a boolean corresponding to the open/close value of the database
-   * @throws SQLException
    */
-  public boolean openDataBase() throws SQLException {
+  public boolean openDataBase() {
     dataBase = SQLiteDatabase
         .openDatabase(dbFile.getPath(), null, SQLiteDatabase.CREATE_IF_NECESSARY);
     return dataBase != null;
   }
 
   /**
-   * Function closes the SQL Database
+   * Function closes the SQL Database.
    */
   @Override
   public synchronized void close() {

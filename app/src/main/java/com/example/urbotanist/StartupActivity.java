@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import com.example.urbotanist.database.DatabaseAdapterActivity;
+import com.example.urbotanist.database.DatabaseAdapter;
 import com.example.urbotanist.database.RealmMigrations;
 import com.example.urbotanist.drawerfragments.plant.Plant;
 // realm by MongoDB, https://realm.io/
@@ -142,7 +142,7 @@ public class StartupActivity extends AppCompatActivity {
     // Creating a Realm Database from our SqlLite Database
     private void firstTimeSetupDb() {
 
-      DatabaseAdapterActivity dbHelper = new DatabaseAdapterActivity(activityReference.get());
+      DatabaseAdapter dbHelper = new DatabaseAdapter(activityReference.get());
       dbHelper.createDatabase();
       dbHelper.open();
       ArrayList<Plant> plants = dbHelper.getSearchResult("");

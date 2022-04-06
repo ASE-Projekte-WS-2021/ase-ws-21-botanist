@@ -8,6 +8,7 @@ import io.realm.Realm;
 public class BotanistApplication extends Application {
 
   public static Context context;
+
   @Override
   public void onCreate() {
     super.onCreate();

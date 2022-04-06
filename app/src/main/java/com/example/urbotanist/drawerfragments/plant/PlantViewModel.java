@@ -118,12 +118,12 @@ public class PlantViewModel extends ViewModel {
                   .get("value");
 
           // <a href="https://commons.wikimedia.org/wiki/File:Abies_pinsapo_var._tazaotana,_Wakehurst_Place,_UK_-_Diliff.jpg">Diliff</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
-          String completeLicenseHMTLString =
+          String completeLicenseHtmlString =
               author
                   + "</a>, <a href='" + licenseUrl + "'>" + licenseShortname
                   + "</a>, via Wikimedia Commons";
           imageDownloadListener
-              .onImageAvailabilityChecked(true, true, imageUrl, completeLicenseHMTLString,
+              .onImageAvailabilityChecked(true, true, imageUrl, completeLicenseHtmlString,
                   null);
 
         } catch (IOException | JSONException e) {
@@ -166,7 +166,7 @@ public class PlantViewModel extends ViewModel {
 
   }
 
-  private String saveImageToInternalStorage(Bitmap bitmapImage, String Path, String filename) {
+  private String saveImageToInternalStorage(Bitmap bitmapImage, String path, String filename) {
     Context context = BotanistApplication.context;
     ContextWrapper cw = new ContextWrapper(context);
     // path to /data/data/yourapp/app_data/imageDir

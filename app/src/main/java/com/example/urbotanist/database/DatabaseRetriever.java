@@ -18,7 +18,8 @@ import java.util.Set;
 public class DatabaseRetriever {
 
   /**
-   * Functions checks whether a given Plant Object is marked as favorite in the database
+   * Functions checks whether a given Plant Object is marked as favorite in the database.
+   *
    * @param plant = Current Plant Object to be checked
    * @param dbIsPlantFavouriteListener = Listener that gets called when the query is finished
    */
@@ -44,7 +45,8 @@ public class DatabaseRetriever {
   }
 
   /**
-   * Function removes a Plant's favorite status with a given ID from the database
+   * Function removes a Plant's favorite status with a given ID from the database.
+   *
    * @param plantId = Plant Object's ID in the database
    */
   public static void removeFavouritePlant(int plantId) {
@@ -64,6 +66,7 @@ public class DatabaseRetriever {
   /**
    * Function searches for plants that match the search term provided by the user.
    * Additionally sorts results by relevance and alphabet and removes duplicates when necessary.
+   *
    * @param searchTerm = The query typed by the user into the search bar
    * @param dbPlantFoundListener = Listener gets called once the query finished
    */
@@ -111,6 +114,7 @@ public class DatabaseRetriever {
 
   /**
    * Function searches for all plants with a matching area name.
+   *
    * @param areaName = A given area name
    * @param dbPlantFoundListener = Listener gets called once the query finished
    */
@@ -135,7 +139,8 @@ public class DatabaseRetriever {
   }
 
   /**
-   * Function searches for all plants that were marked "favorite"
+   * Function searches for all plants that were marked "favorite".
+   *
    * @param dbFavouritesFoundListener = Listener gets called once the query finished
    */
   public static void searchFavouritePlants(DbFavouritesFoundListener dbFavouritesFoundListener) {
@@ -156,6 +161,7 @@ public class DatabaseRetriever {
 
   /**
    * Function updates a plant that has been marked favorite in the database.
+   *
    * @param plant = a given Plant Object
    */
   public static void addFavouritePlant(Plant plant) {
