@@ -53,13 +53,16 @@ public class StartupActivity extends AppCompatActivity {
       handler.postDelayed(new Runnable() {
         @Override
         public void run() {
-          startMainActivity();
+          startNextActivity();
         }
       }, 1500);
 
     }
   }
 
+  /**
+   * Migrates the installed database to the version defined in schemaVersion(VERSION).
+   */
   private void handleDataBaseMigration() {
     final RealmConfiguration configuration = new RealmConfiguration.Builder().name("default.realm")
         .schemaVersion(2).migration(new RealmMigrations()).build();
@@ -68,6 +71,9 @@ public class StartupActivity extends AppCompatActivity {
   }
 
 
+  /**
+   * Sets the the ending animation of the splashscreen visible.
+   */
   private void startSplashscreenEnd() {
     splashscreen = findViewById(R.id.splashscreen);
     dataBaseSetupLoadingBar.setVisibility(View.GONE);
@@ -75,7 +81,10 @@ public class StartupActivity extends AppCompatActivity {
     splashscreen.setBackgroundResource(R.drawable.botanist_splashscreen_bigger_p2);
   }
 
-  private void startMainActivity() {
+  /**
+   * Starts the next activity: MainActivty or OnboardingActivty(on first app start).
+   */
+  private void startNextActivity() {
     SharedPreferences startupPreferences = getSharedPreferences("startupPreferences",
         Context.MODE_PRIVATE);
 
@@ -97,6 +106,9 @@ public class StartupActivity extends AppCompatActivity {
   }
 
 
+  /**
+   * Executes the Realm DB Setup as AsyncTask.
+   */
   private static class DbSetupBackgroundTask extends AsyncTask<Void, Void, String> {
 
     private final WeakReference<StartupActivity> activityReference;
@@ -120,10 +132,13 @@ public class StartupActivity extends AppCompatActivity {
 
     @Override
     protected void onPostExecute(String backgroundResult) {
-      activityReference.get().startMainActivity();
+      activityReference.get().startNextActivity();
 
     }
 
+    /**
+     * Realm Database Setup, by copying Objects from the SQLite database.
+     */
     // Creating a Realm Database from our SqlLite Database
     private void firstTimeSetupDb() {
 
