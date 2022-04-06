@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -13,9 +14,11 @@ import java.net.URL;
 
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
   WeakReference<ImageView> imageViewToUpdate;
+  WeakReference<TextView> imageLicenseViewToUpdate;
 
-  public DownloadImageTask(ImageView imageViewToUpdate) {
+  public DownloadImageTask(ImageView imageViewToUpdate, TextView imageLicenseViewToUpdate) {
     this.imageViewToUpdate = new WeakReference<>(imageViewToUpdate);
+    this.imageLicenseViewToUpdate = new WeakReference<>(imageLicenseViewToUpdate);
 
   }
 
@@ -36,9 +39,10 @@ public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
   }
 
   protected void onPostExecute(Bitmap result) {
-    if (imageViewToUpdate.get() != null) {
+    if (imageViewToUpdate.get() != null && imageLicenseViewToUpdate.get() != null) {
       imageViewToUpdate.get().setImageBitmap(result);
       imageViewToUpdate.get().setVisibility(View.VISIBLE);
+      imageLicenseViewToUpdate.get().setVisibility(View.VISIBLE);
     }
     imageViewToUpdate.clear();
   }

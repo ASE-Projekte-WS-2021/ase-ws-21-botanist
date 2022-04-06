@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.urbotanist.MainActivity;
@@ -53,6 +55,7 @@ public class PlantFragment extends Fragment {
   private ImageButton favButton;
   private boolean currentPlantIsFavourite = false;
   private ImageView plantImage;
+  private TextView imageLicenseView;
 
 
   public static PlantFragment newInstance() {
@@ -76,6 +79,7 @@ public class PlantFragment extends Fragment {
     alternativeLocationGrid = v.findViewById(R.id.alternative_locations_container);
     wikiButton = v.findViewById(R.id.wiki_button);
     plantImage = v.findViewById(R.id.plant_image);
+    imageLicenseView = v.findViewById(R.id.image_license_view);
     v.post(new Runnable() {
       @Override
       public void run() {
@@ -109,13 +113,20 @@ public class PlantFragment extends Fragment {
       plantViewModel = new ViewModelProvider(this).get(PlantViewModel.class);
     }
     plantViewModel.setSelectedPlant(plant);
-    plantViewModel.checkForPlantImage(new CheckForImageListener() {
+    plantImage.setVisibility(View.GONE);
+    imageLicenseView.setVisibility(View.GONE);
+    plantViewModel.checkForPlantImage(new ImageDownloadListener() {
       @Override
-      public void onImageAvailabilityChecked(boolean isAvailable, String imageDownloadUrl) {
+      public void onImageAvailabilityChecked(boolean isAvailable, String imageDownloadUrl,
+          String licenseHtmlString) {
         if (isAvailable) {
-          plantViewModel.downloadImage(plantImage, imageDownloadUrl);
+          imageLicenseView.setText(HtmlCompat.fromHtml(licenseHtmlString, 0));
+          imageLicenseView.setMovementMethod(LinkMovementMethod.getInstance());
+          plantViewModel.downloadImage(plantImage, imageLicenseView, imageDownloadUrl);
+
         } else {
           plantImage.setVisibility(View.GONE);
+          imageLicenseView.setVisibility(View.GONE);
         }
       }
     });

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".drawerfragments.plant.PlantFragment"
+    android:clickable="true"
     >
 
 
@@ -190,9 +191,17 @@
               android:id="@+id/plant_image"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:src="@drawable/plant_icon"
               android:layout_margin="5dp"
               android:adjustViewBounds="true"
               android:scaleType="fitStart"/>
+            <TextView
+              android:id="@+id/image_license_view"
+              android:visibility="gone"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:textSize="16sp"
+              />
 
         </LinearLayout>
     </ScrollView>
