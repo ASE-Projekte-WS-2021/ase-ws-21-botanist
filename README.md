@@ -29,7 +29,16 @@ gradlew checkstyle
 
 ## Appium App Testing
 
-TBD
+Starten des Appium Servers über die Appium Server GUI oder per Terminal.
+
+Im Python Skript angleichen: 
+desiredCaps dictionary:
+
+platFormVersion: Android-Version des Geräts für den Test
+
+deviceName: ID des Geräts (ID des zum Debugging angeschlossenen Geräts setzt Installation von ADB voraus, ID kann danach in einer Konsole via "adb devices" abgerufen werden).
+
+Anschließend kann das Skript (ase-ws-21-botanist\appium-automated-testing\test.py) gestartet werden.
 
 ---
 
