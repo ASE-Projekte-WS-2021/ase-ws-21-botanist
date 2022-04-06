@@ -12,8 +12,10 @@ Das beschreibt in etwa den Nutzen der Anwendung. Es handelt sich um einen kleine
 
 ### Manuelles Bauen auf Basis des Repositorys:
 Benötigt eine Internet Verbindung zum Download der Dependencies.
+
 Keine speziellen Vorbereitung nötig.
-Beim mehrmaligem bauen kann es zu einem Build-Error "Attempt to recreate a file for type io.realm.com_example_urbotanist_drawerfragments_plant_PlantRealmProxy" kommen, der bei erneutem Build Versuche jedoch nicht mehr auftritt.5
+
+Beim mehrmaligem bauen kann es zu einem Build-Error "Attempt to recreate a file for type io.realm.com_example_urbotanist_drawerfragments_plant_PlantRealmProxy" kommen, der bei erneutem Build Versuch jedoch nicht mehr auftritt.
 
 Bauen einer Debug-App:
 gradlew assembleDebug
