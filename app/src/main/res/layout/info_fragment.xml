@@ -336,6 +336,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginHorizontal="11dp">
+                <TextView
+                  android:id="@+id/infoText3"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:gravity="center"
+                  android:text="@string/impressum_sources"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginBottom="10dp"/>
 
                 <TextView
                     android:id="@+id/infoText2"
@@ -346,14 +354,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"/>
 
-                <TextView
-                    android:id="@+id/infoText3"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="@string/impressum_sources"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"/>
+
 
 
             </LinearLayout>
