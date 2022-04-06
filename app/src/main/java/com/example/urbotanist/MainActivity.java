@@ -5,11 +5,15 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -47,7 +51,6 @@ import com.google.android.gms.tasks.Task;
 import com.sileria.android.Kit;
 import com.sileria.android.view.SlidingTray;
 // GIF API by DroidsOnRoids, https://github.com/DroidsOnRoids/API
-import pl.droidsonroids.gif.GifImageView;
 
 
 public class MainActivity extends AppCompatActivity implements AreaSelectListener,
@@ -89,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     setupListeners();
     setTheme(R.style.Theme_URBotanist);
 
+    setContentView(R.layout.activity_main);
   }
 
   @SuppressLint("MissingPermission")

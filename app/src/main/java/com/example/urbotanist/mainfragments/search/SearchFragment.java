@@ -59,8 +59,6 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     initSearch();
     updatePlantWithQuery("");
 
-
-
     return v;
   }
 
