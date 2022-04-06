@@ -303,7 +303,7 @@ public class PlantFragment extends Fragment {
 
   public void setFavouriteButtonState(boolean isFavourite) {
     if (isFavourite) {
-      favButton.setBackground(mainActivity.getDrawable(R.drawable.ic_fav_wb_n));
+      favButton.setBackground(mainActivity.getDrawable(R.drawable.ic_fav_wb_n2));
     } else {
       favButton.setBackground(mainActivity.getDrawable(R.drawable.ic_fav_wb));
     }
