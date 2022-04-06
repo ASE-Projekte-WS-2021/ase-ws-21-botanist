@@ -11,7 +11,23 @@ Das beschreibt in etwa den Nutzen der Anwendung. Es handelt sich um einen kleine
 ---
 
 ### Manuelles Bauen auf Basis des Repositorys:
-Keine Abhängigkeiten vorhanden. App kann ohne weitere Installationen gebaut und ausgeführt werden.
+Benötigt eine Internet Verbindung zum Download der Dependencies.
+Keine speziellen Vorbereitung nötig.
+Beim mehrmaligem bauen kann es zu einem Build-Error "Attempt to recreate a file for type io.realm.com_example_urbotanist_drawerfragments_plant_PlantRealmProxy" kommen, der bei erneutem Build Versuche jedoch nicht mehr auftritt.5
+
+Bauen einer Debug-App:
+gradlew assembleDebug
+
+Bauen einer Release-App:
+gradlew assembleRelease
+
+## Checkstyle
+
+gradlew checkstyle
+
+## Appium App Testing
+
+TBD
 
 ---
 
@@ -28,7 +44,7 @@ Sabrina: Karte (Marker, Highlighting, Positionsbestimmung)
 
 Anton: Design (Entwürfe und xml-Design), Splashscreen
 
-Johannes: Betreuung, Hilfe für alle, MVP
+Johannes: Technisches Design, Architektur Umsetzung, Github Actions, Hilfe für alle
 
 
 Aber auf Absprache haben alle allen geholfen.
