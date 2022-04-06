@@ -99,7 +99,6 @@ public class PlantFragment extends Fragment {
     super.onStart();
     setupUi(((MainActivity) requireActivity()).getCurrentPlant());
 
-
     //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
   }
 
@@ -115,8 +114,7 @@ public class PlantFragment extends Fragment {
       public void onImageAvailabilityChecked(boolean isAvailable, String imageDownloadUrl) {
         if (isAvailable) {
           plantViewModel.downloadImage(plantImage, imageDownloadUrl);
-        }
-        else {
+        } else {
           plantImage.setVisibility(View.GONE);
         }
       }

@@ -38,13 +38,13 @@ public class PlantViewModel extends ViewModel {
         JSONObject responseObject;
         try {
           assert response.body() != null;
-          responseObject =  new JSONObject(response.body().string());
+          responseObject = new JSONObject(response.body().string());
           JSONObject pages = responseObject.getJSONObject("query").getJSONObject("pages");
           String imageUrl =
               "" + pages.getJSONObject(pages.keys().next()).getJSONObject("original")
                   .get("source");
           listener.onImageAvailabilityChecked(true, imageUrl);
-          Log.d("apicall", "imageAvailable at: "+ imageUrl);
+          Log.d("apicall", "imageAvailable at: " + imageUrl);
 
         } catch (IOException | JSONException e) {
           e.printStackTrace();
