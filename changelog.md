@@ -1,3 +1,12 @@
+    - Added image download to Plants Fragment
+    - Current user positions Area will now be marked if gps is activated
+    - Refactored Database calls to be static
+    - Refactored Package structure
+    - Added JavaDoc Comments to some functions
+    - Fixed a bug that stopped map functionalities after a Map Area was selected from the AreaDrawer
+    - Updated Readme with project informations
+
+
 ### v0.0.5
 
     - If the users is located at an area, markers of that area will now be highlighted
