@@ -44,12 +44,10 @@ public class PlantViewModel extends ViewModel {
               "" + pages.getJSONObject(pages.keys().next()).getJSONObject("original")
                   .get("source");
           listener.onImageAvailabilityChecked(true, imageUrl);
-          Log.d("apicall", "imageAvailable at: " + imageUrl);
 
         } catch (IOException | JSONException e) {
           e.printStackTrace();
           listener.onImageAvailabilityChecked(false, null);
-          Log.d("apicall", "imageAvailable false ");
         }
 
       }
@@ -57,7 +55,6 @@ public class PlantViewModel extends ViewModel {
       @Override
       public void onFailure(@NonNull Call<okhttp3.ResponseBody> call, @NonNull Throwable t) {
         listener.onImageAvailabilityChecked(false, null);
-        Log.d("apicall", "imageAvailable false ");
       }
     });
   }
@@ -65,7 +62,6 @@ public class PlantViewModel extends ViewModel {
   public void downloadImage(ImageView plantImage, String downloadUrl) {
     new DownloadImageTask(plantImage).execute(
         downloadUrl);
-    Log.d("apicall", "downloading image");
   }
 
 }
