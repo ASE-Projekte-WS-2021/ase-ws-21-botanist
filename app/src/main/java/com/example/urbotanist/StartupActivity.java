@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,30 +18,29 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import javax.xml.transform.Result;
 import pl.droidsonroids.gif.GifImageView;
+import pl.droidsonroids.gif.GifTextView;
 
 public class StartupActivity extends AppCompatActivity {
 
-  private GifImageView splashscreen;
+  private GifTextView splashscreen;
   String dbIsSetupKey = "DB_IS_SETUP";
-  ProgressBar databaseSetupSpinner;
+  GifImageView dataBaseSetupLoadingBar;
   TextView databaseSetupText;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_startup);
-    databaseSetupSpinner = findViewById(R.id.data_base_setup_spinner);
+    dataBaseSetupLoadingBar = findViewById(R.id.data_base_setup_loadingbar);
     databaseSetupText = findViewById(R.id.data_base_setup_text);
-    setupSplashscreen();
     handleDataBaseMigration();
     SharedPreferences startupPreferences = getSharedPreferences("startupPreferences",
         Context.MODE_PRIVATE);
 
     boolean needsDbSetup;
     if (!startupPreferences.getBoolean(dbIsSetupKey, false)) {
-      databaseSetupSpinner.setVisibility(View.VISIBLE);
+      dataBaseSetupLoadingBar.setVisibility(View.VISIBLE);
       databaseSetupText.setVisibility(View.VISIBLE);
       needsDbSetup = true;
       new DbSetupBackgroundTask(this).execute();
@@ -58,6 +56,7 @@ public class StartupActivity extends AppCompatActivity {
           startMainActivity();
         }
       }, 1500);
+
     }
   }
 
@@ -69,23 +68,31 @@ public class StartupActivity extends AppCompatActivity {
   }
 
 
-  private void setupSplashscreen() {
-    //setting up the splashscreen
+  private void startSplashscreenEnd() {
     splashscreen = findViewById(R.id.splashscreen);
-    splashscreen.setVisibility(View.VISIBLE);
+    dataBaseSetupLoadingBar.setVisibility(View.GONE);
+    databaseSetupText.setVisibility(View.GONE);
+    splashscreen.setBackgroundResource(R.drawable.botanist_splashscreen_bigger_p2);
   }
 
   private void startMainActivity() {
-    SharedPreferences startupPreferences = getSharedPreferences("startupPreferences", Context.MODE_PRIVATE);
+    SharedPreferences startupPreferences = getSharedPreferences("startupPreferences",
+        Context.MODE_PRIVATE);
     //startupPreferences.getBoolean("ONBOARDING_SEEN", false);
-
-    if(!startupPreferences.getBoolean("ONBOARDING_SEEN", false)) {
-      startActivity(new Intent(this, OnboardingActivity.class));
-    } else {
-      Intent intent = new Intent(StartupActivity.this, MainActivity.class);
-      startActivity(intent);
-      finish();
-    }
+    startSplashscreenEnd();
+    Handler handler = new Handler();
+    handler.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        if (!startupPreferences.getBoolean("ONBOARDING_SEEN", false)) {
+          startActivity(new Intent(StartupActivity.this, OnboardingActivity.class));
+        } else {
+          Intent intent = new Intent(StartupActivity.this, MainActivity.class);
+          startActivity(intent);
+          finish();
+        }
+      }
+    }, 1500);
   }
 
 
