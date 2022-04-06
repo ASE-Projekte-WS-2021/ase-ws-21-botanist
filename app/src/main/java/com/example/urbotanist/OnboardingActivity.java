@@ -6,6 +6,10 @@ import com.example.urbotanist.ui.onboarding.OnboardingFragment;
 
 public class OnboardingActivity extends FragmentActivity {
 
+  /**
+   * Onboarding Activity used as parent for the Onboarding Fragment
+   * @param savedInstanceState
+   */
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

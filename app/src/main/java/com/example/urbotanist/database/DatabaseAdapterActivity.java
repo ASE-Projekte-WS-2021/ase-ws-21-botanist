@@ -23,11 +23,20 @@ public class DatabaseAdapterActivity {
   private SQLiteDatabase sqLiteDatabase;
   private DatabaseHelper dbHelper;
 
+  /**
+   * Constructor
+   * @param context
+   */
   public DatabaseAdapterActivity(Context context) {
     this.context = context;
     dbHelper = new DatabaseHelper(this.context);
   }
 
+  /**
+   * Calls the DatabaseHelper Class and creates the SQL Database
+   * @return
+   * @throws SQLException
+   */
   public DatabaseAdapterActivity createDatabase() throws SQLException {
     try {
       dbHelper.createDataBase();
@@ -38,6 +47,11 @@ public class DatabaseAdapterActivity {
     return this;
   }
 
+  /**
+   * Opens the SQLDatabase in the Helper class.
+   * @return
+   * @throws SQLException
+   */
   public DatabaseAdapterActivity open() throws SQLException {
     try {
       dbHelper.openDataBase();
@@ -50,10 +64,19 @@ public class DatabaseAdapterActivity {
     return this;
   }
 
+  /**
+   * Closes the DatabaseHelper Object
+   */
   public void close() {
     dbHelper.close();
   }
 
+  /**
+   * Function used to transfer all plants saved in the SQL database to be transfered into the Realm
+   * Database on first start of the app.
+   * @param searchTerm = to initialize the database, the searchTerm is an empty string.
+   * @return Function returns a list of all plants in the database
+   */
   public ArrayList<Plant> getSearchResult(String searchTerm) {
     ArrayList<Plant> results = new ArrayList<Plant>();
     ArrayList<String> alreadySaved = new ArrayList<String>();
@@ -78,12 +101,10 @@ public class DatabaseAdapterActivity {
             String plantNative = cursor.getString(6);
             //get all native names for a plant
             RealmList<String> nameCommon = getAllNativeNames(genus, type, 7);
-            //String nameCommon = cursor.getString(7);
             String lifeForm = cursor.getString(8);
             RealmList<String> locationShort = getAllNativeNames(genus, type, 9);
             RealmList<String> locationLong = getAllNativeNames(genus, type, 10);
-            //String locationShort = cursor.getString(9);
-            //String locationLong = cursor.getString(10);
+
             boolean isFavored = false;
 
             results.add(
@@ -100,6 +121,13 @@ public class DatabaseAdapterActivity {
     }
   }
 
+  /**
+   * Function returns a list with different native names that share a biological name.
+   * Alternatively also returns a list of locations for a plant with its single biological name that appears in different locations.
+   * @param genus & @param type are used to identify a single plant via its unique biological name
+   * @param row = used to determine the use case, as described in the function's description (row 7: native names, row 9/10: locations)
+   * @return Function returns a String List containing all native names
+   */
   private RealmList<String> getAllNativeNames(String genus, String type, int row) {
     RealmList<String> result = new RealmList<String>();
     try {
