@@ -1,6 +1,8 @@
 package com.example.urbotanist.ui.onboarding;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.view.LayoutInflater;
@@ -13,7 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.leanback.app.OnboardingSupportFragment;
 
+import com.example.urbotanist.MainActivity;
 import com.example.urbotanist.R;
+import com.example.urbotanist.StartupActivity;
 
 public class OnboardingFragment extends OnboardingSupportFragment {
 
@@ -32,10 +36,10 @@ public class OnboardingFragment extends OnboardingSupportFragment {
     super.onAttach(context);
     mTitles = new String[]{"URBotanist", "Funktionen", "Erklärungen"};
     mDescriptions = new String[]{"Willkommen in der App URBotanist, dem kleinen handlichen Begleiter für Ihren Besuch im botanischen Garten der Universität Regensburg",
-                                 "In dieser App können Sie Ihren Standort im botanischen Garten einsehen, nach Pflanzen suchen und über sie lernen. Ebenso können Sie andere Pflanzen im selben Bereich erkunden und Ihre Favoriten speichern.",
+                                 "In dieser App können Sie nach Pflanzen suchen und über sie lernen. Ebenso können Sie andere Pflanzen im selben Bereich erkunden, Ihren Standort einsehen und Ihre Favoriten speichern.\nDas alles kann man mit dem roten Lesezeichen finden!",
                                  "Kurz vorab: Die Kürzel der Bereiche sind dieselben Kürzel, die auch auf den Karten im botanischen Garten gefunden werden können, also wenn ein Bereich dort besonders gefällt, kann man ihn in der App erkunden!"};
-    mImages = new int[] {R.drawable.botanist_icon, R.drawable.fav_button, R.drawable.botanist_icon};
-    //mDescriptions = getResources().getStringArray(R.array.onboarding_page_descriptions);
+    mImages = new int[] {R.drawable.botanist_icon, R.drawable.onboarding_search, R.drawable.onboarding_map};
+
     setDotBackgroundColor(ContextCompat.getColor(context,R.color.green));
     setArrowColor(ContextCompat.getColor(context,R.color.light_green));
     setStartButtonText("Auf geht's!");
@@ -90,19 +94,12 @@ public class OnboardingFragment extends OnboardingSupportFragment {
   @Override
   protected void onFinishFragment() {
     super.onFinishFragment();
-    // User has seen OnboardingSupportFragment, so mark our SharedPreferences
-    // flag as completed so that we don't show our OnboardingSupportFragment
-    // the next time the user launches the app.
-        /*
-        SharedPreferences.Editor sharedPreferencesEditor =
-                PreferenceManager.getDefaultSharedPreferences(getContext()).edit();
-        sharedPreferencesEditor.putBoolean(
-                COMPLETED_ONBOARDING_PREF_NAME
+    // Onboarding is flagged as seen, starts Main Activity
+    SharedPreferences startupPreferences = requireActivity().getSharedPreferences("startupPreferences", Context.MODE_PRIVATE);
+    // startupPreferences.edit().putBoolean("ONBOARDING_SEEN", true).apply();
 
-                , true);
-        sharedPreferencesEditor.apply();
-
-         */
+    Intent intent = new Intent(requireActivity(), MainActivity.class);
+    startActivity(intent);
     getActivity().finish();
   }
 

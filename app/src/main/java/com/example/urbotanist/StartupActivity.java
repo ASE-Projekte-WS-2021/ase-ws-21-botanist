@@ -76,9 +76,16 @@ public class StartupActivity extends AppCompatActivity {
   }
 
   private void startMainActivity() {
-    Intent intent = new Intent(StartupActivity.this, MainActivity.class);
-    startActivity(intent);
-    finish();
+    SharedPreferences startupPreferences = getSharedPreferences("startupPreferences", Context.MODE_PRIVATE);
+    //startupPreferences.getBoolean("ONBOARDING_SEEN", false);
+
+    if(!startupPreferences.getBoolean("ONBOARDING_SEEN", false)) {
+      startActivity(new Intent(this, OnboardingActivity.class));
+    } else {
+      Intent intent = new Intent(StartupActivity.this, MainActivity.class);
+      startActivity(intent);
+      finish();
+    }
   }
 
 

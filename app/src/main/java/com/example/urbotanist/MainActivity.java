@@ -5,6 +5,7 @@ import static com.google.android.gms.location.LocationServices.getFusedLocationP
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -92,16 +93,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     setTheme(R.style.Theme_URBotanist);
 
     setContentView(R.layout.activity_main);
-    SharedPreferences sharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(this);
-    // Check if we need to display our OnboardingSupportFragment
-    //if (!sharedPreferences.getBoolean(
-    //        OnboardingActivity.COMPLETED_ONBOARDING_PREF_NAME
-    //        , false)) {
-      // The user hasn't seen the OnboardingSupportFragment yet, so show it
-    startActivity(new Intent(this, OnboardingActivity.class));
-    //}
-
   }
 
   @SuppressLint("MissingPermission")
