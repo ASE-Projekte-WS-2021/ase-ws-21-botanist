@@ -32,7 +32,7 @@
         android:layout_gravity="bottom"
         android:layout_marginLeft="10dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/ic_toggle_marker_svg"
+        android:background="@drawable/toggle_button_map_marker"
         android:orientation="vertical" />
 
 

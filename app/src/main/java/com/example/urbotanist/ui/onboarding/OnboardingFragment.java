@@ -1,5 +1,7 @@
 package com.example.urbotanist.ui.onboarding;
 
+import static com.sileria.android.Resource.getResources;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -42,11 +44,11 @@ public class OnboardingFragment extends OnboardingSupportFragment {
         getResources().getText(R.string.onboarding_description_page_1).toString(),
         getResources().getText(R.string.onboarding_description_page_2).toString(),
         getResources().getText(R.string.onboarding_description_page_3).toString()};
-    images = new int[]{R.drawable.botanist_icon, R.drawable.onboarding_search,
+    images = new int[]{R.drawable.ic_botanist_logo_k, R.drawable.onboarding_search,
         R.drawable.onboarding_map};
 
     setDotBackgroundColor(ContextCompat.getColor(context, R.color.green));
-    setArrowColor(ContextCompat.getColor(context, R.color.light_green));
+    setArrowColor(ContextCompat.getColor(context, R.color.green));
     setStartButtonText(getResources().getText(R.string.onboarding_button));
   }
 
