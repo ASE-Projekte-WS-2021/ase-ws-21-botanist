@@ -78,19 +78,20 @@ public class StartupActivity extends AppCompatActivity {
   private void startMainActivity() {
     SharedPreferences startupPreferences = getSharedPreferences("startupPreferences",
         Context.MODE_PRIVATE);
-    //startupPreferences.getBoolean("ONBOARDING_SEEN", false);
+
     startSplashscreenEnd();
     Handler handler = new Handler();
     handler.postDelayed(new Runnable() {
       @Override
       public void run() {
+        Intent intent;
         if (!startupPreferences.getBoolean("ONBOARDING_SEEN", false)) {
-          startActivity(new Intent(StartupActivity.this, OnboardingActivity.class));
+          intent = new Intent(StartupActivity.this, OnboardingActivity.class);
         } else {
-          Intent intent = new Intent(StartupActivity.this, MainActivity.class);
-          startActivity(intent);
-          finish();
+          intent = new Intent(StartupActivity.this, MainActivity.class);
         }
+        startActivity(intent);
+        finish();
       }
     }, 1500);
   }

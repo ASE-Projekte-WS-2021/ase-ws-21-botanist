@@ -91,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
 
     setupListeners();
     setTheme(R.style.Theme_URBotanist);
-
-    setContentView(R.layout.activity_main);
   }
 
   @SuppressLint("MissingPermission")
