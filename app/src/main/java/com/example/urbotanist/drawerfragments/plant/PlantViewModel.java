@@ -68,7 +68,7 @@ public class PlantViewModel extends ViewModel {
             responseObject = new JSONObject(response.body().string());
             JSONObject pages = responseObject.getJSONObject("query").getJSONObject("pages");
             String imageUrl =
-                "" + pages.getJSONObject(pages.keys().next()).getJSONObject("original")
+                "" + pages.getJSONObject(pages.keys().next()).getJSONObject("thumbnail")
                     .get("source");
             String imageName = "" + pages.getJSONObject(pages.keys().next()).get("pageimage");
 
