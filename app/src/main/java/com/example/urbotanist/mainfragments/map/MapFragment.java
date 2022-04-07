@@ -97,6 +97,10 @@ public class MapFragment extends CurrentScreenFragment implements
   }
 
 
+  /**
+   * @param googleMap GoogleMap object as soon as Map is ready
+   *                  method inits map and data
+   */
   @SuppressLint("PotentialBehaviorOverride")
   @Override
   public void onMapReady(@NonNull GoogleMap googleMap) {
@@ -127,6 +131,9 @@ public class MapFragment extends CurrentScreenFragment implements
   }
 
 
+  /**
+   *  inits map regarding ui settings (zoomcontrol, location)
+   */
   private void initMap() {
     map.getUiSettings().setZoomControlsEnabled(true);
     map.setLatLngBoundsForCameraTarget(mapBounds);
@@ -142,6 +149,10 @@ public class MapFragment extends CurrentScreenFragment implements
     map.setMyLocationEnabled(true);
   }
 
+  /**
+   *  checks if location permission is granted and enables user location button in map
+   *  if no permission is granted, app will ask for permission
+   */
   public void requestLocationPermissions() {
     MainActivity mainActivity = (MainActivity) getActivity();
     if (mainActivity != null) {
@@ -162,10 +173,17 @@ public class MapFragment extends CurrentScreenFragment implements
     }
   }
 
+  /**
+   * @param listener sets listener for click on Marker info
+   *                 can be called from main activity
+   */
   public void setMarkerInfoClickListener(MarkerInfoClickListener listener) {
     this.markerInfoClickListener = listener;
   }
 
+  /**
+   * @param currentUserLocation current user location as a LatLng
+   */
   public void highlightUserAreaMarker(LatLng currentUserLocation) {
     mapViewModel.highlightMarker(currentUserLocation);
   }
@@ -212,6 +230,9 @@ public class MapFragment extends CurrentScreenFragment implements
     mapView.onLowMemory();
   }
 
+  /**
+   * @param plantArea gets the area as a string, it gets cut to only the first letter
+   */
   public void setPlantArea(String plantArea) {
     if (!plantArea.equals("")) {
       this.plantArea = plantArea.substring(0, 1);

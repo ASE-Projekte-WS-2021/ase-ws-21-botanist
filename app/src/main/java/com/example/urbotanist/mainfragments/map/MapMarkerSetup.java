@@ -7,6 +7,9 @@ import java.util.ArrayList;
 public class MapMarkerSetup {
 
 
+  /**
+   * @return sets up all Marker as MarkerInfo and returns them in an ArrayList
+   */
   public static ArrayList<MarkerInfo> setupMarkerCoordinatesAndNames() {
     ArrayList<MarkerInfo> markerInfoArray = new ArrayList<MarkerInfo>();
 

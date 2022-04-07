@@ -37,12 +37,20 @@ public class MapViewModel extends ViewModel {
   private final HashMap<Polygon, String> reversedPolyHashMap = new HashMap<>();
   private final ArrayList<PolygonInfo> polyInfoList;
 
+  /**
+   * @param iconGen gets icon generator for custom marker icons
+   *                instantiates area polygons and sets them in a ArrayList
+   */
   public MapViewModel(IconGenerator iconGen) {
     this.iconGen = iconGen;
     PolygonMaker polyMaker = new PolygonMaker();
     polyInfoList = polyMaker.getPolyInfoList();
   }
 
+  /**
+   * @param googleMap gets GoogleMap object as soon as map is ready
+   *        adds polygons to map and sets zoom to the middle of the garden
+   */
   public void initData(GoogleMap googleMap) {
     map = googleMap;
 
@@ -53,6 +61,9 @@ public class MapViewModel extends ViewModel {
 
   }
 
+  /**
+   * instantiates all info markers for each area
+   */
   public void initInfoMarker() {
     ArrayList<MarkerInfo> markerInfoList = MapMarkerSetup.setupMarkerCoordinatesAndNames();
     iconGen.setStyle(IconGenerator.STYLE_DEFAULT);
@@ -69,6 +80,9 @@ public class MapViewModel extends ViewModel {
     }
   }
 
+  /**
+   * when toggle button is pressed this method will be called and toggles visibility of markers
+   */
   public void toggleMarkerVisibility() {
     for (Marker marker : markerList) {
       if (marker.isVisible()) {
@@ -79,6 +93,11 @@ public class MapViewModel extends ViewModel {
     }
   }
 
+  /**
+   * adds all polygons to map
+   * map.addPolygon returns polygon, which will be set in a hashmap (area name as key)
+   * a reversed hashmap is made, with polygon as key for search purposes
+   */
   private void addPolygonsToMap() {
     for (PolygonInfo polygonInfo : polyInfoList) {
       ArrayList<PolygonOptions> polygonOptList = polygonInfo.getPolyOpList();
@@ -99,6 +118,12 @@ public class MapViewModel extends ViewModel {
     }
   }
 
+  /**
+   * @param location gets a one letter location string
+   *                 searches in reversedPolyHashMap for all polygons with this location
+   *                 and highlights them with red color
+   *                 also calls findPolygonCenter for zoom purposes
+   */
   public void setPlantArea(String location) {
     for (String area : reversedPolyHashMap.values()) {
       if (area.equals(location)) {
@@ -114,6 +139,13 @@ public class MapViewModel extends ViewModel {
     }
   }
 
+  /**
+   * @param polygon gets a Polygon, which should be zoomed at
+   *                LatLngBounds.Builder takes all LatLngs from polygon
+   *                and finds centerpoint, which is also a LatLng value
+   *
+   *                GoogleMap object then zooms at this center
+   */
   private void findPolygonCenter(Polygon polygon) {
     LatLng centerPoint;
     LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -128,10 +160,15 @@ public class MapViewModel extends ViewModel {
 
   }
 
-  //gets User position as LatLng
-  //sets Highlight to default for 'not in polygon' case
-  //checks if user Position is in any area and highlights all the area markers
-  public void highlightMarker(LatLng currentUserLocation) {
+  /**
+   * method to highlight marker in area, in which user is located
+   *
+   * @param currentUserLocation as a LatLng, contains current user location
+   *
+   *   sets Highlight to default for 'not in polygon' case
+   *   checks if user Position is in any area and highlights all the area markers
+   */
+   public void highlightMarker(LatLng currentUserLocation) {
     setMarkerDefault();
     String currentUserArea = "";
     for (ArrayList<Polygon> polygonList : polyHashMap.values()) {
@@ -148,12 +185,19 @@ public class MapViewModel extends ViewModel {
     }
   }
 
+  /**
+   * all markers will be set to default look
+   */
   private void setMarkerDefault() {
     for (Marker marker : markerList) {
       setMarkerHighlight(marker, false);
     }
   }
 
+  /**
+   * @param marker Marker, which should be highlighted
+   * @param highlight true: marker gets highlighted, false: default look
+   */
   private void setMarkerHighlight(Marker marker, boolean highlight) {
     if (highlight) {
       iconGen.setStyle(IconGenerator.STYLE_GREEN);
