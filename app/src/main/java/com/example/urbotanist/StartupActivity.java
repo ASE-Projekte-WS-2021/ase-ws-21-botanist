@@ -83,7 +83,7 @@ public class StartupActivity extends AppCompatActivity {
   }
 
   /**
-   * Starts the next activity: MainActivty or OnboardingActivty(on first app start).
+   * Starts the next activity: MainActivity or OnboardingActivty(on first app start).
    */
   private void startNextActivity() {
     SharedPreferences startupPreferences = getSharedPreferences("startupPreferences",

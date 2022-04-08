@@ -97,7 +97,6 @@ public class PlantFragment extends Fragment {
       }
     });
 
-
     return v;
   }
 
@@ -117,7 +116,9 @@ public class PlantFragment extends Fragment {
     setupUi(((MainActivity) requireActivity()).getCurrentPlant());
   }
 
-
+  /**
+   * Connects Views with their layout counterparts and adapters.
+   */
   public void setupUi(Plant plant) {
 
     plantImage.setVisibility(View.GONE);
@@ -132,7 +133,6 @@ public class PlantFragment extends Fragment {
     plantInfoScrollViewContainer.scrollTo(0, 0);
 
     plantViewModel.setSelectedPlant(plant);
-
 
     if (plantViewModel.selectedPlant != null) {
       plantFullNameView.setText(plantViewModel.selectedPlant.fullName);
@@ -221,6 +221,11 @@ public class PlantFragment extends Fragment {
     }
   }
 
+
+  /**
+   * Checks if plant is marked as Favourite and set calls setFavouriteButtonState when check is
+   * finished.
+   */
   private void checkIfPlantIsFavourite() {
     DatabaseRetriever.checkIfPlantIsFavourite(plantViewModel.selectedPlant,
         new DbIsPlantFavouriteListener() {
@@ -232,6 +237,9 @@ public class PlantFragment extends Fragment {
         });
   }
 
+  /**
+   * Concatenates all Common names to the plant, to be seen in the plantCommonNameView.
+   */
   private void setupPlantCommonNames() {
     String allNames = "";
     if (!plantViewModel.selectedPlant.commonName.isEmpty()) {
@@ -245,6 +253,9 @@ public class PlantFragment extends Fragment {
     }
   }
 
+  /**
+   * Sets up buttons for all locations that are listed for the current plant in the database.
+   */
   private void setupLocationButtons() {
     int buttonColumnCount = 3;
     int gridWidth = (int) (screenWidth * 0.40);
@@ -301,6 +312,11 @@ public class PlantFragment extends Fragment {
     }
   }
 
+  /**
+   * Changes the Favourite buttons image according to its status.
+   *
+   * @param isFavourite if plant is favourite
+   */
   public void setFavouriteButtonState(boolean isFavourite) {
     if (isFavourite) {
       favButton.setBackground(mainActivity.getDrawable(R.drawable.ic_fav_wb_n2));

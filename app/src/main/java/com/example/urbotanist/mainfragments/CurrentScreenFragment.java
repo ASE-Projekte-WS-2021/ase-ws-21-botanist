@@ -23,6 +23,9 @@ public abstract class CurrentScreenFragment extends Fragment {
   public abstract View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState);
 
+  /**
+   * Fade animation gets played onStart for every fragment that inherits from this class.
+   */
   @Override
   public void onStart() {
     super.onStart();

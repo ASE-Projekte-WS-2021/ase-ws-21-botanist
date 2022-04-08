@@ -13,6 +13,9 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+/**
+ * Async Task for downloading a bitmap from an URL.
+ */
 public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
   DownloadImageListener downloadImageListener;
 

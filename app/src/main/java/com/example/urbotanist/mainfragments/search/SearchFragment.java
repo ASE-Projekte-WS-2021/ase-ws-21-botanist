@@ -57,7 +57,7 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
     searchListRecycler.addItemDecoration(
         new DividerItemDecoration(searchListRecycler.getContext(), DividerItemDecoration.VERTICAL));
     initSearch();
-    updatePlantWithQuery("");
+    sendNewSearchQuery("");
 
     return v;
   }
@@ -68,6 +68,9 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
 
   }
 
+  /**
+   * Sets up input listeners for the search field.
+   */
   public void initSearch() {
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override
@@ -81,13 +84,19 @@ public class SearchFragment extends CurrentScreenFragment implements SearchResul
       }
 
       public boolean handleSearch(String query) {
-        updatePlantWithQuery(query);
+        sendNewSearchQuery(query);
         return false;
       }
     });
   }
 
-  private void updatePlantWithQuery(String query) {
+  /**
+   * Sends a new search query to the database and sets a listener for the result. Also updates
+   * The views accordingly
+   *
+   * @param query string for the query to search plants with
+   */
+  private void sendNewSearchQuery(String query) {
     searchOngoingSpinner.setVisibility(View.VISIBLE);
     noSearchResultsText.setVisibility(View.GONE);
     DatabaseRetriever.searchPlants(query, new DbPlantFoundListener() {

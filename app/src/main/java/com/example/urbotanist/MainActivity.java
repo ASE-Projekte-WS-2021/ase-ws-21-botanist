@@ -4,16 +4,12 @@ import static android.view.animation.AnimationUtils.loadAnimation;
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.Manifest.permission;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -89,70 +85,10 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     loadCurrentScreenFragment(mapFragment);
     loadCurrentDrawerFragment(favoritesDrawerFragment);
 
-    setupListeners();
+    setupButtonListeners();
     setTheme(R.style.Theme_URBotanist);
   }
 
-  @SuppressLint("MissingPermission")
-  private void getLastUserLocation() {
-    fusedLocationClient = getFusedLocationProviderClient(this);
-    fusedLocationClient.getLastLocation()
-        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-          @Override
-          public void onSuccess(Location location) {
-            // Got last known location. In some rare situations this can be null.
-            if (location != null) {
-              currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
-              mapFragment.highlightUserAreaMarker(currentUserLocation);
-            }
-          }
-        });
-  }
-
-  private void initLocationServices() {
-    getLastUserLocation();
-    getLocationRequest();
-    getLocationUpdates();
-  }
-
-  private void getLocationRequest() {
-    locationRequest = LocationRequest.create();
-    locationRequest.setInterval(4000);
-    locationRequest.setFastestInterval(2000);
-    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    mapFragment.requestLocationPermissions();
-  }
-
-  private void getLocationUpdates() {
-    LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
-        .addLocationRequest(locationRequest);
-    SettingsClient client = LocationServices.getSettingsClient(this);
-    Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
-    task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
-      @Override
-      public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-        startLocationUpdates();
-      }
-    });
-  }
-
-  private void startLocationUpdates() {
-    if (ActivityCompat.checkSelfPermission(
-        this, Manifest.permission.ACCESS_FINE_LOCATION)
-        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-        this, Manifest.permission.ACCESS_COARSE_LOCATION)
-        != PackageManager.PERMISSION_GRANTED) {
-      return;
-    }
-    getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest,
-        new LocationCallback() {
-          @Override
-          public void onLocationResult(LocationResult locationResult) {
-            onLocationChanged(locationResult.getLastLocation());
-          }
-        },
-        Looper.myLooper());
-  }
 
   /**
    * Setup Views for main activity.
@@ -175,16 +111,56 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     handle.setY(handle.getY() - 30f);
   }
 
+  /**
+   * Loads the given Fragment into the Drawer.
+   *
+   * @param fragment fragment to be loaded
+   */
+  public void loadCurrentDrawerFragment(Fragment fragment) {
+    String fragmentName = fragment.getClass().getSimpleName();
+    if (fragmentName.equals(plantDrawerFragment.getClass().getSimpleName())) {
+      drawerAreaButton.setBackground(null);
+      drawerFavouritesButton.setBackground(null);
+      //drawerPlantButton.setBackground(getDrawable(R.color.white));
+      drawerPlantButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
+    } else if (fragmentName.equals(areaDrawerFragment.getClass().getSimpleName())) {
+      drawerPlantButton.setBackground(null);
+      drawerFavouritesButton.setBackground(null);
+      drawerAreaButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
+    } else if (fragmentName.equals(favoritesDrawerFragment.getClass().getSimpleName())) {
+      drawerPlantButton.setBackground(null);
+      drawerAreaButton.setBackground(null);
+      drawerFavouritesButton.setBackground(ContextCompat
+          .getDrawable(this, R.drawable.ic_drawerbutton));
+    }
 
-  private void showMapWithArea(String area) {
-    mapFragment = new MapFragment();
-    loadCurrentScreenFragment(mapFragment);
-    mapFragment.setPlantArea(area);
-    setupListeners();
+    getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
+        .commitNow();
+  }
+
+  /**
+   * Loads the given Fragment into the MainActivity.
+   *
+   * @param fragment fragment to be loaded
+   */
+  public void loadCurrentScreenFragment(Fragment fragment) {
+    String fragmentName = fragment.getClass().getSimpleName();
+    if (infoFragment.getClass().getSimpleName().equals(fragmentName)) {
+      focusButton(infoButton);
+    } else if (searchFragment.getClass().getSimpleName().equals(fragmentName)) {
+      focusButton(searchButton);
+    } else if (mapFragment.getClass().getSimpleName().equals(fragmentName)) {
+      focusButton(showMapButton);
+    }
+    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
+        .commitNow();
   }
 
 
-  private void setupListeners() {
+  /**
+   * Sets up Listeners for all buttons in drawer and MainActivity, outside of fragments.
+   */
+  private void setupButtonListeners() {
     showMapButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         loadCurrentScreenFragment(mapFragment);
@@ -198,7 +174,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     infoButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         loadCurrentScreenFragment(infoFragment);
-
       }
     });
 
@@ -296,6 +271,11 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     }
   }
 
+  /**
+   * Set "button pressed" style to the given button.
+   *
+   * @param focusButton button to be styled
+   */
   private void focusButton(Button focusButton) {
     //highlights button of active UI-Fragment
     infoButton.getBackground().setAlpha(128);
@@ -304,6 +284,20 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     focusButton.getBackground().setAlpha(255);
   }
 
+  /**
+   * Opens the drawer if its not allready open.
+   */
+  public void openDrawer() {
+    if (!slidingTrayDrawer.isOpened()) {
+      slidingTrayDrawer.animateOpen();
+    }
+  }
+
+  /**
+   * Opens the drawer with the area fragment and the given Area Selected.
+   *
+   * @param markerArea area to be selected in the area fragment
+   */
   private void openDrawerWithAreaTag(Area markerArea) {
     setCurrentSelectedArea(markerArea);
     loadCurrentDrawerFragment(areaDrawerFragment);
@@ -311,42 +305,49 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     openDrawer();
   }
 
-  public void loadCurrentDrawerFragment(Fragment fragment) {
-    String fragmentName = fragment.getClass().getSimpleName();
-    if (fragmentName.equals(plantDrawerFragment.getClass().getSimpleName())) {
-      drawerAreaButton.setBackground(null);
-      drawerFavouritesButton.setBackground(null);
-      //drawerPlantButton.setBackground(getDrawable(R.color.white));
-      drawerPlantButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
-    } else if (fragmentName.equals(areaDrawerFragment.getClass().getSimpleName())) {
-      drawerPlantButton.setBackground(null);
-      drawerFavouritesButton.setBackground(null);
-      drawerAreaButton.setBackground(ContextCompat.getDrawable(this, R.drawable.ic_drawerbutton));
-    } else if (fragmentName.equals(favoritesDrawerFragment.getClass().getSimpleName())) {
-      drawerPlantButton.setBackground(null);
-      drawerAreaButton.setBackground(null);
-      drawerFavouritesButton.setBackground(ContextCompat
-          .getDrawable(this, R.drawable.ic_drawerbutton));
-    }
 
-    getSupportFragmentManager().beginTransaction().replace(R.id.drawer_fragment_container, fragment)
-        .commitNow();
+  /**
+   * Closes the drawer.
+   */
+  public void closeDrawer() {
+    slidingTrayDrawer.animateClose();
+  }
+
+  /**
+   * Overrides the back button to close drawer instead of closing app if drawer is open.
+   */
+  @Override
+  public void onBackPressed() {
+    if (slidingTrayDrawer.isOpened()) {
+      closeDrawer();
+    } else {
+      super.onBackPressed();
+    }
   }
 
 
-  public void loadCurrentScreenFragment(Fragment fragment) {
-    String fragmentName = fragment.getClass().getSimpleName();
-    if (infoFragment.getClass().getSimpleName().equals(fragmentName)) {
-      focusButton(infoButton);
-    } else if (searchFragment.getClass().getSimpleName().equals(fragmentName)) {
-      focusButton(searchButton);
-    } else if (mapFragment.getClass().getSimpleName().equals(fragmentName)) {
-      focusButton(showMapButton);
-    }
-    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment)
-        .commitNow();
+  /**
+   * Loads map fragement and set area, that in map fragment that gets then focused by the map
+   * camera.
+   *
+   * @param area area to be focused by the map camera
+   */
+  private void showMapWithArea(String area) {
+    mapFragment = new MapFragment();
+    loadCurrentScreenFragment(mapFragment);
+    mapFragment.setPlantArea(area);
   }
 
+  ////////////
+  // Setter and getter for selected area and plant
+  ///////////
+
+  /**
+   * Sets the currently selected plant that can be referenced from all fragments.
+   *
+   * @param plant                   plant to be selected
+   * @param shouldOpenPlantFragment opens drawer with plant fragment if true
+   */
   public void setCurrentPlant(Plant plant, boolean shouldOpenPlantFragment) {
     this.currentPlant = plant;
 
@@ -357,28 +358,116 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     }
   }
 
+  /**
+   * returns the currently selected area.
+   *
+   * @return currently selected area
+   */
   public Area getCurrentSelectedArea() {
     return this.currentSelectedArea;
   }
 
+  /**
+   * Sets the currently selected area that can be referenced from all fragments.
+   *
+   * @param area area to be selected
+   */
   public void setCurrentSelectedArea(Area area) {
     this.currentSelectedArea = area;
   }
 
+  /**
+   * returns the currently selected plant.
+   *
+   * @return currently selected plant
+   */
   public Plant getCurrentPlant() {
     return this.currentPlant;
   }
 
-  public void openDrawer() {
-    if (!slidingTrayDrawer.isOpened()) {
-      slidingTrayDrawer.animateOpen();
+  ////////////////
+  // Setup Location Services
+  ///////////////
+
+  /**
+   * updated the currentUserLocation if its available.
+   */
+  private void getLastUserLocation() {
+    fusedLocationClient = getFusedLocationProviderClient(this);
+    if (ActivityCompat.checkSelfPermission(this, permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED
+        && ActivityCompat.checkSelfPermission(this, permission.ACCESS_COARSE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) {
+      return;
     }
+    fusedLocationClient.getLastLocation()
+        .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+          @Override
+          public void onSuccess(Location location) {
+            // Got last known location. In some rare situations this can be null.
+            if (location != null) {
+              currentUserLocation = new LatLng(location.getLatitude(), location.getLongitude());
+              mapFragment.highlightUserAreaMarker(currentUserLocation);
+            }
+          }
+        });
   }
 
-
-  public void closeDrawer() {
-    slidingTrayDrawer.animateClose();
+  /**
+   * Inits location services, that allow to check for users current location periodicly, so that we
+   * can mark areas on the map if the user is inside of them.
+   */
+  private void initLocationServices() {
+    getLastUserLocation();
+    getLocationUpdates();
   }
+
+  /**
+   * Initializes recurring location queries.
+   */
+  private void getLocationUpdates() {
+    locationRequest = LocationRequest.create();
+    locationRequest.setInterval(4000);
+    locationRequest.setFastestInterval(2000);
+    locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    mapFragment.requestLocationPermissions();
+    LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+        .addLocationRequest(locationRequest);
+    SettingsClient client = LocationServices.getSettingsClient(this);
+    Task<LocationSettingsResponse> task = client.checkLocationSettings(builder.build());
+    task.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+      @Override
+      public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+        startLocationUpdates();
+      }
+    });
+  }
+
+  /**
+   * sets up onLocationChanged as listener for locationUpdates.
+   */
+  private void startLocationUpdates() {
+    if (ActivityCompat.checkSelfPermission(
+        this, Manifest.permission.ACCESS_FINE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+        this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        != PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
+    getFusedLocationProviderClient(this).requestLocationUpdates(locationRequest,
+        new LocationCallback() {
+          @Override
+          public void onLocationResult(LocationResult locationResult) {
+            onLocationChanged(locationResult.getLastLocation());
+          }
+        },
+        Looper.myLooper());
+  }
+
+  ////////////////
+  // Listener Implementations
+  ///////////////
+
 
   @Override
   public void onLocationChanged(@NonNull Location location) {
@@ -389,16 +478,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
   @Override
   public void onAreaSelected(String location) {
     //showMapWithArea(location);
-  }
-
-  // Override back button to close drawer instead of closing app if drawer is open
-  @Override
-  public void onBackPressed() {
-    if (slidingTrayDrawer.isOpened()) {
-      closeDrawer();
-    } else {
-      super.onBackPressed();
-    }
   }
 
   @Override

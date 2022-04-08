@@ -237,7 +237,7 @@ public class PlantViewModel extends ViewModel {
   }
 
   /**
-   * Loads an Bitmap image from local storage
+   * Loads an Bitmap image from local storage.
    *
    * @param path     the path where to load from
    * @param filename the name of the file to load from the path
