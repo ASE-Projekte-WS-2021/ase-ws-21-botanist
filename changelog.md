@@ -1,3 +1,6 @@
+### v1.0.3
+    - Moved the show/hide map markers button to a better position
+
 ### v1.0.2
     - Fixed a bug that prevented the request location permission dialog to be shown
     - Fixed a bug that disabled onclick listeners for map markers
