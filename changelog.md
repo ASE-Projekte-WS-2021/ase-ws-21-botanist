@@ -1,3 +1,9 @@
+### v1.0.1
+    - updated setFavourite button design to show status more clear
+    - added many javadoc comments
+    - reduced max plantimage pixel width to lower data usage
+    - fixed locations not showing up in plant drawer if plant drawer was never opened before
+
 ### v1.0.0
     - Added Onboarding
     - Added image download to Plants Fragment
