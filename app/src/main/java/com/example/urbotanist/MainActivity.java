@@ -210,13 +210,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
       }
     });
 
-    mapFragment.setMarkerInfoClickListener(new MarkerInfoClickListener() {
-      @Override
-      public void onMarkerInfoClicked(Area markerArea) {
-        openDrawerWithAreaTag(markerArea);
-      }
-    });
-
     slidingTrayDrawer.setOnDrawerCloseListener(new SlidingTray.OnDrawerCloseListener() {
       @Override
       public void onDrawerClosed() {
@@ -296,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
    *
    * @param markerArea area to be selected in the area fragment
    */
-  private void openDrawerWithAreaTag(Area markerArea) {
+  public void openDrawerWithAreaTag(Area markerArea) {
     setCurrentSelectedArea(markerArea);
     loadCurrentDrawerFragment(areaDrawerFragment);
     areaDrawerFragment.setupUi();

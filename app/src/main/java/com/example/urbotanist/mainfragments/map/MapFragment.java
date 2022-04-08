@@ -48,7 +48,6 @@ public class MapFragment extends CurrentScreenFragment implements
   private MapView mapView;
   private Button showUserPositionButton;
   private ImageButton toggleMarkerButton;
-  private MarkerInfoClickListener markerInfoClickListener;
   private String plantArea = "";
 
   public static MapFragment newInstance() {
@@ -111,16 +110,15 @@ public class MapFragment extends CurrentScreenFragment implements
 
     //setup polygons
     mapViewModel.initData(map);
-
     mapViewModel.initInfoMarker();
-
     map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
       @Override
       public void onInfoWindowClick(@NonNull Marker marker) {
-        if (markerInfoClickListener != null) {
+        if (mapViewModel.markerInfoClickListener != null) {
           Area area = new Area(Objects.requireNonNull(marker.getTag()).toString().substring(0, 1),
               marker.getTitle());
-          markerInfoClickListener.onMarkerInfoClicked(area);
+          mapViewModel.markerInfoClickListener.onMarkerInfoClicked(area);
         }
       }
     });
@@ -140,6 +138,12 @@ public class MapFragment extends CurrentScreenFragment implements
     map.setLatLngBoundsForCameraTarget(mapBounds);
     map.setMaxZoomPreference(MAX_ZOOM_LEVEL);
     map.setMinZoomPreference(MIN_ZOOM_LEVEL);
+    setMarkerInfoClickListener(new MarkerInfoClickListener() {
+      @Override
+      public void onMarkerInfoClicked(Area markerArea) {
+        ((MainActivity) requireActivity()).openDrawerWithAreaTag(markerArea);
+      }
+    });
   }
 
   /**
@@ -168,7 +172,8 @@ public class MapFragment extends CurrentScreenFragment implements
    * @param markerInfoClickListener listener to be called on markerInfoClick
    */
   public void setMarkerInfoClickListener(MarkerInfoClickListener markerInfoClickListener) {
-    this.markerInfoClickListener = markerInfoClickListener;
+
+    mapViewModel.markerInfoClickListener = markerInfoClickListener;
   }
 
   /**
