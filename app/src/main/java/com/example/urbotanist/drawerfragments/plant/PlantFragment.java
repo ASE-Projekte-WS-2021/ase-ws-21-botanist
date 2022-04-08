@@ -301,7 +301,6 @@ public class PlantFragment extends Fragment {
           areaButton.setTextColor(plantCommonNameView.getContext().getColor(R.color.white));
           if (areaSelectlistener != null) {
             Area areaObject = new Area(areaShortName, areaLongName);
-            areaSelectlistener.onAreaSelected(areaShortName);
             ((MainActivity) requireActivity()).setCurrentSelectedArea(areaObject);
             ((MainActivity) requireActivity()).loadCurrentDrawerFragment(
                 ((MainActivity) requireActivity()).areaDrawerFragment);
