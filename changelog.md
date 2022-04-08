@@ -1,3 +1,6 @@
+### v1.0.4
+    - Fixed a bug where opening an area in the area drawer would highlight the area on the map automaticly
+
 ### v1.0.3
     - Moved the show/hide map markers button to a better position
 
