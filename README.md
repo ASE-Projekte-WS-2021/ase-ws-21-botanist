@@ -62,4 +62,5 @@ Aber auf Absprache haben alle allen geholfen.
 
 ---
 
-### Link einfügen
+### Präsentation:
+Präsentation ist vorhanden im Repository (Abgabe.pdf) aber auch abrufbar via [Google Drive](https://docs.google.com/presentation/d/1FlrGP2ja3n8a7TT8CpVYKOb3AYZfddrrHgxYqkkTwV8/edit?usp=sharing)
