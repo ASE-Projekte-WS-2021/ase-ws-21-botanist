@@ -36,6 +36,7 @@ public class MapViewModel extends ViewModel {
   private final HashMap<String, ArrayList<Polygon>> polyHashMap = new HashMap<>();
   private final HashMap<Polygon, String> reversedPolyHashMap = new HashMap<>();
   private final ArrayList<PolygonInfo> polyInfoList;
+  public MarkerInfoClickListener markerInfoClickListener;
 
   /**
    * ViewModel Konstruktor.
