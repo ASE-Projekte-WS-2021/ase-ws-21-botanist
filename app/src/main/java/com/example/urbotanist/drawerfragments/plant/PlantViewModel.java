@@ -5,15 +5,11 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.text.Html;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModel;
 import com.example.urbotanist.BotanistApplication;
 import com.example.urbotanist.network.DownloadImageListener;
@@ -35,18 +31,32 @@ public class PlantViewModel extends ViewModel {
 
   Plant selectedPlant;
   String plantName;
-  static String plantImagePath = "plantImages";
+  static String PlantImagePath = "plantImages";
+  static String PlantImageSharedPreferences = "PlantImageLicenses";
 
   public void setSelectedPlant(Plant selectedPlant) {
     this.selectedPlant = selectedPlant;
   }
 
+
+  /**
+   * Checks if a Image for the selected plant is available in devices storage and calls the listener
+   * with necessary parameters; if not, checks if a image is available on wikipedia. If image is
+   * available on wikipedia getImageLicenseData is called to check for the images license which then
+   * calls the listener when it checked for license data.
+   *
+   * @param imageDownloadListener gets called when checks are finished
+   */
   public void checkForPlantImage(ImageDownloadListener imageDownloadListener) {
     plantName = selectedPlant.genusName + "_" + selectedPlant.typeName;
-    Bitmap plantImageFromStorage = loadImageFromStorage(plantImagePath, plantName);
+
+    ////////////
+    //Check for image in Local Storage
+    ///////////
+    Bitmap plantImageFromStorage = loadImageFromStorage(PlantImagePath, plantName);
     if (plantImageFromStorage != null) {
       SharedPreferences plantImageLicensePreferences = BotanistApplication.context
-          .getSharedPreferences("PlantImageLicenses",
+          .getSharedPreferences(PlantImageSharedPreferences,
               Context.MODE_PRIVATE);
       String plantLicenseString = plantImageLicensePreferences.getString(plantName, null);
       imageDownloadListener.onImageAvailabilityChecked(true, false,
@@ -54,6 +64,9 @@ public class PlantViewModel extends ViewModel {
 
     } else {
 
+      ///////////
+      //Check for image on Wikipedia
+      //////////
       Retrofit retrofit = new Retrofit.Builder().baseUrl("https://en.wikipedia.org").build();
       WikimediaApiCalls wikimediaApiCall = retrofit.create(WikimediaApiCalls.class);
       Call<okhttp3.ResponseBody> call = wikimediaApiCall
@@ -72,6 +85,9 @@ public class PlantViewModel extends ViewModel {
                     .get("source");
             String imageName = "" + pages.getJSONObject(pages.keys().next()).get("pageimage");
 
+            //////////
+            // If image is found on Wikipedia, check the Images License next
+            //////////
             getImageLicenseData(imageName, imageUrl, imageDownloadListener);
 
 
@@ -90,6 +106,14 @@ public class PlantViewModel extends ViewModel {
     }
   }
 
+  /**
+   * Checks if the image as a free license and gernerates the license string with attribution. Then
+   * calls the listener with all needed data, or with isAvailable false and no other data.
+   *
+   * @param imageFileName         the filename of the image
+   * @param imageUrl              the images download url
+   * @param imageDownloadListener the listener that should be called after the check is finished
+   */
   public void getImageLicenseData(String imageFileName, String imageUrl,
       ImageDownloadListener imageDownloadListener) {
     Retrofit retrofit = new Retrofit.Builder().baseUrl("https://en.wikipedia.org").build();
@@ -117,7 +141,13 @@ public class PlantViewModel extends ViewModel {
               "" + metaData.getJSONObject("LicenseUrl")
                   .get("value");
 
-          // <a href="https://commons.wikimedia.org/wiki/File:Abies_pinsapo_var._tazaotana,_Wakehurst_Place,_UK_-_Diliff.jpg">Diliff</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons
+          //////////////////////////
+          // EXAMPLE LICENSE STRING:
+          // <a href="https://commons.wikimedia.org/wiki/File:Abies_pinsapo_var._tazaotana,
+          // _Wakehurst_Place,_UK_-_Diliff.jpg">Diliff</a>,
+          // <a href="https://creativecommons.org/licenses/by-sa/3.0">
+          // CC BY-SA 3.0</a>, via Wikimedia Commons
+          //////////////////////////
           String completeLicenseHtmlString =
               author
                   + "</a>, <a href='" + licenseUrl + "'>" + licenseShortname
@@ -140,6 +170,15 @@ public class PlantViewModel extends ViewModel {
     });
   }
 
+  /**
+   * Downloads the Image and handles the given views visibilities accordingly.
+   *
+   * @param plantImage           The view that the image should be load into
+   * @param imageLicenseView     The view that holds the license string
+   * @param downloadImageSpinner the progressbar that should be shown while downloading
+   * @param downloadUrl          The url to download the image from
+   * @param imageLicenseString   the license string for the image
+   */
   public void downloadImage(ImageView plantImage, TextView imageLicenseView,
       ProgressBar downloadImageSpinner, String downloadUrl, String imageLicenseString) {
     downloadImageSpinner.setVisibility(View.VISIBLE);
@@ -150,9 +189,9 @@ public class PlantViewModel extends ViewModel {
           plantImage.setImageBitmap(image);
           plantImage.setVisibility(View.VISIBLE);
           imageLicenseView.setVisibility(View.VISIBLE);
-          saveImageToInternalStorage(image, plantImagePath, plantName);
+          saveImageToInternalStorage(image, PlantImagePath, plantName);
           SharedPreferences plantImageLicensePreferences = BotanistApplication.context
-              .getSharedPreferences("PlantImageLicenses",
+              .getSharedPreferences(PlantImageSharedPreferences,
                   Context.MODE_PRIVATE);
           plantImageLicensePreferences.edit().putString(plantName, imageLicenseString).apply();
 
@@ -166,11 +205,18 @@ public class PlantViewModel extends ViewModel {
 
   }
 
-  private String saveImageToInternalStorage(Bitmap bitmapImage, String path, String filename) {
+  /**
+   * Save a bitmap image to local storage.
+   *
+   * @param bitmapImage the image to be saved
+   * @param path        the Path where to save it to
+   * @param filename    the filename that the image file should get
+   */
+  private void saveImageToInternalStorage(Bitmap bitmapImage, String path, String filename) {
     Context context = BotanistApplication.context;
     ContextWrapper cw = new ContextWrapper(context);
     // path to /data/data/yourapp/app_data/imageDir
-    File directory = cw.getDir("plantImages", Context.MODE_PRIVATE);
+    File directory = cw.getDir(path, Context.MODE_PRIVATE);
     // Create imageDir
     File mypath = new File(directory, filename + ".png");
     FileOutputStream fos = null;
@@ -182,19 +228,26 @@ public class PlantViewModel extends ViewModel {
       e.printStackTrace();
     } finally {
       try {
+        assert fos != null;
         fos.close();
       } catch (IOException e) {
         e.printStackTrace();
       }
     }
-    return directory.getAbsolutePath();
   }
 
+  /**
+   * Loads an Bitmap image from local storage
+   *
+   * @param path     the path where to load from
+   * @param filename the name of the file to load from the path
+   * @return returns the bitmap, or null if the specified image was not found
+   */
   public Bitmap loadImageFromStorage(String path, String filename) {
     Context context = BotanistApplication.context;
     ContextWrapper cw = new ContextWrapper(context);
     try {
-      File directory = cw.getDir("plantImages", Context.MODE_PRIVATE);
+      File directory = cw.getDir(path, Context.MODE_PRIVATE);
       File f = new File(directory, filename + ".png");
       Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
       return b;
