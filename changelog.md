@@ -1,3 +1,6 @@
+### v1.0.5
+    - Fixed a crash that occured after fast subsequent clicks on area buttons in the plant fragment
+
 ### v1.0.4
     - Fixed a bug where opening an area in the area drawer would highlight the area on the map automaticly
 
