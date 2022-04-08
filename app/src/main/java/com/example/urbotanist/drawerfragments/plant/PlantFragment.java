@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -173,7 +174,12 @@ public class PlantFragment extends Fragment {
             plantImage.setVisibility(View.GONE);
             imageLicenseView.setVisibility(View.GONE);
             downloadImageSpinner.setVisibility(View.GONE);
-            noImageAvailable.setText(getResources().getText(R.string.no_image_available));
+            try {
+              noImageAvailable.setText(getResources().getText(R.string.no_image_available));
+            } catch (IllegalStateException e) {
+              Log.e("java.lang.IllegalStateException",
+                  "String could not be searched bc context is missing. \n", e);
+            }
 
           }
         }
