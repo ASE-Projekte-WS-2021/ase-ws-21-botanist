@@ -98,8 +98,9 @@ public class MapFragment extends CurrentScreenFragment implements
 
 
   /**
-   * @param googleMap GoogleMap object as soon as Map is ready
-   *                  method inits map and data
+   * Initialises the displayed map.
+   *
+   * @param googleMap GoogleMap object as soon as Map is ready.
    */
   @SuppressLint("PotentialBehaviorOverride")
   @Override
@@ -118,7 +119,7 @@ public class MapFragment extends CurrentScreenFragment implements
       public void onInfoWindowClick(@NonNull Marker marker) {
         if (markerInfoClickListener != null) {
           Area area = new Area(Objects.requireNonNull(marker.getTag()).toString().substring(0, 1),
-                  marker.getTitle());
+              marker.getTitle());
           markerInfoClickListener.onMarkerInfoClicked(area);
         }
       }
@@ -132,7 +133,7 @@ public class MapFragment extends CurrentScreenFragment implements
 
 
   /**
-   *  inits map regarding ui settings (zoomcontrol, location)
+   * inits map regarding ui settings (zoomcontrol, location).
    */
   private void initMap() {
     map.getUiSettings().setZoomControlsEnabled(true);
@@ -150,8 +151,8 @@ public class MapFragment extends CurrentScreenFragment implements
   }
 
   /**
-   *  checks if location permission is granted and enables user location button in map
-   *  if no permission is granted, app will ask for permission
+   * checks if location permission is granted and enables user location button in map if no
+   * permission is granted, app will ask for permission.
    */
   public void requestLocationPermissions() {
     MainActivity mainActivity = (MainActivity) getActivity();
@@ -174,15 +175,19 @@ public class MapFragment extends CurrentScreenFragment implements
   }
 
   /**
-   * @param listener sets listener for click on Marker info
-   *                 can be called from main activity
+   * Allows to set a listener for clicks on Marker info buttons.
+   *
+   * @param markerInfoClickListener listener to be called on markerInfoClick
    */
-  public void setMarkerInfoClickListener(MarkerInfoClickListener listener) {
-    this.markerInfoClickListener = listener;
+  public void setMarkerInfoClickListener(MarkerInfoClickListener markerInfoClickListener) {
+    this.markerInfoClickListener = markerInfoClickListener;
   }
 
   /**
-   * @param currentUserLocation current user location as a LatLng
+   * Sends the current User Location to the MapViewModel to highlighting of an area if the user is
+   * inside.
+   *
+   * @param currentUserLocation current user location as a LatLng.
    */
   public void highlightUserAreaMarker(LatLng currentUserLocation) {
     mapViewModel.highlightMarker(currentUserLocation);
@@ -231,6 +236,8 @@ public class MapFragment extends CurrentScreenFragment implements
   }
 
   /**
+   * Allows to set a value select a value for the plantArea.
+   *
    * @param plantArea gets the area as a string, it gets cut to only the first letter
    */
   public void setPlantArea(String plantArea) {

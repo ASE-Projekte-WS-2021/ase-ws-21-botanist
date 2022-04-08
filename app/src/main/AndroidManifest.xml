@@ -17,7 +17,7 @@
         android:testOnly="false"
         android:theme="@style/Theme.URBotanist" >
         <activity
-          android:name=".OnboardingActivity"
+          android:name=".onboarding.OnboardingActivity"
           android:enabled="true"
           android:exported="true"
           android:theme="@style/Theme.Leanback.Onboarding"

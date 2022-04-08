@@ -13,7 +13,8 @@ public interface WikimediaApiCalls {
    * @param plantName Name of the plant (most likely "genusName + _ + typeName")
    * @return returns the responseBody of the Api call
    */
-  @GET("w/api.php?action=query&prop=pageimages&format=json&piprop=thumbnail|name&pilicense=free&pithumbsize=600")
+  @GET("w/api.php?action=query&prop=pageimages&format=json&piprop=thumbnail"
+      + "|name&pilicense=free&pithumbsize=600")
   Call<ResponseBody> checkForImage(@Query("titles") String plantName);
 
   /**

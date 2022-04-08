@@ -8,6 +8,8 @@ public class MapMarkerSetup {
 
 
   /**
+   * Hardcoded ArrayList for Marker positions and names.
+   *
    * @return sets up all Marker as MarkerInfo and returns them in an ArrayList
    */
   public static ArrayList<MarkerInfo> setupMarkerCoordinatesAndNames() {

@@ -14,6 +14,7 @@ import com.example.urbotanist.database.DatabaseAdapter;
 import com.example.urbotanist.database.RealmMigrations;
 import com.example.urbotanist.drawerfragments.plant.Plant;
 // realm by MongoDB, https://realm.io/
+import com.example.urbotanist.onboarding.OnboardingActivity;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import java.lang.ref.WeakReference;

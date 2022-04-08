@@ -1,6 +1,4 @@
-package com.example.urbotanist.ui.onboarding;
-
-import static com.sileria.android.Resource.getResources;
+package com.example.urbotanist.onboarding;
 
 import android.content.Context;
 import android.content.Intent;

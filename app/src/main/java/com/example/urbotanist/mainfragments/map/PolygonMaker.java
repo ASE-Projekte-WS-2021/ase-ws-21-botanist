@@ -42,7 +42,7 @@ public class PolygonMaker {
   }
 
   /**
-   * PolygonInfo contains area name and a List of all polygons included in this area
+   * PolygonInfo contains area name and a List of all polygons included in this area.
    */
   private void fillArrayList() {
     polyInfoList.add(new PolygonInfo("A", new ArrayList<>(Arrays.asList(polyOpA))));
@@ -71,15 +71,12 @@ public class PolygonMaker {
     polyInfoList.add(new PolygonInfo("Z", new ArrayList(Arrays.asList(polyOpZ))));
   }
 
-  /**
-   * @return all PolygonInfo as ArrayList
-   */
   public ArrayList<PolygonInfo> getPolyInfoList() {
     return polyInfoList;
   }
 
   /**
-   *  inits all Polygons with LatLng points as PolygonOptions
+   *  inits all Polygons with LatLng points as PolygonOptions.
    */
   private void initPolygonOptions() {
     polyOpA = new PolygonOptions()

@@ -1,8 +1,9 @@
-package com.example.urbotanist;
+package com.example.urbotanist.onboarding;
 
 import android.os.Bundle;
 import androidx.fragment.app.FragmentActivity;
-import com.example.urbotanist.ui.onboarding.OnboardingFragment;
+import com.example.urbotanist.R;
+import com.example.urbotanist.onboarding.OnboardingFragment;
 
 public class OnboardingActivity extends FragmentActivity {
 
@@ -22,3 +23,4 @@ public class OnboardingActivity extends FragmentActivity {
     }
   }
 }
+

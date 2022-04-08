@@ -38,8 +38,9 @@ public class MapViewModel extends ViewModel {
   private final ArrayList<PolygonInfo> polyInfoList;
 
   /**
-   * @param iconGen gets icon generator for custom marker icons
-   *                instantiates area polygons and sets them in a ArrayList
+   * ViewModel Konstruktor.
+   *
+   * @param iconGen icon generator that will be used for our icons
    */
   public MapViewModel(IconGenerator iconGen) {
     this.iconGen = iconGen;
@@ -48,8 +49,11 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
-   * @param googleMap gets GoogleMap object as soon as map is ready
-   *        adds polygons to map and sets zoom to the middle of the garden
+   * Initialises the map with polygon data. Also sets default zoom and position values for the map
+   * camera.
+   *
+   * @param googleMap gets GoogleMap object as soon as map is ready adds polygons to map and sets
+   *                  zoom to the middle of the garden
    */
   public void initData(GoogleMap googleMap) {
     map = googleMap;
@@ -62,7 +66,7 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
-   * instantiates all info markers for each area
+   * instantiates all info markers for each area.
    */
   public void initInfoMarker() {
     ArrayList<MarkerInfo> markerInfoList = MapMarkerSetup.setupMarkerCoordinatesAndNames();
@@ -81,7 +85,7 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
-   * when toggle button is pressed this method will be called and toggles visibility of markers
+   * when toggle button is pressed this method will be called and toggles visibility of markers.
    */
   public void toggleMarkerVisibility() {
     for (Marker marker : markerList) {
@@ -94,9 +98,8 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
-   * adds all polygons to map
-   * map.addPolygon returns polygon, which will be set in a hashmap (area name as key)
-   * a reversed hashmap is made, with polygon as key for search purposes
+   * adds all polygons to map map.addPolygon returns polygon, which will be set in a hashmap (area
+   * name as key) a reversed hashmap is made, with polygon as key for search purposes
    */
   private void addPolygonsToMap() {
     for (PolygonInfo polygonInfo : polyInfoList) {
@@ -119,10 +122,10 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
+   * searches in reversedPolyHashMap for all polygons with this location as name and highlights them
+   * with red color; also calls findPolygonCenter for zoom purposes.
+   *
    * @param location gets a one letter location string
-   *                 searches in reversedPolyHashMap for all polygons with this location
-   *                 and highlights them with red color
-   *                 also calls findPolygonCenter for zoom purposes
    */
   public void setPlantArea(String location) {
     for (String area : reversedPolyHashMap.values()) {
@@ -132,7 +135,7 @@ public class MapViewModel extends ViewModel {
           polygon.setFillColor(SELECTED_AREA_FILL_COLOR);
           polygon.setStrokeWidth(POLY_STROKE_WIDTH_PLANT_SELECTED);
           polygon.setStrokeColor(SELECTED_AREA_BORDER_COLOR);
-          findPolygonCenter(polygon);
+          moveCameraToCenter(polygon);
           polygon.setZIndex(SELECTED_AREA_Z_INDEX);
         }
       }
@@ -140,13 +143,11 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
-   * @param polygon gets a Polygon, which should be zoomed at
-   *                LatLngBounds.Builder takes all LatLngs from polygon
-   *                and finds centerpoint, which is also a LatLng value
+   * Gets the given polygons center and moves the map camera Towards it.
    *
-   *                GoogleMap object then zooms at this center
+   * @param polygon gets a Polygon
    */
-  private void findPolygonCenter(Polygon polygon) {
+  private void moveCameraToCenter(Polygon polygon) {
     LatLng centerPoint;
     LatLngBounds.Builder builder = new LatLngBounds.Builder();
     // puts all LatLngs from polygon into boundsbuilder
@@ -161,14 +162,12 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
-   * method to highlight marker in area, in which user is located
+   * Checks if users location is within any area polygon and then sets Marker highlights according
+   * to the result.
    *
-   * @param currentUserLocation as a LatLng, contains current user location
-   *
-   *   sets Highlight to default for 'not in polygon' case
-   *   checks if user Position is in any area and highlights all the area markers
+   * @param currentUserLocation as a LatLng,
    */
-   public void highlightMarker(LatLng currentUserLocation) {
+  public void highlightMarker(LatLng currentUserLocation) {
     setMarkerDefault();
     String currentUserArea = "";
     for (ArrayList<Polygon> polygonList : polyHashMap.values()) {
@@ -186,7 +185,7 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
-   * all markers will be set to default look
+   * Sets all markers to default look.
    */
   private void setMarkerDefault() {
     for (Marker marker : markerList) {
@@ -195,6 +194,8 @@ public class MapViewModel extends ViewModel {
   }
 
   /**
+   * Un-/Highlights a specific marker.
+   *
    * @param marker Marker, which should be highlighted
    * @param highlight true: marker gets highlighted, false: default look
    */
@@ -205,6 +206,6 @@ public class MapViewModel extends ViewModel {
       iconGen.setStyle(IconGenerator.STYLE_DEFAULT);
     }
     marker.setIcon(BitmapDescriptorFactory
-            .fromBitmap(iconGen.makeIcon(marker.getTag().toString())));
+        .fromBitmap(iconGen.makeIcon(marker.getTag().toString())));
   }
 }
