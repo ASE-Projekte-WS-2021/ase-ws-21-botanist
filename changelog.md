@@ -1,3 +1,9 @@
+### v1.0.2
+    - Fixed a bug that prevented the request location permission dialog to be shown
+    - Fixed a bug that disabled onclick listeners for map markers
+    - Removed unused drawables
+    - Updated readMe to include presentation about the project
+
 ### v1.0.1
     - updated setFavourite button design to show status more clear
     - added many javadoc comments
