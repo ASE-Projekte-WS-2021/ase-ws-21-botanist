@@ -3,6 +3,7 @@
     - added many javadoc comments
     - reduced max plantimage pixel width to lower data usage
     - fixed locations not showing up in plant drawer if plant drawer was never opened before
+    - changed some colors (background green is now a bit lighter, some text header use other colors)
 
 ### v1.0.0
     - Added Onboarding
