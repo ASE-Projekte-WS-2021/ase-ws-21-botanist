@@ -11,7 +11,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -54,7 +54,7 @@ public class PlantFragment extends Fragment {
   private ScrollView plantInfoScrollViewContainer;
   private AreaSelectListener areaSelectlistener;
   private ImageButton wikiButton;
-  private int fragmentWidth;
+  private int screenWidth;
   private ImageButton favButton;
   private boolean currentPlantIsFavourite = false;
   private ImageView plantImage;
@@ -82,20 +82,21 @@ public class PlantFragment extends Fragment {
     noPlantSelectedView = v.findViewById(R.id.no_plant_selected);
     plantInfoScrollViewContainer = v.findViewById(R.id.plant_info_scroll_view_container);
     locationContainer = v.findViewById(R.id.plant_footer);
-    alternativeLocationGrid = v.findViewById(R.id.alternative_locations_container);
+    alternativeLocationGrid = v.findViewById(R.id.locations_container);
     wikiButton = v.findViewById(R.id.wiki_button);
     plantImage = v.findViewById(R.id.plant_image);
     imageLicenseView = v.findViewById(R.id.image_license_view);
     downloadImageButton = v.findViewById(R.id.download_plant_image_button);
     downloadImageSpinner = v.findViewById(R.id.plant_image_download_spinner);
     noImageAvailable = v.findViewById(R.id.no_plant_image_available);
+    favButton = v.findViewById(R.id.fav_button);
     v.post(new Runnable() {
       @Override
       public void run() {
-        fragmentWidth = v.getMeasuredWidth();
+
       }
     });
-    favButton = v.findViewById(R.id.fav_button);
+
 
     return v;
   }
@@ -110,9 +111,10 @@ public class PlantFragment extends Fragment {
   @Override
   public void onStart() {
     super.onStart();
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+    screenWidth = displayMetrics.widthPixels;
     setupUi(((MainActivity) requireActivity()).getCurrentPlant());
-
-    //getDialog().getWindow().setWindowAnimations(R.style.CustomDialogAnim);
   }
 
 
@@ -209,7 +211,7 @@ public class PlantFragment extends Fragment {
       plantFullNameView.setVisibility(View.VISIBLE);
       noPlantSelectedView.setVisibility(View.GONE);
 
-      setupAlternativeLocations();
+      setupLocationButtons();
     } else {
       plantInfoScrollViewContainer.setVisibility(View.GONE);
       locationContainer.setVisibility(View.GONE);
@@ -243,12 +245,10 @@ public class PlantFragment extends Fragment {
     }
   }
 
-  private void setupAlternativeLocations() {
+  private void setupLocationButtons() {
     int buttonColumnCount = 3;
-    int gridWidth = (int) (fragmentWidth * 0.45);
-    // im Layout ist die Höhe des Grid von der Favoritenbuttonbreite abhängig
-    // , welche wiederum an der Displaybreite hängt
-    int gridHeight = (int) (fragmentWidth * 0.15);
+    int gridWidth = (int) (screenWidth * 0.40);
+    int gridHeight = (int) (screenWidth * 0.15);
     alternativeLocationGrid.setColumnCount(buttonColumnCount);
     RealmList<String> areasForPlant = plantViewModel.selectedPlant.location;
     RealmList<String> areasForPlantLong = plantViewModel.selectedPlant.locationLong;

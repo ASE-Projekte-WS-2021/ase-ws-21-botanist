@@ -277,7 +277,7 @@
             app:layout_constraintLeft_toRightOf="@id/fav_button"/>
 
         <GridLayout
-            android:id="@+id/alternative_locations_container"
+            android:id="@+id/locations_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
