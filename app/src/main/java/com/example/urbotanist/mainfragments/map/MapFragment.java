@@ -124,30 +124,22 @@ public class MapFragment extends CurrentScreenFragment implements
         }
       }
     });
-
     if (!this.plantArea.equals("")) {
       mapViewModel.setPlantArea(this.plantArea);
     }
-
+    requestLocationPermissions();
   }
 
 
   /**
    * inits map regarding ui settings (zoomcontrol, location).
    */
+  @SuppressLint("MissingPermission")
   private void initMap() {
     map.getUiSettings().setZoomControlsEnabled(true);
     map.setLatLngBoundsForCameraTarget(mapBounds);
     map.setMaxZoomPreference(MAX_ZOOM_LEVEL);
     map.setMinZoomPreference(MIN_ZOOM_LEVEL);
-    if (ActivityCompat.checkSelfPermission(
-        requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-        != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-        requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-        != PackageManager.PERMISSION_GRANTED) {
-      return;
-    }
-    map.setMyLocationEnabled(true);
   }
 
   /**
@@ -155,23 +147,19 @@ public class MapFragment extends CurrentScreenFragment implements
    * permission is granted, app will ask for permission.
    */
   public void requestLocationPermissions() {
-    MainActivity mainActivity = (MainActivity) getActivity();
-    if (mainActivity != null) {
-      if ((ContextCompat.checkSelfPermission(
-          getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-          == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
-          getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-          == PackageManager.PERMISSION_GRANTED)) {
-        map.setMyLocationEnabled(true);
-        map.getUiSettings().setMyLocationButtonEnabled(true);
-      } else {
-        showUserPositionButton.setVisibility(View.VISIBLE);
-        requestPermissionLauncher.launch(
-            new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION});
-      }
-
+    if ((ContextCompat.checkSelfPermission(
+        requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(
+        requireActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+        == PackageManager.PERMISSION_GRANTED)) {
+      locationServicesActivated();
+    } else {
+      requestPermissionLauncher.launch(
+          new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+              Manifest.permission.ACCESS_COARSE_LOCATION});
     }
+
+
   }
 
   /**
@@ -247,6 +235,15 @@ public class MapFragment extends CurrentScreenFragment implements
   }
 
   @SuppressLint("MissingPermission")
+  private void locationServicesActivated() {
+    MainActivity mainActivity = (MainActivity) requireActivity();
+    map.setMyLocationEnabled(true);
+    map.getUiSettings().setMyLocationButtonEnabled(true);
+    mainActivity.initLocationServices();
+    showUserPositionButton.setVisibility(View.GONE);
+  }
+
+  @SuppressLint("MissingPermission")
   private final ActivityResultLauncher<String[]> requestPermissionLauncher =
       registerForActivityResult(
           new ActivityResultContracts.RequestMultiplePermissions(), permissions -> {
@@ -255,9 +252,7 @@ public class MapFragment extends CurrentScreenFragment implements
                 == PackageManager.PERMISSION_GRANTED && ActivityCompat
                 .checkSelfPermission(requireActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-              map.setMyLocationEnabled(true);
-              map.getUiSettings().setMyLocationButtonEnabled(true);
-              showUserPositionButton.setVisibility(View.GONE);
+              locationServicesActivated();
             } else {
               showUserPositionButton.setVisibility(View.VISIBLE);
             }

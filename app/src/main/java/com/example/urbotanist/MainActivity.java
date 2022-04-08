@@ -81,10 +81,8 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     Kit.init(this);
     setContentView(R.layout.activity_main);
     setupViews();
-    initLocationServices();
     loadCurrentScreenFragment(mapFragment);
     loadCurrentDrawerFragment(favoritesDrawerFragment);
-
     setupButtonListeners();
     setTheme(R.style.Theme_URBotanist);
   }
@@ -417,9 +415,13 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
    * Inits location services, that allow to check for users current location periodicly, so that we
    * can mark areas on the map if the user is inside of them.
    */
-  private void initLocationServices() {
-    getLastUserLocation();
-    getLocationUpdates();
+  public void initLocationServices() {
+
+    if (locationRequest == null) {
+      getLastUserLocation();
+      getLocationUpdates();
+    }
+
   }
 
   /**
@@ -430,7 +432,6 @@ public class MainActivity extends AppCompatActivity implements AreaSelectListene
     locationRequest.setInterval(4000);
     locationRequest.setFastestInterval(2000);
     locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    mapFragment.requestLocationPermissions();
     LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
         .addLocationRequest(locationRequest);
     SettingsClient client = LocationServices.getSettingsClient(this);
