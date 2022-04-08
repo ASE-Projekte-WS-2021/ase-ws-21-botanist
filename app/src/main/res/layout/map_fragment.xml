@@ -29,9 +29,9 @@
         android:contentDescription="@string/testMapMarker"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_gravity="bottom"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="30dp"
+        android:layout_gravity="bottom|right"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="100dp"
         android:background="@drawable/toggle_button_map_marker"
         android:orientation="vertical" />
 
